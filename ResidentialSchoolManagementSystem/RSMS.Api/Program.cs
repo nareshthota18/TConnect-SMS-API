@@ -34,8 +34,8 @@ builder.Services.AddSwaggerGen(c =>
         Description = "Residential School Management System API",
         Contact = new OpenApiContact
         {
-            Name = "Your Name",
-            Email = "your.email@example.com"
+            Name = "Praneeth Pagunta",
+            Email = "praneethpagunta@tconnectservices.com"
         }
     });
 });
