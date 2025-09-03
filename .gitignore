@@ -1,0 +1,19 @@
+﻿################################################################################
+# This .gitignore file was automatically created by Microsoft(R) Visual Studio.
+################################################################################
+
+/.vs
+/ResidentialSchoolManagementSystem/.vs/ResidentialSchoolManagementSystem
+/ResidentialSchoolManagementSystem/ResidentialSchoolManagementSystem/bin/Debug/net8.0
+/ResidentialSchoolManagementSystem/ResidentialSchoolManagementSystem/obj/Debug/net8.0
+/ResidentialSchoolManagementSystem/ResidentialSchoolManagementSystem/obj
+/ResidentialSchoolManagementSystem/RSMS.Common/bin/Debug/net8.0
+/ResidentialSchoolManagementSystem/RSMS.Common/obj/Debug/net8.0
+/ResidentialSchoolManagementSystem/RSMS.Common/obj
+/ResidentialSchoolManagementSystem/RSMS.Data/bin/Debug/net8.0
+/ResidentialSchoolManagementSystem/RSMS.Data/obj
+/ResidentialSchoolManagementSystem/RSMS.Services/bin/Debug/net8.0
+/ResidentialSchoolManagementSystem/RSMS.Services/obj
+/ResidentialSchoolManagementSystem/RSMS.Tests/bin/Debug/net8.0
+/ResidentialSchoolManagementSystem/RSMS.Tests/obj/Debug/net8.0
+/ResidentialSchoolManagementSystem/RSMS.Tests/obj
