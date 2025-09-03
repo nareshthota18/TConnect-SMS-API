@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.14.36414.22 d17.14
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSMS.Api", "ResidentialSchoolManagementSystem\RSMS.Api.csproj", "{C0A6CC23-9112-4116-9EF5-24B23ADD6146}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSMS.Api", "RSMS.Api\RSMS.Api.csproj", "{C0A6CC23-9112-4116-9EF5-24B23ADD6146}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSMS.Data", "RSMS.Data\RSMS.Data.csproj", "{B8E3B571-4761-4A0B-8822-E80063F03526}"
 EndProject
