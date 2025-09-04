@@ -2,7 +2,10 @@
 using RSMS.Data;
 using RSMS.Services.Interfaces;
 using RSMS.Services.Implementations;
+
 using Microsoft.EntityFrameworkCore;
+using RSMS.Business.Contracts;
+using RSMS.Business.Implementation;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -19,6 +22,14 @@ builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IAssetService, AssetService>();
 builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IAssetManager, AssetManager>();  
+builder.Services.AddScoped<IUserManager, UserManager>();
+builder.Services.AddScoped<IAttendanceManager, AttendanceManager>();
+builder.Services.AddScoped<IInventoryManager, InventoryManager>();
+builder.Services.AddScoped<IRoleManager, RoleManager>();
+builder.Services.AddScoped<IStaffManager, StaffManager>();
+builder.Services.AddScoped<IStudentManager, StudentManager>();
+builder.Services.AddScoped<IUserManager, UserManager>();
 
 // Add Controllers
 builder.Services.AddControllers();

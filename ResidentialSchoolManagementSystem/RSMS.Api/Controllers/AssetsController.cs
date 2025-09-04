@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
 
@@ -8,15 +10,15 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class AssetsController : ControllerBase
     {
-        private readonly IAssetService _service;
+        private readonly IAssetManager _service;
 
-        public AssetsController(IAssetService service)
+        public AssetsController(IAssetManager service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AssetIssue>>> GetAll()
+        public async Task<ActionResult<IEnumerable<AssetDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:long}")]
@@ -27,14 +29,14 @@ namespace RSMS.Api.Controllers
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssetIssue>> Create(AssetIssue issue)
+        public async Task<ActionResult<AssetDTO>> Create(AssetDTO issue)
         {
             var created = await _service.AddAsync(issue);
             return CreatedAtAction(nameof(GetById), new { id = created.IssueId }, created);
         }
 
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<AssetIssue>> Update(long id, AssetIssue issue)
+        public async Task<ActionResult<AssetDTO>> Update(long id, AssetDTO issue)
         {
             if (id != issue.IssueId) return BadRequest("ID mismatch");
 

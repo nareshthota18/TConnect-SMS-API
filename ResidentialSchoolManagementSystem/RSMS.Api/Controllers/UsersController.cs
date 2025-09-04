@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Data.Models.SecurityEntities;
-using RSMS.Services.Interfaces;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 
 namespace RSMS.Api.Controllers
 {
@@ -8,33 +8,33 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserService _service;
+        private readonly IUserManager _service;
 
-        public UsersController(IUserService service)
+        public UsersController(IUserManager service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<User>>> GetAll()
+        public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:long}")]
-        public async Task<ActionResult<User>> GetById(long id)
+        public async Task<ActionResult<UserDTO>> GetById(long id)
         {
             var user = await _service.GetByIdAsync(id);
             return user == null ? NotFound() : Ok(user);
         }
 
         [HttpPost]
-        public async Task<ActionResult<User>> Create(User user)
+        public async Task<ActionResult<UserDTO>> Create(UserDTO user)
         {
             var created = await _service.AddAsync(user);
             return CreatedAtAction(nameof(GetById), new { id = created.UserId }, created);
         }
 
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<User>> Update(long id, User user)
+        public async Task<ActionResult<UserDTO>> Update(long id, UserDTO user)
         {
             if (id != user.UserId) return BadRequest("ID mismatch");
 

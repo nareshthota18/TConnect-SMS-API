@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Data.Models.SecurityEntities;
-using RSMS.Services.Interfaces;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 
 namespace RSMS.Api.Controllers
 {
@@ -8,33 +8,33 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
-        private readonly IRoleService _service;
+        private readonly IRoleManager _service;
 
-        public RolesController(IRoleService service)
+        public RolesController(IRoleManager service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Role>>> GetAll()
+        public async Task<ActionResult<IEnumerable<RoleDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Role>> GetById(int id)
+        public async Task<ActionResult<RoleDTO>> GetById(int id)
         {
             var role = await _service.GetByIdAsync(id);
             return role == null ? NotFound() : Ok(role);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Role>> Create(Role role)
+        public async Task<ActionResult<RoleDTO>> Create(RoleDTO role)
         {
             var created = await _service.AddAsync(role);
             return CreatedAtAction(nameof(GetById), new { id = created.RoleId }, created);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Role>> Update(int id, Role role)
+        public async Task<ActionResult<RoleDTO>> Update(int id, RoleDTO role)
         {
             if (id != role.RoleId) return BadRequest("ID mismatch");
 
