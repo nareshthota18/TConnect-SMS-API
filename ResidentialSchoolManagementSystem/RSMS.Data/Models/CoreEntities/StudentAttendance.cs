@@ -1,8 +1,10 @@
-﻿namespace RSMS.Data.Models.CoreEntities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RSMS.Data.Models.CoreEntities
 {
+    [Table("StudentAttendance", Schema = "rsms")]
     public class StudentAttendance : BaseEntity
-    {
-        public long AttendanceId { get; set; }
+    {       
         public long StudentId { get; set; }
         public DateTime AttendanceDate { get; set; }
         public string Session { get; set; } = "Morning";

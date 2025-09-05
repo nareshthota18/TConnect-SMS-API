@@ -1,8 +1,10 @@
-﻿namespace RSMS.Data.Models.SecurityEntities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RSMS.Data.Models.SecurityEntities
 {
+    [Table("Roles", Schema = "rsms")]
     public class Role : BaseEntity
     {
-        public int RoleId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? Description { get; set; }
         public bool IsActive { get; set; } = true;

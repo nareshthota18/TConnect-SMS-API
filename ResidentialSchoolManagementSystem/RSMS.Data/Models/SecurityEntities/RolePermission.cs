@@ -1,7 +1,9 @@
-﻿namespace RSMS.Data.Models.SecurityEntities
-{
+﻿using System.ComponentModel.DataAnnotations.Schema;
 
-    public class RolePermission : BaseEntity
+namespace RSMS.Data.Models.SecurityEntities
+{
+    [Table("RolePermissions", Schema = "rsms")]
+    public class RolePermission
     {
         public int RoleId { get; set; }
         public int PermissionId { get; set; }

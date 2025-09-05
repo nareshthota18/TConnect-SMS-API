@@ -14,8 +14,8 @@ namespace RSMS.Services.Implementations
             _context = context;
         }
 
-        public async Task<Item?> GetItemByIdAsync(int id) =>
-            await _context.Items.Include(i => i.ItemType).FirstOrDefaultAsync(i => i.ItemId == id);
+        public async Task<Item?> GetItemByIdAsync(Guid id) =>
+            await _context.Items.Include(i => i.ItemType).FirstOrDefaultAsync(i => i.Id == id);
 
         public async Task<IEnumerable<Item>> GetAllItemsAsync() =>
             await _context.Items.Include(i => i.ItemType).ToListAsync();
@@ -34,7 +34,7 @@ namespace RSMS.Services.Implementations
             return item;
         }
 
-        public async Task<bool> DeleteItemAsync(int id)
+        public async Task<bool> DeleteItemAsync(Guid id)
         {
             var item = await _context.Items.FindAsync(id);
             if (item == null) return false;

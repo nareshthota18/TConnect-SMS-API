@@ -14,8 +14,8 @@ namespace RSMS.Services.Implementations
             _context = context;
         }
 
-        public async Task<Supplier?> GetByIdAsync(int id) =>
-            await _context.Suppliers.FirstOrDefaultAsync(s => s.SupplierId == id);
+        public async Task<Supplier?> GetByIdAsync(Guid id) =>
+            await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
 
         public async Task<IEnumerable<Supplier>> GetAllAsync() =>
             await _context.Suppliers.ToListAsync();
@@ -34,7 +34,7 @@ namespace RSMS.Services.Implementations
             return supplier;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var supplier = await _context.Suppliers.FindAsync(id);
             if (supplier == null) return false;

@@ -14,10 +14,10 @@ namespace RSMS.Services.Implementations
             _context = context;
         }
 
-        public async Task<User?> GetByIdAsync(long id) =>
+        public async Task<User?> GetByIdAsync(Guid id) =>
             await _context.Users
                 .Include(u => u.Staff)
-                .FirstOrDefaultAsync(u => u.UserId == id);
+                .FirstOrDefaultAsync(u => u.Id == id);
 
         public async Task<IEnumerable<User>> GetAllAsync() =>
             await _context.Users
@@ -38,7 +38,7 @@ namespace RSMS.Services.Implementations
             return user;
         }
 
-        public async Task<bool> DeleteAsync(long id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;

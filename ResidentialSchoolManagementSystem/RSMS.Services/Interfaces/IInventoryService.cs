@@ -4,10 +4,10 @@ namespace RSMS.Services.Interfaces
 {
     public interface IInventoryService
     {
-        Task<Item?> GetItemByIdAsync(int id);
+        Task<Item?> GetItemByIdAsync(Guid id);
         Task<IEnumerable<Item>> GetAllItemsAsync();
         Task<Item> AddItemAsync(Item item);
         Task<Item> UpdateItemAsync(Item item);
-        Task<bool> DeleteItemAsync(int id);
+        Task<bool> DeleteItemAsync(Guid id);
     }
 }

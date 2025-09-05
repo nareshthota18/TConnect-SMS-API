@@ -22,7 +22,7 @@ namespace RSMS.Api.Controllers
             => Ok(await _service.GetAllStudentAttendanceAsync());
 
         [HttpGet("students/{id:long}")]
-        public async Task<ActionResult<StudentAttendance>> GetStudentAttendance(long id)
+        public async Task<ActionResult<StudentAttendance>> GetStudentAttendance(Guid id)
         {
             var att = await _service.GetStudentAttendanceByIdAsync(id);
             return att == null ? NotFound() : Ok(att);
@@ -32,19 +32,19 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<StudentAttendance>> CreateStudentAttendance(StudentAttendance att)
         {
             var created = await _service.AddStudentAttendanceAsync(att);
-            return CreatedAtAction(nameof(GetStudentAttendance), new { id = created.AttendanceId }, created);
+            return CreatedAtAction(nameof(GetStudentAttendance), new { id = created.Id }, created);
         }
 
         [HttpPut("students/{id:long}")]
-        public async Task<ActionResult<StudentAttendance>> UpdateStudentAttendance(long id, StudentAttendance att)
+        public async Task<ActionResult<StudentAttendance>> UpdateStudentAttendance(Guid id, StudentAttendance att)
         {
-            if (id != att.AttendanceId) return BadRequest("ID mismatch");
+            if (id != att.Id) return BadRequest("ID mismatch");
             var updated = await _service.UpdateStudentAttendanceAsync(att);
             return Ok(updated);
         }
 
         [HttpDelete("students/{id:long}")]
-        public async Task<IActionResult> DeleteStudentAttendance(long id)
+        public async Task<IActionResult> DeleteStudentAttendance(Guid id)
         {
             var result = await _service.DeleteStudentAttendanceAsync(id);
             return result ? NoContent() : NotFound();
@@ -56,7 +56,7 @@ namespace RSMS.Api.Controllers
             => Ok(await _service.GetAllStaffAttendanceAsync());
 
         [HttpGet("staff/{id:long}")]
-        public async Task<ActionResult<StaffAttendance>> GetStaffAttendance(long id)
+        public async Task<ActionResult<StaffAttendance>> GetStaffAttendance(Guid id)
         {
             var att = await _service.GetStaffAttendanceByIdAsync(id);
             return att == null ? NotFound() : Ok(att);
@@ -66,19 +66,19 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<StaffAttendance>> CreateStaffAttendance(StaffAttendance att)
         {
             var created = await _service.AddStaffAttendanceAsync(att);
-            return CreatedAtAction(nameof(GetStaffAttendance), new { id = created.StaffAttendanceId }, created);
+            return CreatedAtAction(nameof(GetStaffAttendance), new { id = created.Id }, created);
         }
 
         [HttpPut("staff/{id:long}")]
-        public async Task<ActionResult<StaffAttendance>> UpdateStaffAttendance(long id, StaffAttendance att)
+        public async Task<ActionResult<StaffAttendance>> UpdateStaffAttendance(Guid id, StaffAttendance att)
         {
-            if (id != att.StaffAttendanceId) return BadRequest("ID mismatch");
+            if (id != att.Id) return BadRequest("ID mismatch");
             var updated = await _service.UpdateStaffAttendanceAsync(att);
             return Ok(updated);
         }
 
         [HttpDelete("staff/{id:long}")]
-        public async Task<IActionResult> DeleteStaffAttendance(long id)
+        public async Task<IActionResult> DeleteStaffAttendance(Guid id)
         {
             var result = await _service.DeleteStaffAttendanceAsync(id);
             return result ? NoContent() : NotFound();

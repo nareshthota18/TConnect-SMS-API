@@ -4,10 +4,10 @@ namespace RSMS.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<User?> GetByIdAsync(long id);
+        Task<User?> GetByIdAsync(Guid id);
         Task<IEnumerable<User>> GetAllAsync();
         Task<User> AddAsync(User user);
         Task<User> UpdateAsync(User user);
-        Task<bool> DeleteAsync(long id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

@@ -1,8 +1,10 @@
-﻿namespace RSMS.Data.Models.InventoryEntities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RSMS.Data.Models.InventoryEntities
 {
+    [Table("StockLedger", Schema = "rsms")]
     public class StockLedger : BaseEntity
-    {
-        public long LedgerId { get; set; }
+    {       
         public long ItemId { get; set; }
         public DateTime TranDate { get; set; }
         public string TranType { get; set; } = string.Empty;

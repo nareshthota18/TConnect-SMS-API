@@ -1,10 +1,11 @@
 ﻿using RSMS.Data.Models.CoreEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.LookupEntities
 {
+    [Table("Grades", Schema = "rsms")]
     public class Grade : BaseEntity
     {
-        public int GradeId { get; set; }
         public string Name { get; set; } = string.Empty;
         public bool IsActive { get; set; } = true;
 

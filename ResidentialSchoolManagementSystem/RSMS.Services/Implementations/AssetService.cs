@@ -14,11 +14,11 @@ namespace RSMS.Services.Implementations
             _context = context;
         }
 
-        public async Task<AssetIssue?> GetByIdAsync(long id) =>
+        public async Task<AssetIssue?> GetByIdAsync(Guid id) =>
             await _context.AssetIssues
                 .Include(ai => ai.Student)
                 .Include(ai => ai.Item)
-                .FirstOrDefaultAsync(ai => ai.IssueId == id);
+                .FirstOrDefaultAsync(ai => ai.Id == id);
 
         public async Task<IEnumerable<AssetIssue>> GetAllAsync() =>
             await _context.AssetIssues
@@ -40,7 +40,7 @@ namespace RSMS.Services.Implementations
             return issue;
         }
 
-        public async Task<bool> DeleteAsync(long id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var issue = await _context.AssetIssues.FindAsync(id);
             if (issue == null) return false;

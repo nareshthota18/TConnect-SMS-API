@@ -1,8 +1,10 @@
-﻿namespace RSMS.Data.Models.InventoryEntities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RSMS.Data.Models.InventoryEntities
 {
-    public class PurchaseInvoiceItem : BaseEntity
+    [Table("PurchaseItems", Schema = "rsms")]
+    public class PurchaseItem : BaseEntity
     {
-        public long PurchaseItemId { get; set; }
         public long PurchaseId { get; set; }
         public long ItemId { get; set; }
         public decimal Quantity { get; set; }

@@ -16,7 +16,7 @@ namespace RSMS.Services.Implementations
         }
 
         // Student Attendance
-        public async Task<StudentAttendance?> GetStudentAttendanceByIdAsync(long id) =>
+        public async Task<StudentAttendance?> GetStudentAttendanceByIdAsync(Guid id) =>
             await _context.StudentAttendance.FindAsync(id);
 
         public async Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync() =>
@@ -36,7 +36,7 @@ namespace RSMS.Services.Implementations
             return attendance;
         }
 
-        public async Task<bool> DeleteStudentAttendanceAsync(long id)
+        public async Task<bool> DeleteStudentAttendanceAsync(Guid id)
         {
             var att = await _context.StudentAttendance.FindAsync(id);
             if (att == null) return false;
@@ -47,7 +47,7 @@ namespace RSMS.Services.Implementations
         }
 
         // Staff Attendance
-        public async Task<StaffAttendance?> GetStaffAttendanceByIdAsync(long id) =>
+        public async Task<StaffAttendance?> GetStaffAttendanceByIdAsync(Guid id) =>
             await _context.StaffAttendance.FindAsync(id);
 
         public async Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync() =>
@@ -67,7 +67,7 @@ namespace RSMS.Services.Implementations
             return attendance;
         }
 
-        public async Task<bool> DeleteStaffAttendanceAsync(long id)
+        public async Task<bool> DeleteStaffAttendanceAsync(Guid id)
         {
             var att = await _context.StaffAttendance.FindAsync(id);
             if (att == null) return false;

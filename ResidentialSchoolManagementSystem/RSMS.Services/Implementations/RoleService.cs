@@ -14,11 +14,11 @@ namespace RSMS.Services.Implementations
             _context = context;
         }
 
-        public async Task<Role?> GetByIdAsync(int id) =>
+        public async Task<Role?> GetByIdAsync(Guid id) =>
             await _context.Roles
                 .Include(r => r.RolePermissions)
                 .ThenInclude(rp => rp.Permission)
-                .FirstOrDefaultAsync(r => r.RoleId == id);
+                .FirstOrDefaultAsync(r => r.Id == id);
 
         public async Task<IEnumerable<Role>> GetAllAsync() =>
             await _context.Roles
@@ -40,7 +40,7 @@ namespace RSMS.Services.Implementations
             return role;
         }
 
-        public async Task<bool> DeleteAsync(int id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var role = await _context.Roles.FindAsync(id);
             if (role == null) return false;

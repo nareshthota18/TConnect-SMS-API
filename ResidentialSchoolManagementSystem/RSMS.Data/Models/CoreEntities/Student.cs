@@ -1,11 +1,12 @@
 ﻿using RSMS.Data.Models.InventoryEntities;
 using RSMS.Data.Models.LookupEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.CoreEntities
 {
+    [Table("Students", Schema = "rsms")]
     public class Student : BaseEntity
     {
-        public long StudentId { get; set; }
         public string AdmissionNumber { get; set; } = string.Empty;
         public string FirstName { get; set; } = string.Empty;
         public string? LastName { get; set; }

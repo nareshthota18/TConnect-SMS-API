@@ -20,7 +20,7 @@ namespace RSMS.Api.Controllers
             => Ok(await _service.GetAllItemsAsync());
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Item>> GetById(int id)
+        public async Task<ActionResult<Item>> GetById(Guid id)
         {
             var item = await _service.GetItemByIdAsync(id);
             return item == null ? NotFound() : Ok(item);
@@ -30,20 +30,20 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<Item>> Create(Item item)
         {
             var created = await _service.AddItemAsync(item);
-            return CreatedAtAction(nameof(GetById), new { id = created.ItemId }, created);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Item>> Update(int id, Item item)
+        public async Task<ActionResult<Item>> Update(Guid id, Item item)
         {
-            if (id != item.ItemId) return BadRequest("ID mismatch");
+            if (id != item.Id) return BadRequest("ID mismatch");
 
             var updated = await _service.UpdateItemAsync(item);
             return Ok(updated);
         }
 
         [HttpDelete("{id:int}")]
-        public async Task<IActionResult> Delete(int id)
+        public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteItemAsync(id);
             return result ? NoContent() : NotFound();

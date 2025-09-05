@@ -1,10 +1,11 @@
 ﻿using RSMS.Data.Models.CoreEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.InventoryEntities
 {
+    [Table("AssetIssues", Schema = "rsms")]
     public class AssetIssue : BaseEntity
-    {
-        public long IssueId { get; set; }
+    {       
         public long StudentId { get; set; }
         public long ItemId { get; set; }
         public decimal Quantity { get; set; }

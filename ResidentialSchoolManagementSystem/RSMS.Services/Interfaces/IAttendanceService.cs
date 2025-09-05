@@ -5,16 +5,16 @@ namespace RSMS.Services.Interfaces
 {
     public interface IAttendanceService
     {
-        Task<StudentAttendance?> GetStudentAttendanceByIdAsync(long id);
+        Task<StudentAttendance?> GetStudentAttendanceByIdAsync(Guid id);
         Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync();
         Task<StudentAttendance> AddStudentAttendanceAsync(StudentAttendance attendance);
         Task<StudentAttendance> UpdateStudentAttendanceAsync(StudentAttendance attendance);
-        Task<bool> DeleteStudentAttendanceAsync(long id);
+        Task<bool> DeleteStudentAttendanceAsync(Guid id);
 
-        Task<StaffAttendance?> GetStaffAttendanceByIdAsync(long id);
+        Task<StaffAttendance?> GetStaffAttendanceByIdAsync(Guid id);
         Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync();
         Task<StaffAttendance> AddStaffAttendanceAsync(StaffAttendance attendance);
         Task<StaffAttendance> UpdateStaffAttendanceAsync(StaffAttendance attendance);
-        Task<bool> DeleteStaffAttendanceAsync(long id);
+        Task<bool> DeleteStaffAttendanceAsync(Guid id);
     }
 }

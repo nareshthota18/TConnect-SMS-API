@@ -4,10 +4,10 @@ namespace RSMS.Services.Interfaces
 {
     public interface IStaffService
     {
-        Task<Staff?> GetByIdAsync(long id);
+        Task<Staff?> GetByIdAsync(Guid id);
         Task<IEnumerable<Staff>> GetAllAsync();
         Task<Staff> AddAsync(Staff staff);
         Task<Staff> UpdateAsync(Staff staff);
-        Task<bool> DeleteAsync(long id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

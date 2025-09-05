@@ -4,10 +4,10 @@ namespace RSMS.Services.Interfaces
 {
     public interface ISupplierService
     {
-        Task<Supplier?> GetByIdAsync(int id);
+        Task<Supplier?> GetByIdAsync(Guid id);
         Task<IEnumerable<Supplier>> GetAllAsync();
         Task<Supplier> AddAsync(Supplier supplier);
         Task<Supplier> UpdateAsync(Supplier supplier);
-        Task<bool> DeleteAsync(int id);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

@@ -1,6 +1,9 @@
-﻿namespace RSMS.Data.Models.SecurityEntities
+﻿using System.ComponentModel.DataAnnotations.Schema;
+
+namespace RSMS.Data.Models.SecurityEntities
 {
-    public class UserRole : BaseEntity
+    [Table("UserRoles", Schema = "rsms")]
+    public class UserRole
     {
         public long UserId { get; set; }
         public int RoleId { get; set; }

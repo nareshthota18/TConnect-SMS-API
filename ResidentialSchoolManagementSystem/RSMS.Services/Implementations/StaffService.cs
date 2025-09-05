@@ -14,11 +14,11 @@ namespace RSMS.Services.Implementations
             _context = context;
         }
 
-        public async Task<Staff?> GetByIdAsync(long id) =>
+        public async Task<Staff?> GetByIdAsync(Guid id) =>
             await _context.Staff
                 .Include(s => s.Department)
                 .Include(s => s.Designation)
-                .FirstOrDefaultAsync(s => s.StaffId == id);
+                .FirstOrDefaultAsync(s => s.Id == id);
 
         public async Task<IEnumerable<Staff>> GetAllAsync() =>
             await _context.Staff
@@ -40,7 +40,7 @@ namespace RSMS.Services.Implementations
             return staff;
         }
 
-        public async Task<bool> DeleteAsync(long id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
             var staff = await _context.Staff.FindAsync(id);
             if (staff == null) return false;

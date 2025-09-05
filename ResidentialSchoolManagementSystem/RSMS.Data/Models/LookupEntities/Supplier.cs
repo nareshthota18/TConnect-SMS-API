@@ -1,10 +1,11 @@
 ﻿using RSMS.Data.Models.InventoryEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.LookupEntities
 {
+    [Table("Suppliers", Schema = "rsms")]
     public class Supplier : BaseEntity
     {
-        public long SupplierId { get; set; }
         public string Name { get; set; } = string.Empty;
         public string? GSTNumber { get; set; }
         public string? Email { get; set; }

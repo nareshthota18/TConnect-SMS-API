@@ -1,11 +1,12 @@
 ﻿using RSMS.Data.Models.LookupEntities;
 using RSMS.Data.Models.SecurityEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.CoreEntities
 {
+    [Table("Staff", Schema = "rsms")]
     public class Staff : BaseEntity
     {
-        public long StaffId { get; set; }
         public string StaffCode { get; set; } = string.Empty;
         public string FullName { get; set; } = string.Empty;
         public string? Email { get; set; }

@@ -1,6 +1,5 @@
 ﻿--------------------------------------------------------------------------------
--- Residential School Management System (RSMS)
--- SQL Server DDL: Schema + Lookup Tables
+-- Residential School Management System (RSMS) - Table Creation Script
 --------------------------------------------------------------------------------
 
 -- 0) Schema
@@ -10,87 +9,81 @@ GO
 
 -- 1.1 Categories
 CREATE TABLE rsms.Categories (
-    CategoryId   INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(50) NOT NULL UNIQUE,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.2 Grades
 CREATE TABLE rsms.Grades (
-    GradeId      INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(50) NOT NULL UNIQUE,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.3 Residential School Hostels
 CREATE TABLE rsms.RSHostels (
-    RSHId     INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(150) NOT NULL UNIQUE,
     Address      NVARCHAR(300) NULL,
     Phone        NVARCHAR(30) NULL,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.4 Departments
 CREATE TABLE rsms.Departments (
-    DepartmentId INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(100) NOT NULL UNIQUE,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.5 Designations
 CREATE TABLE rsms.Designations (
-    DesignationId INT IDENTITY(1,1) PRIMARY KEY,
-    Name          NVARCHAR(100) NOT NULL UNIQUE,
-    IsActive      BIT NOT NULL DEFAULT(1),
-    CreatedAt     DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy     BIGINT NULL,
-    UpdatedAt     DATETIME2(0) NULL,
-    UpdatedBy     BIGINT NULL,
-    RowVersion    ROWVERSION
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    Name         NVARCHAR(100) NOT NULL UNIQUE,
+    IsActive     BIT NOT NULL DEFAULT(1),
+    CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedBy    UNIQUEIDENTIFIER NULL,
+    UpdatedAt    DATETIME2(0) NULL,
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.6 ItemTypes
 CREATE TABLE rsms.ItemTypes (
-    ItemTypeId   INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(50) NOT NULL UNIQUE,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.7 Suppliers
 CREATE TABLE rsms.Suppliers (
-    SupplierId   BIGINT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(150) NOT NULL UNIQUE,
     GSTNumber    NVARCHAR(30) NULL,
     Email        NVARCHAR(150) NULL,
@@ -98,105 +91,100 @@ CREATE TABLE rsms.Suppliers (
     Address      NVARCHAR(300) NULL,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.8 Roles
 CREATE TABLE rsms.Roles (
-    RoleId       INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(50) NOT NULL UNIQUE,
     Description  NVARCHAR(200) NULL,
     IsActive     BIT NOT NULL DEFAULT(1),
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.9 Permissions
 CREATE TABLE rsms.Permissions (
-    PermissionId INT IDENTITY(1,1) PRIMARY KEY,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     Name         NVARCHAR(100) NOT NULL UNIQUE,
     Description  NVARCHAR(200) NULL,
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION
+    UpdatedBy    UNIQUEIDENTIFIER NULL
 );
 GO
 
 -- 1.10 RolePermissions
 CREATE TABLE rsms.RolePermissions (
-    RoleId       INT NOT NULL,
-    PermissionId INT NOT NULL,
+    RoleId       UNIQUEIDENTIFIER NOT NULL,
+    PermissionId UNIQUEIDENTIFIER NOT NULL,
     CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
+    CreatedBy    UNIQUEIDENTIFIER NULL,
     PRIMARY KEY (RoleId, PermissionId),
-    FOREIGN KEY (RoleId) REFERENCES rsms.Roles(RoleId),
-    FOREIGN KEY (PermissionId) REFERENCES rsms.Permissions(PermissionId)
+    FOREIGN KEY (RoleId) REFERENCES rsms.Roles(Id),
+    FOREIGN KEY (PermissionId) REFERENCES rsms.Permissions(Id)
 );
 GO
 
 --------------------------------------------------------------------------------
---  People & Security
+-- People & Security
 --------------------------------------------------------------------------------
 
 -- 2.1 Staff
 CREATE TABLE rsms.Staff (
-    StaffId       BIGINT IDENTITY(1,1) PRIMARY KEY,
+    Id            UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     StaffCode     NVARCHAR(50) NOT NULL UNIQUE,
     FullName      NVARCHAR(150) NOT NULL,
     Email         NVARCHAR(150) NULL,
     Phone         NVARCHAR(30) NULL,
-    DepartmentId  INT NULL,
-    DesignationId INT NULL,
+    DepartmentId  UNIQUEIDENTIFIER NULL,
+    DesignationId UNIQUEIDENTIFIER NULL,
     IsTeaching    BIT NOT NULL DEFAULT(1),
     Status        NVARCHAR(20) NOT NULL DEFAULT('Active'),
     CreatedAt     DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy     BIGINT NULL,
+    CreatedBy     UNIQUEIDENTIFIER NULL,
     UpdatedAt     DATETIME2(0) NULL,
-    UpdatedBy     BIGINT NULL,
-    RowVersion    ROWVERSION,
-    CONSTRAINT FK_Staff_Department FOREIGN KEY (DepartmentId) REFERENCES rsms.Departments(DepartmentId),
-    CONSTRAINT FK_Staff_Designation FOREIGN KEY (DesignationId) REFERENCES rsms.Designations(DesignationId),
+    UpdatedBy     UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_Staff_Department FOREIGN KEY (DepartmentId) REFERENCES rsms.Departments(Id),
+    CONSTRAINT FK_Staff_Designation FOREIGN KEY (DesignationId) REFERENCES rsms.Designations(Id),
     CONSTRAINT CK_Staff_Status CHECK (Status IN (N'Active', N'Inactive'))
 );
 GO
 
--- 2.2 Users (links optionally to Staff)
+-- 2.2 Users
 CREATE TABLE rsms.Users (
-    UserId     BIGINT IDENTITY(1,1) PRIMARY KEY,
-    Username   NVARCHAR(100) NOT NULL UNIQUE,
-    Email      NVARCHAR(150) NULL,
-    Phone      NVARCHAR(30) NULL,
-    StaffId    BIGINT NULL,
-    ExternalId NVARCHAR(100) NULL, -- for Okta/Ping integration
-    IsActive   BIT NOT NULL DEFAULT(1),
-    CreatedAt  DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy  BIGINT NULL,
-    UpdatedAt  DATETIME2(0) NULL,
-    UpdatedBy  BIGINT NULL,
-    RowVersion ROWVERSION,
-    CONSTRAINT FK_Users_Staff FOREIGN KEY (StaffId) REFERENCES rsms.Staff(StaffId)
+    Id          UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    Username    NVARCHAR(100) NOT NULL UNIQUE,
+    Email       NVARCHAR(150) NULL,
+    Phone       NVARCHAR(30) NULL,
+    StaffId     UNIQUEIDENTIFIER NULL,
+    ExternalId  NVARCHAR(100) NULL,
+    IsActive    BIT NOT NULL DEFAULT(1),
+    CreatedAt   DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedBy   UNIQUEIDENTIFIER NULL,
+    UpdatedAt   DATETIME2(0) NULL,
+    UpdatedBy   UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_Users_Staff FOREIGN KEY (StaffId) REFERENCES rsms.Staff(Id)
 );
 GO
 
 -- 2.3 UserRoles
 CREATE TABLE rsms.UserRoles (
-    UserId    BIGINT NOT NULL,
-    RoleId    INT NOT NULL,
+    UserId    UNIQUEIDENTIFIER NOT NULL,
+    RoleId    UNIQUEIDENTIFIER NOT NULL,
     CreatedAt DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy BIGINT NULL,
+    CreatedBy UNIQUEIDENTIFIER NULL,
     PRIMARY KEY (UserId, RoleId),
-    FOREIGN KEY (UserId) REFERENCES rsms.Users(UserId),
-    FOREIGN KEY (RoleId) REFERENCES rsms.Roles(RoleId)
+    FOREIGN KEY (UserId) REFERENCES rsms.Users(Id),
+    FOREIGN KEY (RoleId) REFERENCES rsms.Roles(Id)
 );
 GO
 
@@ -206,65 +194,62 @@ GO
 
 -- 3.1 Students
 CREATE TABLE rsms.Students (
-    StudentId       BIGINT IDENTITY(1,1) PRIMARY KEY,
+    Id             UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
     AdmissionNumber NVARCHAR(50) NOT NULL UNIQUE,
     FirstName       NVARCHAR(100) NOT NULL,
     LastName        NVARCHAR(100) NULL,
     DateOfBirth     DATE NOT NULL,
-    CategoryId      INT NULL,
+    CategoryId      UNIQUEIDENTIFIER NULL,
     ParentName      NVARCHAR(150) NULL,
     ParentContact   NVARCHAR(50) NULL,
-    RSHId        INT NULL,
-    GradeId         INT NULL,
+    RSHId           UNIQUEIDENTIFIER NULL,
+    GradeId         UNIQUEIDENTIFIER NULL,
     Status          NVARCHAR(20) NOT NULL DEFAULT('Active'),
     HealthInfo      NVARCHAR(MAX) NULL,
     CreatedAt       DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy       BIGINT NULL,
+    CreatedBy       UNIQUEIDENTIFIER NULL,
     UpdatedAt       DATETIME2(0) NULL,
-    UpdatedBy       BIGINT NULL,
-    RowVersion      ROWVERSION,
-    CONSTRAINT FK_Students_Category FOREIGN KEY (CategoryId) REFERENCES rsms.Categories(CategoryId),
-    CONSTRAINT FK_Students_Hostel FOREIGN KEY (RSHId) REFERENCES rsms.RSHostels(RSHId),
-    CONSTRAINT FK_Students_Class FOREIGN KEY (GradeId) REFERENCES rsms.Grades(GradeId),
+    UpdatedBy       UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_Students_Category FOREIGN KEY (CategoryId) REFERENCES rsms.Categories(Id),
+    CONSTRAINT FK_Students_Hostel FOREIGN KEY (RSHId) REFERENCES rsms.RSHostels(Id),
+    CONSTRAINT FK_Students_Class FOREIGN KEY (GradeId) REFERENCES rsms.Grades(Id),
     CONSTRAINT CK_Students_Status CHECK (Status IN (N'Active', N'Inactive'))
 );
 GO
 
 -- 3.2 StudentAttendance
 CREATE TABLE rsms.StudentAttendance (
-    AttendanceId   BIGINT IDENTITY(1,1) PRIMARY KEY,
-    StudentId      BIGINT NOT NULL,
+    Id            UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    StudentId     UNIQUEIDENTIFIER NOT NULL,
     AttendanceDate DATE NOT NULL,
     Session        NVARCHAR(10) NOT NULL DEFAULT(N'Morning'),
     Status         NVARCHAR(10) NOT NULL DEFAULT(N'Present'),
     Remarks        NVARCHAR(200) NULL,
     CreatedAt      DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy      BIGINT NULL,
+    CreatedBy      UNIQUEIDENTIFIER NULL,
     UpdatedAt      DATETIME2(0) NULL,
-    UpdatedBy      BIGINT NULL,
-    RowVersion     ROWVERSION,
-    CONSTRAINT FK_StuAtt_Student FOREIGN KEY (StudentId) REFERENCES rsms.Students(StudentId),
-    CONSTRAINT CK_StuAtt_Session CHECK (Session IN (N'Morning', N'Evening')),
-    CONSTRAINT CK_StuAtt_Status CHECK (Status IN (N'Present', N'Absent', N'Leave')),
-    CONSTRAINT UQ_StuAtt UNIQUE (StudentId, AttendanceDate, Session)
+    UpdatedBy      UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_StudentAttendance_Student FOREIGN KEY (StudentId) REFERENCES rsms.Students(Id),
+    CONSTRAINT CK_StudentAttendance_Session CHECK (Session IN (N'Morning', N'Evening')),
+    CONSTRAINT CK_StudentAttendance_Status CHECK (Status IN (N'Present', N'Absent', N'Leave')),
+    CONSTRAINT UQ_StudentAttendance UNIQUE (StudentId, AttendanceDate, Session)
 );
 GO
 
 -- 3.3 StaffAttendance
 CREATE TABLE rsms.StaffAttendance (
-    StaffAttendanceId BIGINT IDENTITY(1,1) PRIMARY KEY,
-    StaffId        BIGINT NOT NULL,
+    Id          UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    StaffId     UNIQUEIDENTIFIER NOT NULL,
     AttendanceDate DATE NOT NULL,
-    Status         NVARCHAR(10) NOT NULL DEFAULT(N'Present'),
-    Remarks        NVARCHAR(200) NULL,
-    CreatedAt      DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy      BIGINT NULL,
-    UpdatedAt      DATETIME2(0) NULL,
-    UpdatedBy      BIGINT NULL,
-    RowVersion     ROWVERSION,
-    CONSTRAINT FK_StfAtt_Staff FOREIGN KEY (StaffId) REFERENCES rsms.Staff(StaffId),
-    CONSTRAINT CK_StfAtt_Status CHECK (Status IN (N'Present', N'Absent', N'Leave')),
-    CONSTRAINT UQ_StfAtt UNIQUE (StaffId, AttendanceDate)
+    Status      NVARCHAR(10) NOT NULL DEFAULT(N'Present'),
+    Remarks     NVARCHAR(200) NULL,
+    CreatedAt   DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedBy   UNIQUEIDENTIFIER NULL,
+    UpdatedAt   DATETIME2(0) NULL,
+    UpdatedBy   UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_StaffAttendance_Staff FOREIGN KEY (StaffId) REFERENCES rsms.Staff(Id),
+    CONSTRAINT CK_StaffAttendance_Status CHECK (Status IN (N'Present', N'Absent', N'Leave')),
+    CONSTRAINT UQ_StaffAttendance UNIQUE (StaffId, AttendanceDate)
 );
 GO
 
@@ -274,90 +259,85 @@ GO
 
 -- 4.1 Items
 CREATE TABLE rsms.Items (
-    ItemId       BIGINT IDENTITY(1,1) PRIMARY KEY,
-    ItemCode     NVARCHAR(50) NOT NULL UNIQUE,
-    Name         NVARCHAR(150) NOT NULL,
-    ItemTypeId   INT NOT NULL,
-    UOM          NVARCHAR(20) NOT NULL,
+    Id          UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    ItemCode    NVARCHAR(50) NOT NULL UNIQUE,
+    Name        NVARCHAR(150) NOT NULL,
+    ItemTypeId  UNIQUEIDENTIFIER NOT NULL,
+    UOM         NVARCHAR(20) NOT NULL,
     ReorderLevel DECIMAL(18,3) NOT NULL DEFAULT(0),
-    IsActive     BIT NOT NULL DEFAULT(1),
-    CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy    BIGINT NULL,
-    UpdatedAt    DATETIME2(0) NULL,
-    UpdatedBy    BIGINT NULL,
-    RowVersion   ROWVERSION,
-    CONSTRAINT FK_Items_ItemType FOREIGN KEY (ItemTypeId) REFERENCES rsms.ItemTypes(ItemTypeId)
+    IsActive    BIT NOT NULL DEFAULT(1),
+    CreatedAt   DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedBy   UNIQUEIDENTIFIER NULL,
+    UpdatedAt   DATETIME2(0) NULL,
+    UpdatedBy   UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_Items_ItemType FOREIGN KEY (ItemTypeId) REFERENCES rsms.ItemTypes(Id)
 );
 GO
 
 -- 4.2 PurchaseInvoices
 CREATE TABLE rsms.PurchaseInvoices (
-    PurchaseId    BIGINT IDENTITY(1,1) PRIMARY KEY,
-    SupplierId    BIGINT NULL,
+    Id           UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    SupplierId   UNIQUEIDENTIFIER NULL,
     InvoiceNumber NVARCHAR(50) NULL,
-    InvoiceDate   DATE NULL,
-    ReceivedDate  DATE NOT NULL,
-    Notes         NVARCHAR(300) NULL,
-    CreatedAt     DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy     BIGINT NULL,
-    UpdatedAt     DATETIME2(0) NULL,
-    UpdatedBy     BIGINT NULL,
-    RowVersion    ROWVERSION,
-    CONSTRAINT FK_PurHdr_Supplier FOREIGN KEY (SupplierId) REFERENCES rsms.Suppliers(SupplierId)
+    InvoiceDate  DATE NULL,
+    ReceivedDate DATE NOT NULL,
+    Notes        NVARCHAR(300) NULL,
+    CreatedAt    DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedBy    UNIQUEIDENTIFIER NULL,
+    UpdatedAt    DATETIME2(0) NULL,
+    UpdatedBy    UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_PurchaseInvoices_Supplier FOREIGN KEY (SupplierId) REFERENCES rsms.Suppliers(Id)
 );
 GO
 
 -- 4.3 PurchaseItems
 CREATE TABLE rsms.PurchaseItems (
-    PurchaseItemId BIGINT IDENTITY(1,1) PRIMARY KEY,
-    PurchaseId     BIGINT NOT NULL,
-    ItemId         BIGINT NOT NULL,
-    Quantity       DECIMAL(18,3) NOT NULL CHECK (Quantity > 0),
-    UnitPrice      DECIMAL(18,2) NOT NULL CHECK (UnitPrice >= 0),
-    CreatedAt      DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy      BIGINT NULL,
-    UpdatedAt      DATETIME2(0) NULL,
-    UpdatedBy      BIGINT NULL,
-    RowVersion     ROWVERSION,
-    CONSTRAINT FK_PurItem_Purchase FOREIGN KEY (PurchaseId) REFERENCES rsms.PurchaseInvoices(PurchaseId) ON DELETE CASCADE,
-    CONSTRAINT FK_PurItem_Item FOREIGN KEY (ItemId) REFERENCES rsms.Items(ItemId)
+    Id         UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    PurchaseId UNIQUEIDENTIFIER NOT NULL,
+    ItemId     UNIQUEIDENTIFIER NOT NULL,
+    Quantity   DECIMAL(18,3) NOT NULL CHECK (Quantity > 0),
+    UnitPrice  DECIMAL(18,2) NOT NULL CHECK (UnitPrice >= 0),
+    CreatedAt  DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    CreatedBy  UNIQUEIDENTIFIER NULL,
+    UpdatedAt  DATETIME2(0) NULL,
+    UpdatedBy  UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_PurchaseItems_Purchase FOREIGN KEY (PurchaseId) REFERENCES rsms.PurchaseInvoices(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_PurchaseItems_Item FOREIGN KEY (ItemId) REFERENCES rsms.Items(Id)
 );
 GO
 
 -- 4.4 StockLedger
 CREATE TABLE rsms.StockLedger (
-    LedgerId   BIGINT IDENTITY(1,1) PRIMARY KEY,
-    ItemId     BIGINT NOT NULL,
+    Id         UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    ItemId     UNIQUEIDENTIFIER NOT NULL,
     TranDate   DATETIME2(0) NOT NULL,
-    TranType   NVARCHAR(20) NOT NULL, -- Intake, Consumption, Issue, Adjustment, Return
+    TranType   NVARCHAR(20) NOT NULL,
     Quantity   DECIMAL(18,3) NOT NULL,
     Reference  NVARCHAR(100) NULL,
     Remarks    NVARCHAR(200) NULL,
     CreatedAt  DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy  BIGINT NULL,
+    CreatedBy  UNIQUEIDENTIFIER NULL,
     UpdatedAt  DATETIME2(0) NULL,
-    UpdatedBy  BIGINT NULL,
-    RowVersion ROWVERSION,
-    CONSTRAINT FK_StkLed_Item FOREIGN KEY (ItemId) REFERENCES rsms.Items(ItemId),
-    CONSTRAINT CK_StkLed_TranType CHECK (TranType IN (N'Intake', N'Consumption', N'Issue', N'Adjustment', N'Return'))
+    UpdatedBy  UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_StockLedger_Item FOREIGN KEY (ItemId) REFERENCES rsms.Items(Id),
+    CONSTRAINT CK_StockLedger_TranType CHECK (TranType IN (N'Intake', N'Consumption', N'Issue', N'Adjustment', N'Return'))
 );
 GO
 
 -- 4.5 AssetIssues
 CREATE TABLE rsms.AssetIssues (
-    IssueId   BIGINT IDENTITY(1,1) PRIMARY KEY,
-    StudentId BIGINT NOT NULL,
-    ItemId    BIGINT NOT NULL,
+    Id        UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    StudentId UNIQUEIDENTIFIER NOT NULL,
+    ItemId    UNIQUEIDENTIFIER NOT NULL,
     Quantity  DECIMAL(18,3) NOT NULL CHECK (Quantity > 0),
     IssueDate DATE NOT NULL,
     Remarks   NVARCHAR(200) NULL,
     CreatedAt DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    CreatedBy BIGINT NULL,
+    CreatedBy UNIQUEIDENTIFIER NULL,
     UpdatedAt DATETIME2(0) NULL,
-    UpdatedBy BIGINT NULL,
-    RowVersion ROWVERSION,
-    CONSTRAINT FK_AssetIssues_Student FOREIGN KEY (StudentId) REFERENCES rsms.Students(StudentId),
-    CONSTRAINT FK_AssetIssues_Item FOREIGN KEY (ItemId) REFERENCES rsms.Items(ItemId)
+    UpdatedBy UNIQUEIDENTIFIER NULL,
+    CONSTRAINT FK_AssetIssues_Student FOREIGN KEY (StudentId) REFERENCES rsms.Students(Id),
+    CONSTRAINT FK_AssetIssues_Item FOREIGN KEY (ItemId) REFERENCES rsms.Items(Id)
 );
 GO
 
@@ -366,14 +346,13 @@ GO
 --------------------------------------------------------------------------------
 
 CREATE TABLE rsms.AuditLogs (
-    AuditId    BIGINT IDENTITY(1,1) PRIMARY KEY,
-    EntityName NVARCHAR(100) NOT NULL,
-    EntityId   NVARCHAR(100) NOT NULL,
-    Action     NVARCHAR(20) NOT NULL, -- Create/Update/Delete
-    ChangedBy  BIGINT NULL,
-    ChangedAt  DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
-    Changes    NVARCHAR(MAX) NULL,
-    RowVersion ROWVERSION,
-    CONSTRAINT FK_AuditLogs_User FOREIGN KEY (ChangedBy) REFERENCES rsms.Users(UserId)
+    Id          UNIQUEIDENTIFIER NOT NULL PRIMARY KEY DEFAULT NEWID(),
+    EntityName  NVARCHAR(100) NOT NULL,
+    EntityId    NVARCHAR(100) NOT NULL,
+    Action      NVARCHAR(20) NOT NULL, -- Create/Update/Delete
+    ChangedBy   UNIQUEIDENTIFIER NULL,
+    ChangedAt   DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
+    Changes     NVARCHAR(MAX) NULL,
+    CONSTRAINT FK_AuditLogs_User FOREIGN KEY (ChangedBy) REFERENCES rsms.Users(Id)
 );
 GO
