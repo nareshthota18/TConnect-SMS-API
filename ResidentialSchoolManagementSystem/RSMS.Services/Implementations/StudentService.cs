@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class StudentService : IStudentService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public StudentService(RsmsDbContext context)
+        public StudentService(RSMSDbContext context)
         {
             _context = context;
         }

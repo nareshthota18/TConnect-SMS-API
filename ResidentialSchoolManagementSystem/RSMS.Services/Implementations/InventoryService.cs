@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class InventoryService : IInventoryService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public InventoryService(RsmsDbContext context)
+        public InventoryService(RSMSDbContext context)
         {
             _context = context;
         }

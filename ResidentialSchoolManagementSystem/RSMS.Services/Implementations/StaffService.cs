@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class StaffService : IStaffService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public StaffService(RsmsDbContext context)
+        public StaffService(RSMSDbContext context)
         {
             _context = context;
         }

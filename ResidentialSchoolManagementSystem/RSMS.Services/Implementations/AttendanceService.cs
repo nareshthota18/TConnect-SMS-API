@@ -8,9 +8,9 @@ namespace RSMS.Services.Implementations
 {
     public class AttendanceService : IAttendanceService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public AttendanceService(RsmsDbContext context)
+        public AttendanceService(RSMSDbContext context)
         {
             _context = context;
         }

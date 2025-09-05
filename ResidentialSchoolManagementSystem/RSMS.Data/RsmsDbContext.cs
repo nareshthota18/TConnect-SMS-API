@@ -7,9 +7,9 @@ using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Data
 {
-    public class RsmsDbContext : DbContext
+    public class RSMSDbContext : DbContext
     {
-        public RsmsDbContext(DbContextOptions<RsmsDbContext> options) : base(options)
+        public RSMSDbContext(DbContextOptions<RSMSDbContext> options) : base(options)
         {
         }
 

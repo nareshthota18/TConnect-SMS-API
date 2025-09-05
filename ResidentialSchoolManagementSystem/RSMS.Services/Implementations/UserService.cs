@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public UserService(RsmsDbContext context)
+        public UserService(RSMSDbContext context)
         {
             _context = context;
         }

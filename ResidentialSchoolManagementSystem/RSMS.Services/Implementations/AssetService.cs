@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class AssetService : IAssetService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public AssetService(RsmsDbContext context)
+        public AssetService(RSMSDbContext context)
         {
             _context = context;
         }

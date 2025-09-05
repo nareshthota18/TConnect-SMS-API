@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class SupplierService : ISupplierService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public SupplierService(RsmsDbContext context)
+        public SupplierService(RSMSDbContext context)
         {
             _context = context;
         }

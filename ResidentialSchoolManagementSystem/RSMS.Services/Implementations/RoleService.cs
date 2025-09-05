@@ -7,9 +7,9 @@ namespace RSMS.Services.Implementations
 {
     public class RoleService : IRoleService
     {
-        private readonly RsmsDbContext _context;
+        private readonly RSMSDbContext _context;
 
-        public RoleService(RsmsDbContext context)
+        public RoleService(RSMSDbContext context)
         {
             _context = context;
         }
