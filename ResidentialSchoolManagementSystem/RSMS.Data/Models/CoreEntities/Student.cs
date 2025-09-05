@@ -13,7 +13,7 @@ namespace RSMS.Data.Models.CoreEntities
         public int? CategoryId { get; set; }
         public string? ParentName { get; set; }
         public string? ParentContact { get; set; }
-        public int? RSHostelId { get; set; }
+        public int? RSHId { get; set; }
         public int? GradeId { get; set; }
         public string Status { get; set; } = "Active";
         public string? HealthInfo { get; set; }
