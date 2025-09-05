@@ -5,7 +5,7 @@ namespace RSMS.Data.Models.CoreEntities
     [Table("StudentAttendance", Schema = "rsms")]
     public class StudentAttendance : BaseEntity
     {       
-        public long StudentId { get; set; }
+        public Guid StudentId { get; set; }
         public DateTime AttendanceDate { get; set; }
         public string Session { get; set; } = "Morning";
         public string Status { get; set; } = "Present";

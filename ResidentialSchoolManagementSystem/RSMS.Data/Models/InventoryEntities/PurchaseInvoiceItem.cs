@@ -5,8 +5,8 @@ namespace RSMS.Data.Models.InventoryEntities
     [Table("PurchaseItems", Schema = "rsms")]
     public class PurchaseItem : BaseEntity
     {
-        public long PurchaseId { get; set; }
-        public long ItemId { get; set; }
+        public Guid PurchaseId { get; set; }
+        public Guid ItemId { get; set; }
         public decimal Quantity { get; set; }
         public decimal UnitPrice { get; set; }
 

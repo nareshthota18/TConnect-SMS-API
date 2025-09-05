@@ -11,8 +11,8 @@ namespace RSMS.Data.Models.CoreEntities
         public string FullName { get; set; } = string.Empty;
         public string? Email { get; set; }
         public string? Phone { get; set; }
-        public int? DepartmentId { get; set; }
-        public int? DesignationId { get; set; }
+        public Guid? DepartmentId { get; set; }
+        public Guid? DesignationId { get; set; }
         public bool IsTeaching { get; set; } = true;
         public string Status { get; set; } = "Active";
 

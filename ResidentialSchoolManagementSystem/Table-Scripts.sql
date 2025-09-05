@@ -202,7 +202,7 @@ CREATE TABLE rsms.Students (
     CategoryId      UNIQUEIDENTIFIER NULL,
     ParentName      NVARCHAR(150) NULL,
     ParentContact   NVARCHAR(50) NULL,
-    RSHId           UNIQUEIDENTIFIER NULL,
+    RSHostelId      UNIQUEIDENTIFIER NULL,
     GradeId         UNIQUEIDENTIFIER NULL,
     Status          NVARCHAR(20) NOT NULL DEFAULT('Active'),
     HealthInfo      NVARCHAR(MAX) NULL,
@@ -211,7 +211,7 @@ CREATE TABLE rsms.Students (
     UpdatedAt       DATETIME2(0) NULL,
     UpdatedBy       UNIQUEIDENTIFIER NULL,
     CONSTRAINT FK_Students_Category FOREIGN KEY (CategoryId) REFERENCES rsms.Categories(Id),
-    CONSTRAINT FK_Students_Hostel FOREIGN KEY (RSHId) REFERENCES rsms.RSHostels(Id),
+    CONSTRAINT FK_Students_Hostel FOREIGN KEY (RSHostelId) REFERENCES rsms.RSHostels(Id),
     CONSTRAINT FK_Students_Class FOREIGN KEY (GradeId) REFERENCES rsms.Grades(Id),
     CONSTRAINT CK_Students_Status CHECK (Status IN (N'Active', N'Inactive'))
 );

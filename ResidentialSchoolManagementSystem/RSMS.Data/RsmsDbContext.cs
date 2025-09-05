@@ -46,19 +46,31 @@ namespace RSMS.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            // Composite key for UserRole
             base.OnModelCreating(modelBuilder);
+            modelBuilder.Entity<RolePermission>()
+                  .HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
-            // Concurrency token
-            foreach (var entity in modelBuilder.Model.GetEntityTypes())
-            {
-                var prop = entity.FindProperty("RowVersion");
-                if (prop != null)
-                {
-                    prop.IsConcurrencyToken = true;
-                    prop.ValueGenerated = Microsoft.EntityFrameworkCore.Metadata.ValueGenerated.OnAddOrUpdate;
-                }
-            }
-            
+            // Composite key for UserRole
+            modelBuilder.Entity<UserRole>()
+                .HasKey(ur => new { ur.UserId, ur.RoleId });
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Category)
+                .WithMany(c => c.Students)
+                .HasForeignKey(s => s.CategoryId);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.Grade)
+                .WithMany(g => g.Students)
+                .HasForeignKey(s => s.GradeId);
+
+            modelBuilder.Entity<Student>()
+                .HasOne(s => s.RSHostel)
+                .WithMany(r => r.Students)
+                .HasForeignKey(s => s.RSHostelId);
+
+
         }
     }
 }

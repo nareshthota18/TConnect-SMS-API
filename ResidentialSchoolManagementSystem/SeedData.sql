@@ -215,7 +215,7 @@ GO
 -- Students
 --------------------------------------------------------------------------------
 INSERT INTO rsms.Students 
-(Id, AdmissionNumber, FirstName, LastName, DateOfBirth, CategoryId, ParentName, ParentContact, RSHId, GradeId, Status, CreatedAt)
+(Id, AdmissionNumber, FirstName, LastName, DateOfBirth, CategoryId, ParentName, ParentContact, RSHostelId, GradeId, Status, CreatedAt)
 SELECT NEWID(), 'ADM001', 'Arjun', 'Rao', '2010-06-15',
        (SELECT Id FROM rsms.Categories WHERE Name = 'BC'),
        'Suresh Rao', '9001111111',
@@ -225,7 +225,7 @@ SELECT NEWID(), 'ADM001', 'Arjun', 'Rao', '2010-06-15',
 WHERE NOT EXISTS (SELECT 1 FROM rsms.Students WHERE AdmissionNumber = 'ADM001');
 
 INSERT INTO rsms.Students 
-(Id, AdmissionNumber, FirstName, LastName, DateOfBirth, CategoryId, ParentName, ParentContact, RSHId, GradeId, Status, CreatedAt)
+(Id, AdmissionNumber, FirstName, LastName, DateOfBirth, CategoryId, ParentName, ParentContact, RSHostelId, GradeId, Status, CreatedAt)
 SELECT NEWID(), 'ADM002', 'Meena', 'Sharma', '2011-01-20',
        (SELECT Id FROM rsms.Categories WHERE Name = 'BC'),
        'Rajesh Sharma', '9002222222',

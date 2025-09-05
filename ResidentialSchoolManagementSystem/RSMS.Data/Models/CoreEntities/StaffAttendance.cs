@@ -6,7 +6,7 @@ namespace RSMS.Data.Models
     [Table("StaffAttendance", Schema = "rsms")]
     public class StaffAttendance : BaseEntity
     {
-        public long StaffId { get; set; }
+        public Guid StaffId { get; set; }
         public DateTime AttendanceDate { get; set; }
         public string Status { get; set; } = "Present";
         public string? Remarks { get; set; }

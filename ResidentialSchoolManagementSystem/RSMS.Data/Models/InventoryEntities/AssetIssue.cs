@@ -6,8 +6,8 @@ namespace RSMS.Data.Models.InventoryEntities
     [Table("AssetIssues", Schema = "rsms")]
     public class AssetIssue : BaseEntity
     {       
-        public long StudentId { get; set; }
-        public long ItemId { get; set; }
+        public Guid StudentId { get; set; }
+        public Guid ItemId { get; set; }
         public decimal Quantity { get; set; }
         public DateTime IssueDate { get; set; }
         public string? Remarks { get; set; }

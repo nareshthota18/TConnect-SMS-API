@@ -6,7 +6,7 @@ namespace RSMS.Data.Models.InventoryEntities
     [Table("PurchaseInvoices", Schema = "rsms")]
     public class PurchaseInvoice : BaseEntity
     {
-        public long? SupplierId { get; set; }
+        public Guid? SupplierId { get; set; }
         public string? InvoiceNumber { get; set; }
         public DateTime? InvoiceDate { get; set; }
         public DateTime ReceivedDate { get; set; }
