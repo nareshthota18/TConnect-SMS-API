@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
 
@@ -8,35 +10,35 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class AssetsController : ControllerBase
     {
-        private readonly IAssetService _service;
+        private readonly IAssetRepository _service;
 
-        public AssetsController(IAssetService service)
+        public AssetsController(IAssetRepository service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AssetIssue>>> GetAll()
+        public async Task<ActionResult<IEnumerable<AssetDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:long}")]
-        public async Task<ActionResult<AssetIssue>> GetById(Guid id)
+        public async Task<ActionResult<AssetDTO>> GetById(Guid id)
         {
             var issue = await _service.GetByIdAsync(id);
             return issue == null ? NotFound() : Ok(issue);
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssetIssue>> Create(AssetIssue issue)
+        public async Task<ActionResult<AssetDTO>> Create(AssetDTO issue)
         {
             var created = await _service.AddAsync(issue);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
+            return CreatedAtAction(nameof(GetById), new { id = created.IssueId }, created);
         }
 
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<AssetIssue>> Update(Guid id, AssetIssue issue)
+        public async Task<ActionResult<AssetDTO>> Update(Guid id, AssetDTO issue)
         {
-            if (id != issue.Id) return BadRequest("ID mismatch");
+            if (id != issue.IssueId) return BadRequest("ID mismatch");
 
             var updated = await _service.UpdateAsync(issue);
             return Ok(updated);
