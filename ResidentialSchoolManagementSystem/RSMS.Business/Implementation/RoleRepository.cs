@@ -1,5 +1,7 @@
-﻿using RSMS.Business.Contracts;
+﻿using AutoMapper;
+using RSMS.Business.Contracts;
 using RSMS.Common.Models;
+using RSMS.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,13 @@ namespace RSMS.Business.Implementation
 {
     public class RoleRepository : IRoleRepository
     {
+        private readonly IRoleService _roleService;
+        private readonly IMapper _mapper;
+        public RoleRepository(IRoleService roleService, IMapper mapper)
+        {
+            _roleService = roleService;
+            _mapper = mapper;
+        }
         public Task<RoleDTO> AddAsync(RoleDTO role)
         {
             throw new NotImplementedException();

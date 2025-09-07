@@ -1,5 +1,7 @@
-﻿using RSMS.Business.Contracts;
+﻿using AutoMapper;
+using RSMS.Business.Contracts;
 using RSMS.Common.Models;
+using RSMS.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,6 +12,13 @@ namespace RSMS.Business.Implementation
 {
     public class StaffRepository : IStaffRepository
     {
+        private readonly IStaffService _staffService;
+        private readonly IMapper _mapper;
+        public StaffRepository(IRoleRepository staffService, IMapper mapper)
+        {
+            _staffService = staffService;
+            _mapper = mapper;
+        }
         public Task<StaffDTO> AddAsync(StaffDTO staff)
         {
             throw new NotImplementedException();

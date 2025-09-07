@@ -1,5 +1,10 @@
-﻿using RSMS.Business.Contracts;
+﻿using AutoMapper;
+using RSMS.Business.Contracts;
 using RSMS.Common.Models;
+using RSMS.Data.Models.CoreEntities;
+using RSMS.Data.Models.InventoryEntities;
+using RSMS.Services.Implementations;
+using RSMS.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -10,29 +15,42 @@ namespace RSMS.Business.Implementation
 {
     public class StudentRepository : IStudentRepository
     {
-        public Task<StudentDTO> AddStudentAsync(StudentDTO student)
+        private readonly IStudentService _studentService;
+        private readonly IMapper _mapper;
+        public StudentRepository(IStudentService studentService, IMapper mapper)
         {
-            throw new NotImplementedException();
+            _studentService = studentService;
+            _mapper = mapper;
+        }
+        public async Task<StudentDTO> AddStudentAsync(StudentDTO student)
+        {
+            var std = _mapper.Map<Student>(student);
+            var newstd = await _studentService.AddStudentAsync(std);
+            return _mapper.Map<StudentDTO>(newstd);
         }
 
-        public Task<bool> DeleteStudentAsync(Guid id)
+        public async Task<bool> DeleteStudentAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _studentService.DeleteStudentAsync(id);
         }
 
-        public Task<IEnumerable<StudentDTO>> GetAllStudentsAsync()
+        public async Task<IEnumerable<StudentDTO>> GetAllStudentsAsync()
         {
-            throw new NotImplementedException();
+            var students = await _studentService.GetAllStudentsAsync();
+            return _mapper.Map<IEnumerable<StudentDTO>>(students);
         }
 
-        public Task<StudentDTO?> GetStudentByIdAsync(Guid id)
+        public async Task<StudentDTO?> GetStudentByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var std = await _studentService.GetStudentByIdAsync(id);
+            return _mapper.Map<StudentDTO>(std);
         }
 
-        public Task<StudentDTO> UpdateStudentAsync(StudentDTO student)
+        public async Task<StudentDTO> UpdateStudentAsync(StudentDTO student)
         {
-            throw new NotImplementedException();
+            var std = _mapper.Map<Student>(student);
+            var newstd = await _studentService.UpdateStudentAsync(std);
+            return _mapper.Map<StudentDTO>(newstd);
         }
     }
 }
