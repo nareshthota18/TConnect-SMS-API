@@ -9,7 +9,7 @@ COPY RSMS.Business/RSMS.Business.csproj RSMS.Business/
 COPY RSMS.Common/RSMS.Common.csproj RSMS.Common/
 COPY RSMS.Data/RSMS.Data.csproj RSMS.Data/
 COPY RSMS.Services/RSMS.Services.csproj RSMS.Services/
-COPY RSMS.Tests/RSMS.Tests.csproj RSMS.Tests/
+
 
 # Restore dependencies
 RUN dotnet restore ResidentialSchoolManagementSystem.sln
