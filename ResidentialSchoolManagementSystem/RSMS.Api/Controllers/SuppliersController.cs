@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.LookupEntities;
 using RSMS.Services.Interfaces;
 
@@ -8,33 +10,33 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class SuppliersController : ControllerBase
     {
-        private readonly ISupplierService _service;
+        private readonly ISuppilerRepository _service;
 
-        public SuppliersController(ISupplierService service)
+        public SuppliersController(ISuppilerRepository service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Supplier>>> GetAll()
+        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:int}")]
-        public async Task<ActionResult<Supplier>> GetById(Guid id)
+        public async Task<ActionResult<SupplierDTO>> GetById(Guid id)
         {
             var supplier = await _service.GetByIdAsync(id);
             return supplier == null ? NotFound() : Ok(supplier);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Supplier>> Create(Supplier supplier)
+        public async Task<ActionResult<SupplierDTO>> Create(SupplierDTO supplier)
         {
             var created = await _service.AddAsync(supplier);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id:int}")]
-        public async Task<ActionResult<Supplier>> Update(Guid id, Supplier supplier)
+        public async Task<ActionResult<SupplierDTO>> Update(Guid id, SupplierDTO supplier)
         {
             if (id != supplier.Id) return BadRequest("ID mismatch");
 

@@ -24,6 +24,8 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSMS.Api", "RSMS.Api\RSMS.Api.csproj", "{19A12654-38BF-230F-0D44-8BF98C604F9F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "RSMS.Business", "RSMS.Business\RSMS.Business.csproj", "{8FEFEFD5-A3C0-4411-93C3-9C373EBE58A3}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -50,6 +52,10 @@ Global
 		{19A12654-38BF-230F-0D44-8BF98C604F9F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{19A12654-38BF-230F-0D44-8BF98C604F9F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{19A12654-38BF-230F-0D44-8BF98C604F9F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8FEFEFD5-A3C0-4411-93C3-9C373EBE58A3}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8FEFEFD5-A3C0-4411-93C3-9C373EBE58A3}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8FEFEFD5-A3C0-4411-93C3-9C373EBE58A3}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8FEFEFD5-A3C0-4411-93C3-9C373EBE58A3}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

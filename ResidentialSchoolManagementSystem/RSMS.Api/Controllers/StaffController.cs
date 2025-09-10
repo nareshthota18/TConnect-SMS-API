@@ -1,4 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.CoreEntities;
 using RSMS.Services.Interfaces;
 
@@ -8,33 +10,33 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class StaffController : ControllerBase
     {
-        private readonly IStaffService _service;
+        private readonly IStaffRepository _service;
 
-        public StaffController(IStaffService service)
+        public StaffController(IStaffRepository service)
         {
             _service = service;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Staff>>> GetAll()
+        public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
         [HttpGet("{id:long}")]
-        public async Task<ActionResult<Staff>> GetById(Guid id)
+        public async Task<ActionResult<StaffDTO>> GetById(Guid id)
         {
             var staff = await _service.GetByIdAsync(id);
             return staff == null ? NotFound() : Ok(staff);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Staff>> Create(Staff staff)
+        public async Task<ActionResult<StaffDTO>> Create(StaffDTO staff)
         {
             var created = await _service.AddAsync(staff);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id:long}")]
-        public async Task<ActionResult<Staff>> Update(Guid id, Staff staff)
+        public async Task<ActionResult<StaffDTO>> Update(Guid id, StaffDTO staff)
         {
             if (id != staff.Id) return BadRequest("ID mismatch");
 
