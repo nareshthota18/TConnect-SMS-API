@@ -1,0 +1,15 @@
+﻿using RSMS.Common.Enums;
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Threading.Tasks;
+
+namespace RSMS.Common.Models
+{
+    public class ReportRequestDTO
+    {
+        public int Id { get; set; }
+        public TimeRange timeRange { get; set; }
+    }
+}

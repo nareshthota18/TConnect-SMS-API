@@ -14,7 +14,7 @@ namespace RSMS.Business.Implementation
     {
         private readonly IStaffService _staffService;
         private readonly IMapper _mapper;
-        public StaffRepository(IRoleRepository staffService, IMapper mapper)
+        public StaffRepository(IStaffService staffService, IMapper mapper)
         {
             _staffService = staffService;
             _mapper = mapper;
