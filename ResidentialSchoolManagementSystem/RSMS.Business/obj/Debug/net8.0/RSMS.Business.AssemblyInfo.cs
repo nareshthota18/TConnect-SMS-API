@@ -14,7 +14,7 @@ using System.Reflection;
 [assembly: System.Reflection.AssemblyCompanyAttribute("RSMS.Business")]
 [assembly: System.Reflection.AssemblyConfigurationAttribute("Debug")]
 [assembly: System.Reflection.AssemblyFileVersionAttribute("1.0.0.0")]
-[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+dbae7536c0890856596f468b02ee5ebd03db9039")]
+[assembly: System.Reflection.AssemblyInformationalVersionAttribute("1.0.0+f5af5f0ed578872a650de2f2b09191ba3eb801e7")]
 [assembly: System.Reflection.AssemblyProductAttribute("RSMS.Business")]
 [assembly: System.Reflection.AssemblyTitleAttribute("RSMS.Business")]
 [assembly: System.Reflection.AssemblyVersionAttribute("1.0.0.0")]

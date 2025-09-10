@@ -20,7 +20,8 @@ namespace RSMS.Api.Controllers
         [HttpPost("GetAllAttendanceTimeRange")]
         public async Task<ActionResult<ReportRequestDTO>> GetAllAttendanceTimeRange(ReportRequestDTO att)
         {
-            return Ok();
+            var result = await _reportsRepository.GetAllAttendanceTimeRange(att);
+            return Ok(result);
         }
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 using System;
 using System.Collections.Generic;
@@ -17,6 +18,11 @@ namespace RSMS.Business.Implementation
         {
             _reportsService = reportsService;
             _mapper = mapper;
+        }
+
+        public Task<ReportRequestDTO?> GetAllAttendanceTimeRange(ReportRequestDTO att)
+        {
+            throw new NotImplementedException();
         }
     }
 }
