@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using Azure.Core;
+using Microsoft.EntityFrameworkCore;
 using RSMS.Data;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Services.Interfaces;
@@ -46,6 +47,12 @@ namespace RSMS.Services.Implementations
             _context.Users.Remove(user);
             await _context.SaveChangesAsync();
             return true;
+        }
+
+        public async Task<User> Getuser(string Username)
+        {
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == Username);
+            return user;
         }
     }
 }

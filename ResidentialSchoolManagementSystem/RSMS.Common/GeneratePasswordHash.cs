@@ -16,6 +16,17 @@ namespace RSMS.Common
                 return (hash, salt);
             }
         }
+
+        public static bool VerifyPassword(string password, byte[] storedHash, byte[] storedSalt)
+        {
+            using (var hmac = new HMACSHA512(storedSalt))
+            {
+                byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
+
+                // Compare byte by byte
+                return computedHash.SequenceEqual(storedHash);
+            }
+        }
     }
 }
 

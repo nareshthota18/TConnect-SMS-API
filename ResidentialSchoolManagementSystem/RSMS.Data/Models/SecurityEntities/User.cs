@@ -12,7 +12,8 @@ namespace RSMS.Data.Models.SecurityEntities
         public Guid? StaffId { get; set; }
         public string? ExternalId { get; set; }
         public bool IsActive { get; set; } = true;
-
+        public byte[] PasswordHash { get; set; } = Array.Empty<byte>();
+        public byte[] PasswordSalt { get; set; } = Array.Empty<byte>();
         public Staff? Staff { get; set; }
         public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
     }

@@ -14,5 +14,6 @@ namespace RSMS.Business.Contracts
         Task<UserDTO> AddAsync(UserDTO user);
         Task<UserDTO> UpdateAsync(UserDTO user);
         Task<bool> DeleteAsync(Guid id);
+        Task<bool> ValidUser(string userName, string password);
     }
 }

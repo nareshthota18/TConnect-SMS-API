@@ -9,5 +9,6 @@ namespace RSMS.Services.Interfaces
         Task<User> AddAsync(User user);
         Task<User> UpdateAsync(User user);
         Task<bool> DeleteAsync(Guid id);
+        Task<User> Getuser(string Username);
     }
 }
