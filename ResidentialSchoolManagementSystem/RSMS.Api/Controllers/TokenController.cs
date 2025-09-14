@@ -1,5 +1,4 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using RSMS.Business.Contracts;
@@ -23,16 +22,17 @@ namespace RSMS.Api.Controllers
             _clients = clients.Value;
             _service = service;
         }
+
         [HttpPost]
-        public IActionResult GetToken([FromBody] LoginRequest request)
+        public async Task<IActionResult> GetTokenAsync([FromBody] LoginRequest request)
         {
-            // ✅ 1. Validate Client need to chnage db level
+            // 1. Validate Client need to chnage db level
             var client = _clients.FirstOrDefault(c => c.ClientId == request.ClientId);
             if (client == null)
                 return Unauthorized("Invalid clientId");
 
-            // ✅ 2. Validate User (replace with your DB/Identity check)
-            if (request.Username == "testuser" &&  request.Password == "P@ssw0rd")
+            // 2. Validate User (replace with your DB/Identity check)
+            if (request.Username == "testuser" && request.Password == "P@ssw0rd")
             {
                 //for testing
             }
@@ -42,7 +42,7 @@ namespace RSMS.Api.Controllers
                     return Unauthorized("Invalid username or password");
             }
 
-            // ✅ 3. Build Token
+            // 3. Build Token
             var jwtSettings = _config.GetSection("Jwt");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
             var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);

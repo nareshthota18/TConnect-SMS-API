@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.CoreEntities;
-using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
 {
@@ -21,7 +19,7 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<StudentDTO>>> GetAll()
             => Ok(await _service.GetAllStudentsAsync());
 
-        [HttpGet("{id:long}")]
+        [HttpGet("{id:Guid}")]
         public async Task<ActionResult<StudentDTO>> GetById(Guid id)
         {
             var student = await _service.GetStudentByIdAsync(id);
@@ -35,7 +33,7 @@ namespace RSMS.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:long}")]
+        [HttpPut("{id:Guid}")]
         public async Task<ActionResult<StudentDTO>> Update(Guid id, StudentDTO student)
         {
             if (id != student.Id) return BadRequest("ID mismatch");
@@ -44,7 +42,7 @@ namespace RSMS.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteStudentAsync(id);

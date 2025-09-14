@@ -1,17 +1,15 @@
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
-
+using Microsoft.IdentityModel.Tokens;
 using RSMS.Business.Contracts;
 using RSMS.Business.Implementation;
+using RSMS.Common.Models;
 using RSMS.Data;
+using RSMS.Services;
 using RSMS.Services.Implementations;
 using RSMS.Services.Interfaces;
-using System.Text.Json.Serialization;
-using System.Reflection;
-using RSMS.Services;
 using System.Text;
-using RSMS.Common.Models;
-using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.IdentityModel.Tokens;
+using System.Text.Json.Serialization;
 
 
 
@@ -90,6 +88,7 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();
