@@ -19,28 +19,28 @@ namespace RSMS.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<AssetDTO>>> GetAll()
+        public async Task<ActionResult<IEnumerable<AssetIssueDTO>>> GetAll()
         {
             var assets = await _service.GetAllAsync();
             return Ok(assets);
         }
 
         [HttpGet("{id:Guid}")]
-        public async Task<ActionResult<AssetDTO>> GetById(Guid id)
+        public async Task<ActionResult<AssetIssueDTO>> GetById(Guid id)
         {
             var asset = await _service.GetByIdAsync(id);
             return asset == null ? NotFound() : Ok(asset);
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssetDTO>> Create(AssetDTO asset)
+        public async Task<ActionResult<AssetIssueDTO>> Create(AssetIssueDTO asset)
         {
             var created = await _service.AddAsync(asset);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
         [HttpPut("{id:Guid}")]
-        public async Task<ActionResult<AssetDTO>> Update(Guid id, AssetDTO asset)
+        public async Task<ActionResult<AssetIssueDTO>> Update(Guid id, AssetIssueDTO asset)
         {
             if (id != asset.Id) return BadRequest("ID mismatch");
 

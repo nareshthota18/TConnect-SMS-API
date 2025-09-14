@@ -1,50 +1,54 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using RSMS.Repositories.Contracts;
-using RSMS.Repositories.Implementation;
 using RSMS.Common.Models;
 using RSMS.Data;
+using RSMS.Repositories.Contracts;
+using RSMS.Repositories.Implementation;
 using RSMS.Services;
 using RSMS.Services.Implementations;
 using RSMS.Services.Interfaces;
 using System.Text;
 using System.Text.Json.Serialization;
 
-
-
 var builder = WebApplication.CreateBuilder(args);
 
-// Bind configuration
+// Bind JWT configuration
 var jwtSettings = builder.Configuration.GetSection("Jwt");
 var key = Encoding.UTF8.GetBytes(jwtSettings["Key"]!);
 
-// Add services to the container.
 // Add DbContext
 builder.Services.AddDbContext<RSMSDbContext>(options =>
     options.UseSqlServer(builder.Configuration.GetConnectionString("RsmsDb")));
 
-// Register Services
-builder.Services.AddScoped<IStudentService, StudentService>();
-builder.Services.AddScoped<IStaffService, StaffService>();
-builder.Services.AddScoped<IUserService, UserService>();
-builder.Services.AddScoped<IRoleService, RoleService>();
-builder.Services.AddScoped<IAttendanceService, AttendanceService>();
-builder.Services.AddScoped<IInventoryService, InventoryService>();
-builder.Services.AddScoped<IAssetService, AssetService>();
-builder.Services.AddScoped<ISupplierService, SupplierService>();
+// Register Repositories
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IStudentRepository, StudentRepository>();
+builder.Services.AddScoped<IStaffRepository, StaffRepository>();
+builder.Services.AddScoped<IRoleRepository, RoleRepository>();
 builder.Services.AddScoped<IAssetRepository, AssetRepository>();
 builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
-builder.Services.AddScoped<IStudentRepository, StudentRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
-builder.Services.AddScoped<IRoleRepository, RoleRepository>();
-builder.Services.AddScoped<IStaffRepository, StaffRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
+
+// Register Services
+builder.Services.AddScoped<IUserService, UserService>();
+builder.Services.AddScoped<IStudentService, StudentService>();
+builder.Services.AddScoped<IStaffService, StaffService>();
+builder.Services.AddScoped<IRoleService, RoleService>();
+builder.Services.AddScoped<IAssetService, AssetService>();
+builder.Services.AddScoped<ISupplierService, SupplierService>();
+builder.Services.AddScoped<IAttendanceService, AttendanceService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
+builder.Services.AddScoped<IReportsService, ReportsService>();
 
 // Register AutoMapper
-builder.Services.AddAutoMapper(typeof(MappingProfile));
-// Configure controllers with JSON options to handle cycles
+//builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);
+builder.Services.AddAutoMapper(config => { /* Optional config here */ },
+                              AppDomain.CurrentDomain.GetAssemblies());
+
+// Configure controllers
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -56,7 +60,7 @@ builder.Services.AddControllers()
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-// Register authentication
+// JWT Authentication
 builder.Services
     .AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(options =>
@@ -73,13 +77,15 @@ builder.Services
         };
     });
 
+// Authorization
 builder.Services.AddAuthorization();
+
+// Optional: API clients
 builder.Services.Configure<List<ApiClient>>(builder.Configuration.GetSection("Clients"));
-builder.Services.AddControllers();
 
 var app = builder.Build();
 
-// Configure the HTTP request pipeline.
+// Configure pipeline
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
@@ -87,7 +93,6 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
-
 app.UseAuthentication();
 app.UseAuthorization();
 

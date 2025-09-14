@@ -5,7 +5,7 @@ namespace RSMS.Services.Interfaces
     {
         public Guid Id { get; set; }
         public Guid StudentId { get; set; }
-        public int Date { get; set; }
+        public DateTime AttendanceDate { get; set; }
         public string Status { get; set; }
     }
 }

@@ -17,30 +17,30 @@ namespace RSMS.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<AssetDTO>> GetAllAsync()
+        public async Task<IEnumerable<AssetIssueDTO>> GetAllAsync()
         {
             var assets = await _repository.GetAllAsync();
-            return _mapper.Map<IEnumerable<AssetDTO>>(assets);
+            return _mapper.Map<IEnumerable<AssetIssueDTO>>(assets);
         }
 
-        public async Task<AssetDTO?> GetByIdAsync(Guid id)
+        public async Task<AssetIssueDTO?> GetByIdAsync(Guid id)
         {
             var asset = await _repository.GetByIdAsync(id);
-            return asset == null ? null : _mapper.Map<AssetDTO>(asset);
+            return asset == null ? null : _mapper.Map<AssetIssueDTO>(asset);
         }
 
-        public async Task<AssetDTO> AddAsync(AssetDTO dto)
+        public async Task<AssetIssueDTO> AddAsync(AssetIssueDTO dto)
         {
             var asset = _mapper.Map<AssetIssue>(dto);
             var created = await _repository.AddAsync(asset);
-            return _mapper.Map<AssetDTO>(created);
+            return _mapper.Map<AssetIssueDTO>(created);
         }
 
-        public async Task<AssetDTO> UpdateAsync(AssetDTO dto)
+        public async Task<AssetIssueDTO> UpdateAsync(AssetIssueDTO dto)
         {
             var asset = _mapper.Map<AssetIssue>(dto);
             var updated = await _repository.UpdateAsync(asset);
-            return _mapper.Map<AssetDTO>(updated);
+            return _mapper.Map<AssetIssueDTO>(updated);
         }
 
         public async Task<bool> DeleteAsync(Guid id)

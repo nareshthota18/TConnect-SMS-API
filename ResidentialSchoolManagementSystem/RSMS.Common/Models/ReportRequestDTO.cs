@@ -6,7 +6,7 @@ namespace RSMS.Common.Models
     {
         public int Id { get; set; }
         public TimeRange timeRange { get; set; }
-        public int StartDate { get; set; }
-        public int EndDate { get; set; }
+        public DateTime StartDate { get; set; }
+        public DateTime EndDate { get; set; }
     }
 }

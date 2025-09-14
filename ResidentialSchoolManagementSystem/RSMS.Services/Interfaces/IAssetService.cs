@@ -4,10 +4,10 @@ namespace RSMS.Services.Interfaces
 {
     public interface IAssetService
     {
-        Task<IEnumerable<AssetDTO>> GetAllAsync();
-        Task<AssetDTO?> GetByIdAsync(Guid id);
-        Task<AssetDTO> AddAsync(AssetDTO asset);
-        Task<AssetDTO> UpdateAsync(AssetDTO asset);
+        Task<IEnumerable<AssetIssueDTO>> GetAllAsync();
+        Task<AssetIssueDTO?> GetByIdAsync(Guid id);
+        Task<AssetIssueDTO> AddAsync(AssetIssueDTO asset);
+        Task<AssetIssueDTO> UpdateAsync(AssetIssueDTO asset);
         Task<bool> DeleteAsync(Guid id);
     }
 }

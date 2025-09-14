@@ -31,13 +31,13 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<StudentAttendanceDTO>> CreateStudentAttendance(StudentAttendanceDTO att)
         {
             var created = await _attendanceService.AddStudentAttendanceAsync(att);
-            return CreatedAtAction(nameof(GetStudentAttendance), new { id = created.AttendanceId }, created);
+            return CreatedAtAction(nameof(GetStudentAttendance), new { id = created.Id }, created);
         }
 
         [HttpPut("students/{id:guid}")]
         public async Task<ActionResult<StudentAttendanceDTO>> UpdateStudentAttendance(Guid id, StudentAttendanceDTO att)
         {
-            if (id != att.AttendanceId) return BadRequest("ID mismatch");
+            if (id != att.Id) return BadRequest("ID mismatch");
             var updated = await _attendanceService.UpdateStudentAttendanceAsync(att);
             return Ok(updated);
         }

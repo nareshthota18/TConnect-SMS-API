@@ -1,13 +1,16 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace RSMS.Common.Models
+﻿namespace RSMS.Common.Models
 {
     public class StudentAttendanceDTO
     {
-        public Guid AttendanceId { get; set; }
+        public Guid Id { get; set; }
+        public Guid StudentId { get; set; }
+        public DateTime AttendanceDate { get; set; }
+        public string Session { get; set; } = "Morning";
+        public string Status { get; set; } = "Present";
+        public string? Remarks { get; set; }
+
+        
+        public string? StudentName { get; set; }
+        public string? AdmissionNumber { get; set; }
     }
 }

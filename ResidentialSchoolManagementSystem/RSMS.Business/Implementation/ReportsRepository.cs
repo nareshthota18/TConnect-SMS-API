@@ -16,14 +16,14 @@ namespace RSMS.Repositories.Implementation
         }
 
         public async Task<IEnumerable<AttendanceReportDTO>> GetAllAttendanceTimeRange(ReportRequestDTO request)
-        {        
+        {
             var query = await _context.StudentAttendance
-                .Where(a => a.Date >= request.StartDate && a.Date <= request.EndDate)
+                .Where(a => a.AttendanceDate >= request.StartDate && a.AttendanceDate <= request.EndDate)
                 .Select(a => new AttendanceReportDTO
                 {
                     Id = a.Id,
                     StudentId = a.StudentId,
-                    Date = a.Date,
+                    AttendanceDate = a.AttendanceDate,
                     Status = a.Status
                 })
                 .ToListAsync();

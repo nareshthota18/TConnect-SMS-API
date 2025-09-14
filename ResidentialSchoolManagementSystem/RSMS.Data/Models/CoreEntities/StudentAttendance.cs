@@ -12,6 +12,5 @@ namespace RSMS.Data.Models.CoreEntities
         public string? Remarks { get; set; }
 
         public Student Student { get; set; } = default!;
-        public int Date { get; set; }
     }
 }
