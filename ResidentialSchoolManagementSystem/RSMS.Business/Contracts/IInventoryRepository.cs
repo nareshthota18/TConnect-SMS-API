@@ -1,18 +1,13 @@
-﻿using RSMS.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RSMS.Data.Models.InventoryEntities;
 
 namespace RSMS.Business.Contracts
 {
     public interface IInventoryRepository
     {
-        Task<ItemDTO?> GetItemByIdAsync(Guid id);
-        Task<IEnumerable<ItemDTO>> GetAllItemsAsync();
-        Task<ItemDTO> AddItemAsync(ItemDTO item);
-        Task<ItemDTO> UpdateItemAsync(ItemDTO item);
-        Task<bool> DeleteItemAsync(Guid id);
+        Task<IEnumerable<Item>> GetAllAsync();
+        Task<Item?> GetByIdAsync(Guid id);
+        Task<Item> AddAsync(Item item);
+        Task<Item> UpdateAsync(Item item);
+        Task<bool> DeleteAsync(Guid id);
     }
 }

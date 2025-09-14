@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.SecurityEntities;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -10,45 +8,48 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
-        private readonly IUserRepository _service;
+        private readonly IUserService _userService;
 
-        public UsersController(IUserRepository service)
+        public UsersController(IUserService userService)
         {
-            _service = service;
+            _userService = userService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
-            => Ok(await _service.GetAllAsync());
+        {
+            var users = await _userService.GetAllAsync();
+            return Ok(users);
+        }
 
-        [HttpGet("{id:long}")]
+        [HttpGet("{id:Guid}")]
         public async Task<ActionResult<UserDTO>> GetById(Guid id)
         {
-            var user = await _service.GetByIdAsync(id);
+            var user = await _userService.GetByIdAsync(id);
             return user == null ? NotFound() : Ok(user);
         }
 
         [HttpPost]
         public async Task<ActionResult<UserDTO>> Create(UserDTO user)
         {
-            var created = await _service.AddAsync(user);
+            var created = await _userService.AddAsync(user);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:long}")]
+        [HttpPut("{id:Guid}")]
         public async Task<ActionResult<UserDTO>> Update(Guid id, UserDTO user)
         {
             if (id != user.Id) return BadRequest("ID mismatch");
-
-            var updated = await _service.UpdateAsync(user);
+            var updated = await _userService.UpdateAsync(user);
             return Ok(updated);
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _service.DeleteAsync(id);
+            var result = await _userService.DeleteAsync(id);
             return result ? NoContent() : NotFound();
         }
     }
+
 }

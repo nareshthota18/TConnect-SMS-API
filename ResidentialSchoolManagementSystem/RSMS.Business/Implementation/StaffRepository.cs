@@ -1,47 +1,59 @@
 ﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RSMS.Data;
+using RSMS.Data.Models.CoreEntities;
 
 namespace RSMS.Business.Implementation
 {
     public class StaffRepository : IStaffRepository
     {
-        private readonly IStaffService _staffService;
+        private readonly RSMSDbContext _context;
         private readonly IMapper _mapper;
-        public StaffRepository(IStaffService staffService, IMapper mapper)
+
+        public StaffRepository(RSMSDbContext context, IMapper mapper)
         {
-            _staffService = staffService;
+            _context = context;
             _mapper = mapper;
         }
-        public Task<StaffDTO> AddAsync(StaffDTO staff)
+
+        public async Task<IEnumerable<StaffDTO>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            var staffs = await _context.Staff.ToListAsync();
+            return _mapper.Map<IEnumerable<StaffDTO>>(staffs);
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<StaffDTO?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var staff = await _context.Staff.FindAsync(id);
+            return _mapper.Map<StaffDTO>(staff);
         }
 
-        public Task<IEnumerable<StaffDTO>> GetAllAsync()
+        public async Task<StaffDTO> AddAsync(StaffDTO staffDto)
         {
-            throw new NotImplementedException();
+            var staff = _mapper.Map<Staff>(staffDto);
+            _context.Staff.Add(staff);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<StaffDTO>(staff);
         }
 
-        public Task<StaffDTO?> GetByIdAsync(Guid id)
+        public async Task<StaffDTO> UpdateAsync(StaffDTO staffDto)
         {
-            throw new NotImplementedException();
+            var staff = _mapper.Map<Staff>(staffDto);
+            _context.Staff.Update(staff);
+            await _context.SaveChangesAsync();
+            return _mapper.Map<StaffDTO>(staff);
         }
 
-        public Task<StaffDTO> UpdateAsync(StaffDTO staff)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var staff = await _context.Staff.FindAsync(id);
+            if (staff == null) return false;
+
+            _context.Staff.Remove(staff);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -1,18 +1,13 @@
-﻿using RSMS.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Business.Contracts
 {
-    public interface ISuppilerRepository
+    public interface ISupplierRepository
     {
-        Task<SupplierDTO?> GetByIdAsync(Guid id);
-        Task<IEnumerable<SupplierDTO>> GetAllAsync();
-        Task<SupplierDTO> AddAsync(SupplierDTO supplier);
-        Task<SupplierDTO> UpdateAsync(SupplierDTO supplier);
+        Task<IEnumerable<Supplier>> GetAllAsync();
+        Task<Supplier?> GetByIdAsync(Guid id);
+        Task<Supplier> AddAsync(Supplier supplier);
+        Task<Supplier> UpdateAsync(Supplier supplier);
         Task<bool> DeleteAsync(Guid id);
     }
 }

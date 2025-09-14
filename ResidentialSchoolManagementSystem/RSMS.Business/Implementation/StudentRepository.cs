@@ -1,56 +1,57 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
-using RSMS.Common.Models;
+using RSMS.Data;
 using RSMS.Data.Models.CoreEntities;
-using RSMS.Data.Models.InventoryEntities;
-using RSMS.Services.Implementations;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RSMS.Business.Implementation
 {
     public class StudentRepository : IStudentRepository
     {
-        private readonly IStudentService _studentService;
-        private readonly IMapper _mapper;
-        public StudentRepository(IStudentService studentService, IMapper mapper)
+        private readonly RSMSDbContext _context;
+
+        public StudentRepository(RSMSDbContext context)
         {
-            _studentService = studentService;
-            _mapper = mapper;
-        }
-        public async Task<StudentDTO> AddStudentAsync(StudentDTO student)
-        {
-            var std = _mapper.Map<Student>(student);
-            var newstd = await _studentService.AddStudentAsync(std);
-            return _mapper.Map<StudentDTO>(newstd);
+            _context = context;
         }
 
-        public async Task<bool> DeleteStudentAsync(Guid id)
+        public async Task<IEnumerable<Student>> GetAllAsync()
         {
-            return await _studentService.DeleteStudentAsync(id);
+            return await _context.Students
+                .Include(s => s.Grade)
+                .Include(s => s.RSHostel)
+                .ToListAsync();
         }
 
-        public async Task<IEnumerable<StudentDTO>> GetAllStudentsAsync()
+        public async Task<Student?> GetByIdAsync(Guid id)
         {
-            var students = await _studentService.GetAllStudentsAsync();
-            return _mapper.Map<IEnumerable<StudentDTO>>(students);
+            return await _context.Students
+                .Include(s => s.Grade)
+                .Include(s => s.RSHostel)
+                .FirstOrDefaultAsync(s => s.Id == id);
         }
 
-        public async Task<StudentDTO?> GetStudentByIdAsync(Guid id)
+        public async Task<Student> AddAsync(Student student)
         {
-            var std = await _studentService.GetStudentByIdAsync(id);
-            return _mapper.Map<StudentDTO>(std);
+            _context.Students.Add(student);
+            await _context.SaveChangesAsync();
+            return student;
         }
 
-        public async Task<StudentDTO> UpdateStudentAsync(StudentDTO student)
+        public async Task<Student> UpdateAsync(Student student)
         {
-            var std = _mapper.Map<Student>(student);
-            var newstd = await _studentService.UpdateStudentAsync(std);
-            return _mapper.Map<StudentDTO>(newstd);
+            _context.Students.Update(student);
+            await _context.SaveChangesAsync();
+            return student;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var student = await _context.Students.FindAsync(id);
+            if (student == null) return false;
+
+            _context.Students.Remove(student);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

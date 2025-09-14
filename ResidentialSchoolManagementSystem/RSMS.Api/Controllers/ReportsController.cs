@@ -1,26 +1,24 @@
-﻿using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
+﻿using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.Models;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
 {
-    [Route("api/[controller]")]
     [ApiController]
+    [Route("api/[controller]")]
     public class ReportsController : ControllerBase
     {
-        private readonly IReportsRepository _reportsRepository;
+        private readonly IReportsService _service;
 
-        public ReportsController(IReportsRepository reportsRepository)
+        public ReportsController(IReportsService service)
         {
-            _reportsRepository = reportsRepository;
+            _service = service;
         }
 
         [HttpPost("GetAllAttendanceTimeRange")]
-        public async Task<ActionResult<ReportRequestDTO>> GetAllAttendanceTimeRange(ReportRequestDTO att)
+        public async Task<ActionResult<IEnumerable<AttendanceReportDTO>>> GetAllAttendanceTimeRange(ReportRequestDTO request)
         {
-            var result = await _reportsRepository.GetAllAttendanceTimeRange(att);
+            var result = await _service.GetAllAttendanceTimeRange(request);
             return Ok(result);
         }
     }

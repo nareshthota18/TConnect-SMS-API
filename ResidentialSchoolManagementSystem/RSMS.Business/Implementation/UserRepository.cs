@@ -1,61 +1,58 @@
-﻿using AutoMapper;
-using Azure.Core;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
-using RSMS.Common;
-using RSMS.Common.Models;
-using RSMS.Services.Implementations;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RSMS.Data;
+using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Business.Implementation
 {
     public class UserRepository : IUserRepository
     {
-        private readonly IUserService _userService;
-        public UserRepository(IUserService userService)
-        {
-            _userService = userService;
+        private readonly RSMSDbContext _context;
 
-        }
-        public Task<UserDTO> AddAsync(UserDTO user)
+        public UserRepository(RSMSDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<IEnumerable<User>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Users.ToListAsync();
         }
 
-        public Task<IEnumerable<UserDTO>> GetAllAsync()
+        public async Task<User?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Users.FindAsync(id);
         }
 
-        public Task<UserDTO?> GetByIdAsync(Guid id)
+        public async Task<User> AddAsync(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.Add(user);
+            await _context.SaveChangesAsync();
+            return user;
         }
 
-        public Task<UserDTO> UpdateAsync(UserDTO user)
+        public async Task<User> UpdateAsync(User user)
         {
-            throw new NotImplementedException();
+            _context.Users.Update(user);
+            await _context.SaveChangesAsync();
+            return user;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var user = await _context.Users.FindAsync(id);
+            if (user == null) return false;
+
+            _context.Users.Remove(user);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
         public async Task<bool> ValidUser(string userName, string password)
         {
-            bool isValid = false;
-            var user = await _userService.Getuser(userName);
-           // UserDTO userDt =  _mapper.Map<UserDTO>(user);
-            if (user != null)
-            {
-                isValid = GeneratePasswordHash.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
-            }
-            return isValid;
+            //  This is plain-text matching. Replace with hashing in real use.
+            //return await _context.Users.AnyAsync(u => u.Username == userName && u.PasswordHash == password);
+            return false;
         }
     }
 }

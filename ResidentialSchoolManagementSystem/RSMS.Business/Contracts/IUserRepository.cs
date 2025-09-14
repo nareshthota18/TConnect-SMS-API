@@ -1,18 +1,13 @@
-﻿using RSMS.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Business.Contracts
 {
     public interface IUserRepository
     {
-        Task<UserDTO?> GetByIdAsync(Guid id);
-        Task<IEnumerable<UserDTO>> GetAllAsync();
-        Task<UserDTO> AddAsync(UserDTO user);
-        Task<UserDTO> UpdateAsync(UserDTO user);
+        Task<IEnumerable<User>> GetAllAsync();
+        Task<User?> GetByIdAsync(Guid id);
+        Task<User> AddAsync(User user);
+        Task<User> UpdateAsync(User user);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ValidUser(string userName, string password);
     }

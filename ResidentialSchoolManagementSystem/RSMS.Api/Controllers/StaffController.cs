@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.CoreEntities;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -10,9 +8,9 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class StaffController : ControllerBase
     {
-        private readonly IStaffRepository _service;
+        private readonly IStaffService _service;
 
-        public StaffController(IStaffRepository service)
+        public StaffController(IStaffService service)
         {
             _service = service;
         }
@@ -21,7 +19,7 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
-        [HttpGet("{id:long}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<StaffDTO>> GetById(Guid id)
         {
             var staff = await _service.GetByIdAsync(id);
@@ -35,7 +33,7 @@ namespace RSMS.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:long}")]
+        [HttpPut("{id:guid}")]
         public async Task<ActionResult<StaffDTO>> Update(Guid id, StaffDTO staff)
         {
             if (id != staff.Id) return BadRequest("ID mismatch");
@@ -44,7 +42,7 @@ namespace RSMS.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteAsync(id);

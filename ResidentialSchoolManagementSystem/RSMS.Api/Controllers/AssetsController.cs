@@ -1,8 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
+using System;
+using System.Collections.Generic;
+using System.Threading.Tasks;
 
 namespace RSMS.Api.Controllers
 {
@@ -10,41 +11,44 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class AssetsController : ControllerBase
     {
-        private readonly IAssetRepository _service;
+        private readonly IAssetService _service;
 
-        public AssetsController(IAssetRepository service)
+        public AssetsController(IAssetService service)
         {
             _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<AssetDTO>>> GetAll()
-            => Ok(await _service.GetAllAsync());
+        {
+            var assets = await _service.GetAllAsync();
+            return Ok(assets);
+        }
 
-        [HttpGet("{id:long}")]
+        [HttpGet("{id:Guid}")]
         public async Task<ActionResult<AssetDTO>> GetById(Guid id)
         {
-            var issue = await _service.GetByIdAsync(id);
-            return issue == null ? NotFound() : Ok(issue);
+            var asset = await _service.GetByIdAsync(id);
+            return asset == null ? NotFound() : Ok(asset);
         }
 
         [HttpPost]
-        public async Task<ActionResult<AssetDTO>> Create(AssetDTO issue)
+        public async Task<ActionResult<AssetDTO>> Create(AssetDTO asset)
         {
-            var created = await _service.AddAsync(issue);
-            return CreatedAtAction(nameof(GetById), new { id = created.IssueId }, created);
+            var created = await _service.AddAsync(asset);
+            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:long}")]
-        public async Task<ActionResult<AssetDTO>> Update(Guid id, AssetDTO issue)
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<AssetDTO>> Update(Guid id, AssetDTO asset)
         {
-            if (id != issue.IssueId) return BadRequest("ID mismatch");
+            if (id != asset.Id) return BadRequest("ID mismatch");
 
-            var updated = await _service.UpdateAsync(issue);
+            var updated = await _service.UpdateAsync(asset);
             return Ok(updated);
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteAsync(id);

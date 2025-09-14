@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.SecurityEntities;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -10,9 +8,9 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class RolesController : ControllerBase
     {
-        private readonly IRoleRepository _service;
+        private readonly IRoleService _service;
 
-        public RolesController(IRoleRepository service)
+        public RolesController(IRoleService service)
         {
             _service = service;
         }
@@ -21,7 +19,7 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<RoleDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<RoleDTO>> GetById(Guid id)
         {
             var role = await _service.GetByIdAsync(id);
@@ -35,7 +33,7 @@ namespace RSMS.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:guid}")]
         public async Task<ActionResult<RoleDTO>> Update(Guid id, RoleDTO role)
         {
             if (id != role.Id) return BadRequest("ID mismatch");
@@ -44,7 +42,7 @@ namespace RSMS.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteAsync(id);

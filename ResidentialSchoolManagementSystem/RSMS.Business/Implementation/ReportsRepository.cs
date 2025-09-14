@@ -1,28 +1,34 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
 using RSMS.Common.Models;
+using RSMS.Data;
 using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RSMS.Business.Implementation
 {
     public class ReportsRepository : IReportsRepository
     {
-        private readonly IReportsService _reportsService;
-        private readonly IMapper _mapper;
-        public ReportsRepository(IReportsService reportsService, IMapper mapper)
+        private readonly RSMSDbContext _context;
+
+        public ReportsRepository(RSMSDbContext context)
         {
-            _reportsService = reportsService;
-            _mapper = mapper;
+            _context = context;
         }
 
-        public Task<ReportRequestDTO?> GetAllAttendanceTimeRange(ReportRequestDTO att)
-        {
-            throw new NotImplementedException();
+        public async Task<IEnumerable<AttendanceReportDTO>> GetAllAttendanceTimeRange(ReportRequestDTO request)
+        {        
+            var query = await _context.StudentAttendance
+                .Where(a => a.Date >= request.StartDate && a.Date <= request.EndDate)
+                .Select(a => new AttendanceReportDTO
+                {
+                    Id = a.Id,
+                    StudentId = a.StudentId,
+                    Date = a.Date,
+                    Status = a.Status
+                })
+                .ToListAsync();
+
+            return query;
         }
     }
 }

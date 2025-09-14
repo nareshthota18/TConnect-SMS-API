@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
+using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
 {
@@ -8,28 +8,31 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentRepository _service;
+        private readonly IStudentService _studentService;
 
-        public StudentsController(IStudentRepository service)
+        public StudentsController(IStudentService studentService)
         {
-            _service = service;
+            _studentService = studentService;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDTO>>> GetAll()
-            => Ok(await _service.GetAllStudentsAsync());
+        {
+            var students = await _studentService.GetAllStudentsAsync();
+            return Ok(students);
+        }
 
         [HttpGet("{id:Guid}")]
         public async Task<ActionResult<StudentDTO>> GetById(Guid id)
         {
-            var student = await _service.GetStudentByIdAsync(id);
+            var student = await _studentService.GetStudentByIdAsync(id);
             return student == null ? NotFound() : Ok(student);
         }
 
         [HttpPost]
         public async Task<ActionResult<StudentDTO>> Create(StudentDTO student)
         {
-            var created = await _service.AddStudentAsync(student);
+            var created = await _studentService.AddStudentAsync(student);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
@@ -38,14 +41,14 @@ namespace RSMS.Api.Controllers
         {
             if (id != student.Id) return BadRequest("ID mismatch");
 
-            var updated = await _service.UpdateStudentAsync(student);
+            var updated = await _studentService.UpdateStudentAsync(student);
             return Ok(updated);
         }
 
         [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _service.DeleteStudentAsync(id);
+            var result = await _studentService.DeleteStudentAsync(id);
             return result ? NoContent() : NotFound();
         }
     }

@@ -1,47 +1,51 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
-using RSMS.Common.Models;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RSMS.Data;
+using RSMS.Data.Models.InventoryEntities;
 
-namespace RSMS.Business.Implementation
+namespace RSMS.Services.Implementations
 {
     public class InventoryRepository : IInventoryRepository
     {
-        private readonly IInventoryService _inventoryService;
-        private readonly IMapper _mapper;
-        public InventoryRepository(IInventoryService inventoryService, IMapper mapper)
+        private readonly RSMSDbContext _context;
+
+        public InventoryRepository(RSMSDbContext context)
         {
-            _inventoryService = inventoryService;
-            _mapper = mapper;
-        }
-        public Task<ItemDTO> AddItemAsync(ItemDTO item)
-        {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<bool> DeleteItemAsync(Guid id)
+        public async Task<IEnumerable<Item>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Items.Include(i => i.ItemType).ToListAsync();
         }
 
-        public Task<IEnumerable<ItemDTO>> GetAllItemsAsync()
+        public async Task<Item?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Items.Include(i => i.ItemType).FirstOrDefaultAsync(i => i.Id == id);
         }
 
-        public Task<ItemDTO?> GetItemByIdAsync(Guid id)
+        public async Task<Item> AddAsync(Item item)
         {
-            throw new NotImplementedException();
+            _context.Items.Add(item);
+            await _context.SaveChangesAsync();
+            return item;
         }
 
-        public Task<ItemDTO> UpdateItemAsync(ItemDTO item)
+        public async Task<Item> UpdateAsync(Item item)
         {
-            throw new NotImplementedException();
+            _context.Items.Update(item);
+            await _context.SaveChangesAsync();
+            return item;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var item = await _context.Items.FindAsync(id);
+            if (item == null) return false;
+
+            _context.Items.Remove(item);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

@@ -1,18 +1,13 @@
-﻿using RSMS.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Business.Contracts
 {
     public interface IRoleRepository
     {
-        Task<RoleDTO?> GetByIdAsync(Guid id);
-        Task<IEnumerable<RoleDTO>> GetAllAsync();
-        Task<RoleDTO> AddAsync(RoleDTO role);
-        Task<RoleDTO> UpdateAsync(RoleDTO role);
+        Task<IEnumerable<Role>> GetAllAsync();
+        Task<Role?> GetByIdAsync(Guid id);
+        Task<Role> AddAsync(Role role);
+        Task<Role> UpdateAsync(Role role);
         Task<bool> DeleteAsync(Guid id);
     }
 }

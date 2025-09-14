@@ -1,24 +1,22 @@
-﻿using RSMS.Common.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using RSMS.Data.Models;
+using RSMS.Data.Models.CoreEntities;
 
 namespace RSMS.Business.Contracts
 {
     public interface IAttendanceRepository
     {
-        Task<StudentAttendanceDTO?> GetStudentAttendanceByIdAsync(Guid id);
-        Task<IEnumerable<StudentAttendanceDTO>> GetAllStudentAttendanceAsync();
-        Task<StudentAttendanceDTO> AddStudentAttendanceAsync(StudentAttendanceDTO attendance);
-        Task<StudentAttendanceDTO> UpdateStudentAttendanceAsync(StudentAttendanceDTO attendance);
+        // Student attendance
+        Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync();
+        Task<StudentAttendance?> GetStudentAttendanceByIdAsync(Guid id);
+        Task<StudentAttendance> AddStudentAttendanceAsync(StudentAttendance att);
+        Task<StudentAttendance> UpdateStudentAttendanceAsync(StudentAttendance att);
         Task<bool> DeleteStudentAttendanceAsync(Guid id);
 
-        Task<StaffAttendanceDTO?> GetStaffAttendanceByIdAsync(Guid id);
-        Task<IEnumerable<StaffAttendanceDTO>> GetAllStaffAttendanceAsync();
-        Task<StaffAttendanceDTO> AddStaffAttendanceAsync(StaffAttendanceDTO attendance);
-        Task<StaffAttendanceDTO> UpdateStaffAttendanceAsync(StaffAttendanceDTO attendance);
+        // Staff attendance
+        Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync();
+        Task<StaffAttendance?> GetStaffAttendanceByIdAsync(Guid id);
+        Task<StaffAttendance> AddStaffAttendanceAsync(StaffAttendance att);
+        Task<StaffAttendance> UpdateStaffAttendanceAsync(StaffAttendance att);
         Task<bool> DeleteStaffAttendanceAsync(Guid id);
     }
 }

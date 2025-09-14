@@ -1,13 +1,13 @@
-﻿using RSMS.Data.Models.CoreEntities;
+﻿using RSMS.Common.Models;
 
 namespace RSMS.Services.Interfaces
 {
     public interface IStaffService
     {
-        Task<Staff?> GetByIdAsync(Guid id);
-        Task<IEnumerable<Staff>> GetAllAsync();
-        Task<Staff> AddAsync(Staff staff);
-        Task<Staff> UpdateAsync(Staff staff);
+        Task<IEnumerable<StaffDTO>> GetAllAsync();
+        Task<StaffDTO?> GetByIdAsync(Guid id);
+        Task<StaffDTO> AddAsync(StaffDTO staff);
+        Task<StaffDTO> UpdateAsync(StaffDTO staff);
         Task<bool> DeleteAsync(Guid id);
     }
 }

@@ -1,20 +1,19 @@
-﻿using RSMS.Data;
+﻿using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RSMS.Services.Implementations
 {
     public class ReportsService : IReportsService
     {
-        private readonly RSMSDbContext _context;
+        private readonly IReportsRepository _repository;
 
-        public ReportsService(RSMSDbContext context)
+        public ReportsService(IReportsRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
+
+        public async Task<IEnumerable<AttendanceReportDTO>> GetAllAttendanceTimeRange(ReportRequestDTO request) =>
+            await _repository.GetAllAttendanceTimeRange(request);
     }
 }

@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.LookupEntities;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -10,18 +8,21 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class SuppliersController : ControllerBase
     {
-        private readonly ISuppilerRepository _service;
+        private readonly ISupplierService _service;
 
-        public SuppliersController(ISuppilerRepository service)
+        public SuppliersController(ISupplierService service)
         {
             _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetAll()
-            => Ok(await _service.GetAllAsync());
+        {
+            var suppliers = await _service.GetAllAsync();
+            return Ok(suppliers);
+        }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:Guid}")]
         public async Task<ActionResult<SupplierDTO>> GetById(Guid id)
         {
             var supplier = await _service.GetByIdAsync(id);
@@ -35,16 +36,17 @@ namespace RSMS.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:int}")]
+        [HttpPut("{id:Guid}")]
         public async Task<ActionResult<SupplierDTO>> Update(Guid id, SupplierDTO supplier)
         {
-            if (id != supplier.Id) return BadRequest("ID mismatch");
+            if (id != supplier.Id)
+                return BadRequest("ID mismatch");
 
             var updated = await _service.UpdateAsync(supplier);
             return Ok(updated);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteAsync(id);

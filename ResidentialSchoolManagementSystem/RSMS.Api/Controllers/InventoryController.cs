@@ -1,7 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Business.Contracts;
 using RSMS.Common.Models;
-using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -10,18 +8,21 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     public class InventoryController : ControllerBase
     {
-        private readonly IInventoryRepository _service;
+        private readonly IInventoryService _service;
 
-        public InventoryController(IInventoryRepository service)
+        public InventoryController(IInventoryService service)
         {
             _service = service;
         }
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
-            => Ok(await _service.GetAllItemsAsync());
+        {
+            var items = await _service.GetAllItemsAsync();
+            return Ok(items);
+        }
 
-        [HttpGet("{id:int}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<ItemDTO>> GetById(Guid id)
         {
             var item = await _service.GetItemByIdAsync(id);
@@ -35,16 +36,15 @@ namespace RSMS.Api.Controllers
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<Item>> Update(Guid id, ItemDTO item)
+        [HttpPut("{id:guid}")]
+        public async Task<ActionResult<ItemDTO>> Update(Guid id, ItemDTO item)
         {
             if (id != item.Id) return BadRequest("ID mismatch");
-
             var updated = await _service.UpdateItemAsync(item);
             return Ok(updated);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteItemAsync(id);

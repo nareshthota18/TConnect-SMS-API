@@ -1,47 +1,47 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
-using RSMS.Common.Models;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RSMS.Data;
+using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Business.Implementation
 {
-    public class SuppilerRepository : ISuppilerRepository
+    public class SupplierRepository : ISupplierRepository
     {
-        private readonly ISupplierService _supplierService;
-        private readonly IMapper _mapper;
-        public SuppilerRepository(ISupplierService supplierService,IMapper mapper) 
-        { 
-            _supplierService = supplierService;
-            _mapper = mapper;
-        }
-        public Task<SupplierDTO> AddAsync(SupplierDTO supplier)
+        private readonly RSMSDbContext _context;
+
+        public SupplierRepository(RSMSDbContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<IEnumerable<Supplier>> GetAllAsync()
+            => await _context.Suppliers.ToListAsync();
+
+        public async Task<Supplier?> GetByIdAsync(Guid id)
+            => await _context.Suppliers.FindAsync(id);
+
+        public async Task<Supplier> AddAsync(Supplier supplier)
         {
-            throw new NotImplementedException();
+            _context.Suppliers.Add(supplier);
+            await _context.SaveChangesAsync();
+            return supplier;
         }
 
-        public Task<IEnumerable<SupplierDTO>> GetAllAsync()
+        public async Task<Supplier> UpdateAsync(Supplier supplier)
         {
-            throw new NotImplementedException();
+            _context.Suppliers.Update(supplier);
+            await _context.SaveChangesAsync();
+            return supplier;
         }
 
-        public Task<SupplierDTO?> GetByIdAsync(Guid id)
+        public async Task<bool> DeleteAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
+            var supplier = await _context.Suppliers.FindAsync(id);
+            if (supplier == null) return false;
 
-        public Task<SupplierDTO> UpdateAsync(SupplierDTO supplier)
-        {
-            throw new NotImplementedException();
+            _context.Suppliers.Remove(supplier);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

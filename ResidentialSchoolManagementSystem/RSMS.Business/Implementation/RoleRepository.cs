@@ -1,47 +1,51 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
-using RSMS.Common.Models;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RSMS.Data;
+using RSMS.Data.Models.SecurityEntities;
 
-namespace RSMS.Business.Implementation
+namespace RSMS.Services.Implementations
 {
     public class RoleRepository : IRoleRepository
     {
-        private readonly IRoleService _roleService;
-        private readonly IMapper _mapper;
-        public RoleRepository(IRoleService roleService, IMapper mapper)
+        private readonly RSMSDbContext _context;
+
+        public RoleRepository(RSMSDbContext context)
         {
-            _roleService = roleService;
-            _mapper = mapper;
-        }
-        public Task<RoleDTO> AddAsync(RoleDTO role)
-        {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<bool> DeleteAsync(Guid id)
+        public async Task<IEnumerable<Role>> GetAllAsync()
         {
-            throw new NotImplementedException();
+            return await _context.Roles.ToListAsync();
         }
 
-        public Task<IEnumerable<RoleDTO>> GetAllAsync()
+        public async Task<Role?> GetByIdAsync(Guid id)
         {
-            throw new NotImplementedException();
+            return await _context.Roles.FindAsync(id);
         }
 
-        public Task<RoleDTO?> GetByIdAsync(Guid id)
+        public async Task<Role> AddAsync(Role role)
         {
-            throw new NotImplementedException();
+            _context.Roles.Add(role);
+            await _context.SaveChangesAsync();
+            return role;
         }
 
-        public Task<RoleDTO> UpdateAsync(RoleDTO role)
+        public async Task<Role> UpdateAsync(Role role)
         {
-            throw new NotImplementedException();
+            _context.Roles.Update(role);
+            await _context.SaveChangesAsync();
+            return role;
+        }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var role = await _context.Roles.FindAsync(id);
+            if (role == null) return false;
+
+            _context.Roles.Remove(role);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }

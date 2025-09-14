@@ -9,5 +9,6 @@ namespace RSMS.Common.Models
     public class AssetDTO
     {
         public Guid IssueId { get; set; }
+        public Guid Id { get; set; }
     }
 }

@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Data;
+﻿using AutoMapper;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Services.Interfaces;
 
@@ -7,47 +8,44 @@ namespace RSMS.Services.Implementations
 {
     public class RoleService : IRoleService
     {
-        private readonly RSMSDbContext _context;
+        private readonly IRoleRepository _repository;
+        private readonly IMapper _mapper;
 
-        public RoleService(RSMSDbContext context)
+        public RoleService(IRoleRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<Role?> GetByIdAsync(Guid id) =>
-            await _context.Roles
-                .Include(r => r.RolePermissions)
-                .ThenInclude(rp => rp.Permission)
-                .FirstOrDefaultAsync(r => r.Id == id);
-
-        public async Task<IEnumerable<Role>> GetAllAsync() =>
-            await _context.Roles
-                .Include(r => r.RolePermissions)
-                .ThenInclude(rp => rp.Permission)
-                .ToListAsync();
-
-        public async Task<Role> AddAsync(Role role)
+        public async Task<IEnumerable<RoleDTO>> GetAllAsync()
         {
-            _context.Roles.Add(role);
-            await _context.SaveChangesAsync();
-            return role;
+            var entities = await _repository.GetAllAsync();
+            return _mapper.Map<IEnumerable<RoleDTO>>(entities);
         }
 
-        public async Task<Role> UpdateAsync(Role role)
+        public async Task<RoleDTO?> GetByIdAsync(Guid id)
         {
-            _context.Roles.Update(role);
-            await _context.SaveChangesAsync();
-            return role;
+            var entity = await _repository.GetByIdAsync(id);
+            return _mapper.Map<RoleDTO>(entity);
+        }
+
+        public async Task<RoleDTO> AddAsync(RoleDTO role)
+        {
+            var entity = _mapper.Map<Role>(role);
+            var created = await _repository.AddAsync(entity);
+            return _mapper.Map<RoleDTO>(created);
+        }
+
+        public async Task<RoleDTO> UpdateAsync(RoleDTO role)
+        {
+            var entity = _mapper.Map<Role>(role);
+            var updated = await _repository.UpdateAsync(entity);
+            return _mapper.Map<RoleDTO>(updated);
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var role = await _context.Roles.FindAsync(id);
-            if (role == null) return false;
-
-            _context.Roles.Remove(role);
-            await _context.SaveChangesAsync();
-            return true;
+            return await _repository.DeleteAsync(id);
         }
     }
 }

@@ -12,7 +12,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\RSMS.Common\RSMS.Common.csproj" />
-    <ProjectReference Include="..\RSMS.Services\RSMS.Services.csproj" />
   </ItemGroup>
 
 </Project>

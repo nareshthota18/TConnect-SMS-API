@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Data;
+﻿using AutoMapper;
+using RSMS.Business.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
 
@@ -7,47 +8,44 @@ namespace RSMS.Services.Implementations
 {
     public class AssetService : IAssetService
     {
-        private readonly RSMSDbContext _context;
+        private readonly IAssetRepository _repository;
+        private readonly IMapper _mapper;
 
-        public AssetService(RSMSDbContext context)
+        public AssetService(IAssetRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<AssetIssue?> GetByIdAsync(Guid id) =>
-            await _context.AssetIssues
-                .Include(ai => ai.Student)
-                .Include(ai => ai.Item)
-                .FirstOrDefaultAsync(ai => ai.Id == id);
-
-        public async Task<IEnumerable<AssetIssue>> GetAllAsync() =>
-            await _context.AssetIssues
-                .Include(ai => ai.Student)
-                .Include(ai => ai.Item)
-                .ToListAsync();
-
-        public async Task<AssetIssue> AddAsync(AssetIssue issue)
+        public async Task<IEnumerable<AssetDTO>> GetAllAsync()
         {
-            _context.AssetIssues.Add(issue);
-            await _context.SaveChangesAsync();
-            return issue;
+            var assets = await _repository.GetAllAsync();
+            return _mapper.Map<IEnumerable<AssetDTO>>(assets);
         }
 
-        public async Task<AssetIssue> UpdateAsync(AssetIssue issue)
+        public async Task<AssetDTO?> GetByIdAsync(Guid id)
         {
-            _context.AssetIssues.Update(issue);
-            await _context.SaveChangesAsync();
-            return issue;
+            var asset = await _repository.GetByIdAsync(id);
+            return asset == null ? null : _mapper.Map<AssetDTO>(asset);
+        }
+
+        public async Task<AssetDTO> AddAsync(AssetDTO dto)
+        {
+            var asset = _mapper.Map<AssetIssue>(dto);
+            var created = await _repository.AddAsync(asset);
+            return _mapper.Map<AssetDTO>(created);
+        }
+
+        public async Task<AssetDTO> UpdateAsync(AssetDTO dto)
+        {
+            var asset = _mapper.Map<AssetIssue>(dto);
+            var updated = await _repository.UpdateAsync(asset);
+            return _mapper.Map<AssetDTO>(updated);
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var issue = await _context.AssetIssues.FindAsync(id);
-            if (issue == null) return false;
-
-            _context.AssetIssues.Remove(issue);
-            await _context.SaveChangesAsync();
-            return true;
+            return await _repository.DeleteAsync(id);
         }
     }
 }

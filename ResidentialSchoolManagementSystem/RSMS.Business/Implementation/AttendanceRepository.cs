@@ -1,72 +1,80 @@
-﻿using AutoMapper;
+﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Business.Contracts;
-using RSMS.Common.Models;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using RSMS.Data;
+using RSMS.Data.Models;
+using RSMS.Data.Models.CoreEntities;
 
 namespace RSMS.Business.Implementation
 {
     public class AttendanceRepository : IAttendanceRepository
     {
-        private readonly IAttendanceService _attendanceService;
-        private readonly IMapper _mapper;
-        public AttendanceRepository(IAttendanceService attendanceService,IMapper mapper)
+        private readonly RSMSDbContext _context;
+
+        public AttendanceRepository(RSMSDbContext context)
         {
-            _attendanceService = attendanceService; 
-            _mapper=mapper;
-        }
-        public Task<StaffAttendanceDTO> AddStaffAttendanceAsync(StaffAttendanceDTO attendance)
-        {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public Task<StudentAttendanceDTO> AddStudentAttendanceAsync(StudentAttendanceDTO attendance)
+        // Student Attendance
+        public async Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync() =>
+            await _context.StudentAttendance.ToListAsync();
+
+        public async Task<StudentAttendance?> GetStudentAttendanceByIdAsync(Guid id) =>
+            await _context.StudentAttendance.FindAsync(id);
+
+        public async Task<StudentAttendance> AddStudentAttendanceAsync(StudentAttendance att)
         {
-            throw new NotImplementedException();
+            _context.StudentAttendance.Add(att);
+            await _context.SaveChangesAsync();
+            return att;
         }
 
-        public Task<bool> DeleteStaffAttendanceAsync(Guid id)
+        public async Task<StudentAttendance> UpdateStudentAttendanceAsync(StudentAttendance att)
         {
-            throw new NotImplementedException();
+            _context.StudentAttendance.Update(att);
+            await _context.SaveChangesAsync();
+            return att;
         }
 
-        public Task<bool> DeleteStudentAttendanceAsync(Guid id)
+        public async Task<bool> DeleteStudentAttendanceAsync(Guid id)
         {
-            throw new NotImplementedException();
+            var att = await _context.StudentAttendance.FindAsync(id);
+            if (att == null) return false;
+
+            _context.StudentAttendance.Remove(att);
+            await _context.SaveChangesAsync();
+            return true;
         }
 
-        public Task<IEnumerable<StaffAttendanceDTO>> GetAllStaffAttendanceAsync()
+        // Staff Attendance
+        public async Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync() =>
+            await _context.StaffAttendance.ToListAsync();
+
+        public async Task<StaffAttendance?> GetStaffAttendanceByIdAsync(Guid id) =>
+            await _context.StaffAttendance.FindAsync(id);
+
+        public async Task<StaffAttendance> AddStaffAttendanceAsync(StaffAttendance att)
         {
-            throw new NotImplementedException();
+            _context.StaffAttendance.Add(att);
+            await _context.SaveChangesAsync();
+            return att;
         }
 
-        public Task<IEnumerable<StudentAttendanceDTO>> GetAllStudentAttendanceAsync()
+        public async Task<StaffAttendance> UpdateStaffAttendanceAsync(StaffAttendance att)
         {
-            throw new NotImplementedException();
+            _context.StaffAttendance.Update(att);
+            await _context.SaveChangesAsync();
+            return att;
         }
 
-        public Task<StaffAttendanceDTO?> GetStaffAttendanceByIdAsync(Guid id)
+        public async Task<bool> DeleteStaffAttendanceAsync(Guid id)
         {
-            throw new NotImplementedException();
-        }
+            var att = await _context.StaffAttendance.FindAsync(id);
+            if (att == null) return false;
 
-        public Task<StudentAttendanceDTO?> GetStudentAttendanceByIdAsync(Guid id)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<StaffAttendanceDTO> UpdateStaffAttendanceAsync(StaffAttendanceDTO attendance)
-        {
-            throw new NotImplementedException();
-        }
-
-        public Task<StudentAttendanceDTO> UpdateStudentAttendanceAsync(StudentAttendanceDTO attendance)
-        {
-            throw new NotImplementedException();
+            _context.StaffAttendance.Remove(att);
+            await _context.SaveChangesAsync();
+            return true;
         }
     }
 }
