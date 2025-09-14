@@ -7,7 +7,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\RSMS.Business\RSMS.Business.csproj" />
+    <ProjectReference Include="..\RSMS.Business\RSMS.Repositories.csproj" />
     <ProjectReference Include="..\RSMS.Common\RSMS.Common.csproj" />
     <ProjectReference Include="..\RSMS.Data\RSMS.Data.csproj" />
   </ItemGroup>

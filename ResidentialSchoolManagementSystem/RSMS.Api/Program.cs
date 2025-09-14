@@ -1,8 +1,8 @@
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using RSMS.Business.Contracts;
-using RSMS.Business.Implementation;
+using RSMS.Repositories.Contracts;
+using RSMS.Repositories.Implementation;
 using RSMS.Common.Models;
 using RSMS.Data;
 using RSMS.Services;

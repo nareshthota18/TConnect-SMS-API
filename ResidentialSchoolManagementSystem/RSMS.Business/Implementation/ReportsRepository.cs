@@ -1,10 +1,10 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Business.Contracts;
+using RSMS.Repositories.Contracts;
 using RSMS.Common.Models;
 using RSMS.Data;
 using RSMS.Services.Interfaces;
 
-namespace RSMS.Business.Implementation
+namespace RSMS.Repositories.Implementation
 {
     public class ReportsRepository : IReportsRepository
     {

@@ -1,4 +1,4 @@
-﻿using RSMS.Business.Contracts;
+﻿using RSMS.Repositories.Contracts;
 using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 

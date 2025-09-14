@@ -1,6 +1,6 @@
 ﻿using RSMS.Data.Models.LookupEntities;
 
-namespace RSMS.Business.Contracts
+namespace RSMS.Repositories.Contracts
 {
     public interface ISupplierRepository
     {

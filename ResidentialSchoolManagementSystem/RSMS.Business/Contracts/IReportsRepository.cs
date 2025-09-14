@@ -1,7 +1,7 @@
 ﻿using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 
-namespace RSMS.Business.Contracts
+namespace RSMS.Repositories.Contracts
 {
     public interface IReportsRepository
     {

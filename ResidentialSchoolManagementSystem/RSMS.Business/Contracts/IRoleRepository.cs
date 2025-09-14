@@ -1,6 +1,6 @@
 ﻿using RSMS.Data.Models.SecurityEntities;
 
-namespace RSMS.Business.Contracts
+namespace RSMS.Repositories.Contracts
 {
     public interface IRoleRepository
     {

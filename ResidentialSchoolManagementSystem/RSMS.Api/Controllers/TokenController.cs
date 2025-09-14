@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
-using RSMS.Business.Contracts;
+using RSMS.Repositories.Contracts;
 using RSMS.Common.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;

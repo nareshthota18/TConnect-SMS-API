@@ -1,6 +1,6 @@
 ﻿using RSMS.Common.Models;
 
-namespace RSMS.Business.Contracts
+namespace RSMS.Repositories.Contracts
 {
     public interface IStaffRepository
     {

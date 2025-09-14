@@ -1,6 +1,6 @@
 ﻿using RSMS.Data.Models.InventoryEntities;
 
-namespace RSMS.Business.Contracts
+namespace RSMS.Repositories.Contracts
 {
     public interface IInventoryRepository
     {

@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Business.Contracts;
+using RSMS.Repositories.Contracts;
 using RSMS.Data;
 using RSMS.Data.Models.SecurityEntities;
 
-namespace RSMS.Business.Implementation
+namespace RSMS.Repositories.Implementation
 {
     public class UserRepository : IUserRepository
     {

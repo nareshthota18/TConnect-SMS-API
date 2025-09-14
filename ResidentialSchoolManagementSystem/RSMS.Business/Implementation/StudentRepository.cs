@@ -1,9 +1,9 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Business.Contracts;
+using RSMS.Repositories.Contracts;
 using RSMS.Data;
 using RSMS.Data.Models.CoreEntities;
 
-namespace RSMS.Business.Implementation
+namespace RSMS.Repositories.Implementation
 {
     public class StudentRepository : IStudentRepository
     {

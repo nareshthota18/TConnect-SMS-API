@@ -13,8 +13,6 @@ namespace RSMS.Tests.Controllers
         {
             _mockService = new Mock<IStudentService>();
             _controller = new StudentsController(_mockService.Object);
-        }
-
-       
+        }       
     }
 }
