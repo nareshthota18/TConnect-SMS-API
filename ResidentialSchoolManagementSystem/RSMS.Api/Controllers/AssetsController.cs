@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 using System;
@@ -8,6 +9,7 @@ using System.Threading.Tasks;
 namespace RSMS.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class AssetsController : ControllerBase
     {
@@ -18,7 +20,7 @@ namespace RSMS.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<AssetIssueDTO>>> GetAll()
         {
             var assets = await _service.GetAllAsync();
