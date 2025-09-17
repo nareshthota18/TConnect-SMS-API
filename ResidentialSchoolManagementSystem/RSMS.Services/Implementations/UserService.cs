@@ -1,7 +1,8 @@
 ﻿using AutoMapper;
-using RSMS.Repositories.Contracts;
+using RSMS.Common;
 using RSMS.Common.Models;
 using RSMS.Data.Models.SecurityEntities;
+using RSMS.Repositories.Contracts;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Services.Implementations
@@ -32,6 +33,10 @@ namespace RSMS.Services.Implementations
         public async Task<UserDTO> AddAsync(UserDTO dto)
         {
             var user = _mapper.Map<User>(dto);
+            // Generate password hash and salt for a default password. we can generate random password and send it to user email.
+            (byte[] hashBytes, byte[] saltBytes)= GeneratePasswordHash.GetPasswordHash("Test@2025");
+            user.PasswordHash = hashBytes;
+            user.PasswordSalt = saltBytes;
             var created = await _userRepository.AddAsync(user);
             return _mapper.Map<UserDTO>(created);
         }

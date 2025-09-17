@@ -1,5 +1,4 @@
 ﻿using System.Security.Cryptography;
-using System.Text;
 
 namespace RSMS.Common
 {
@@ -7,25 +6,20 @@ namespace RSMS.Common
     {
         public static (byte[] Hash, byte[] Salt) GetPasswordHash(string password)
         {
-            // ex : string password = "Super@123"; 
+            byte[] salt = RandomNumberGenerator.GetBytes(16);
 
-            using (var hmac = new HMACSHA512())
-            {
-                byte[] salt = hmac.Key; // HMAC key = salt
-                byte[] hash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-                return (hash, salt);
-            }
+            var pbkdf2 = new Rfc2898DeriveBytes(password, salt, 100000, HashAlgorithmName.SHA512);
+
+            byte[] hash = pbkdf2.GetBytes(64); 
+
+            return (hash, salt);
         }
 
         public static bool VerifyPassword(string password, byte[] storedHash, byte[] storedSalt)
         {
-            using (var hmac = new HMACSHA512(storedSalt))
-            {
-                byte[] computedHash = hmac.ComputeHash(Encoding.UTF8.GetBytes(password));
-
-                // Compare byte by byte
-                return computedHash.SequenceEqual(storedHash);
-            }
+            var pbkdf2 = new Rfc2898DeriveBytes(password, storedSalt, 100000, HashAlgorithmName.SHA512);
+            byte[] computedHash = pbkdf2.GetBytes(64); 
+            return computedHash.SequenceEqual(storedHash);
         }
     }
 }
