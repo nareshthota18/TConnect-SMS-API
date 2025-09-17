@@ -3,6 +3,7 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using RSMS.Common.Models;
 using RSMS.Data;
+using RSMS.Data.Models.LookupEntities;
 using RSMS.Repositories.Contracts;
 using RSMS.Repositories.Implementation;
 using RSMS.Services;
@@ -42,6 +43,9 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IReportsService, ReportsService>();
+
+// Lookup Repository
+builder.Services.AddScoped<ILookupRepository<Category, Guid>, LookupRepository<Category, Guid>>();
 
 // Register AutoMapper
 //builder.Services.AddAutoMapper(typeof(MappingProfile).Assembly);

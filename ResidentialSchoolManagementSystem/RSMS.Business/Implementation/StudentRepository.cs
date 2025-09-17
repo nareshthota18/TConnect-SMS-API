@@ -39,10 +39,16 @@ namespace RSMS.Repositories.Implementation
 
         public async Task<Student> UpdateAsync(Student student)
         {
-            _context.Students.Update(student);
+            var existingStudent = await _context.Students
+                .FirstOrDefaultAsync(s => s.Id == student.Id);
+            if (existingStudent == null) throw new KeyNotFoundException();
+
+            _context.Entry(existingStudent).CurrentValues.SetValues(student);
+
             await _context.SaveChangesAsync();
-            return student;
+            return existingStudent;
         }
+
 
         public async Task<bool> DeleteAsync(Guid id)
         {
