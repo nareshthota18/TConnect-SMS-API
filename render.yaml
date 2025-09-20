@@ -1,0 +1,11 @@
+services:
+  - type: web
+    name: rsms-api
+    plan: free
+    rootDir: ResidentialSchoolManagementSystem/RSMS.Api
+    buildCommand: dotnet publish -c Release -o out
+    startCommand: dotnet out/RSMS.Api.dll
+    envVars:
+      - key: ASPNETCORE_ENVIRONMENT
+        value: Production
+
