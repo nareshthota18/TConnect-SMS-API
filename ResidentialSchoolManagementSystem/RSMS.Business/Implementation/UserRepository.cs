@@ -2,6 +2,7 @@
 using RSMS.Repositories.Contracts;
 using RSMS.Data;
 using RSMS.Data.Models.SecurityEntities;
+using RSMS.Common.Models;
 
 namespace RSMS.Repositories.Implementation
 {
@@ -53,6 +54,22 @@ namespace RSMS.Repositories.Implementation
             //  This is plain-text matching. Replace with hashing in real use.
             //return await _context.Users.AnyAsync(u => u.Username == userName && u.PasswordHash == password);
             return false;
+        }
+
+        public async Task<bool> UpdatePassword(ResetPassword user, byte[] PasswordHash, byte[] PasswordSalt)
+        {
+            var exuser = _context.Users.FirstOrDefault(u => u.Username == user.Username || u.Email == user.Username);
+            if (exuser != null)
+            {
+                exuser.PasswordHash = PasswordHash;
+                exuser.PasswordSalt = PasswordSalt;
+                await _context.SaveChangesAsync();
+                return true;
+            }
+            else
+            {
+                return false;
+            }
         }
     }
 }

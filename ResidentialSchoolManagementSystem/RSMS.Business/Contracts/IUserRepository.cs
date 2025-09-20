@@ -1,4 +1,5 @@
-﻿using RSMS.Data.Models.SecurityEntities;
+﻿using RSMS.Common.Models;
+using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Repositories.Contracts
 {
@@ -10,5 +11,6 @@ namespace RSMS.Repositories.Contracts
         Task<User> UpdateAsync(User user);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ValidUser(string userName, string password);
+        Task<bool> UpdatePassword(ResetPassword user, byte[] PasswordHash, byte[] PasswordSalt);
     }
 }

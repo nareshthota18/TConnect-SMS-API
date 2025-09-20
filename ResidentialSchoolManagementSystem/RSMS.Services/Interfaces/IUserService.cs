@@ -10,5 +10,6 @@ namespace RSMS.Services.Interfaces
         Task<UserDTO> UpdateAsync(UserDTO user);
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ValidUser(string userName, string password);
+        Task<bool> UpdatePassword(ResetPassword user);
     }
 }

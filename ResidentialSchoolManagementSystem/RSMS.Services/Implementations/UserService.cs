@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Identity;
 using RSMS.Common;
 using RSMS.Common.Models;
 using RSMS.Data.Models.SecurityEntities;
@@ -34,7 +35,7 @@ namespace RSMS.Services.Implementations
         {
             var user = _mapper.Map<User>(dto);
             // Generate password hash and salt for a default password. we can generate random password and send it to user email.
-            (byte[] hashBytes, byte[] saltBytes)= GeneratePasswordHash.GetPasswordHash("Test@2025");
+            (byte[] hashBytes, byte[] saltBytes) = GeneratePasswordHash.GetPasswordHash("Test@2025");
             user.PasswordHash = hashBytes;
             user.PasswordSalt = saltBytes;
             var created = await _userRepository.AddAsync(user);
@@ -55,7 +56,13 @@ namespace RSMS.Services.Implementations
 
         public async Task<bool> ValidUser(string userName, string password)
         {
-           return await _userRepository.ValidUser(userName, password);
+            return await _userRepository.ValidUser(userName, password);
+        }
+
+        public async Task<bool> UpdatePassword(ResetPassword user)
+        {
+            (byte[] hashBytes, byte[] saltBytes) = GeneratePasswordHash.GetPasswordHash(user.ConfirmPassword);
+            return await _userRepository.UpdatePassword(user, hashBytes, saltBytes);
         }
     }
 }

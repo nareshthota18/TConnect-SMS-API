@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.Models;
+using RSMS.Services.Implementations;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -51,6 +52,13 @@ namespace RSMS.Api.Controllers
         {
             var result = await _userService.DeleteAsync(id);
             return result ? NoContent() : NotFound();
+        }
+
+        [HttpPut("ResetPassword")]
+        public async Task<ActionResult> UpdatePassword(ResetPassword user)
+        {
+            var result = await _userService.UpdatePassword(user);
+            return result ? Ok() : NotFound();
         }
     }
 
