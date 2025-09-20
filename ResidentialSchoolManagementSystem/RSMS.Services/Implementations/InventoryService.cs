@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Data;
+﻿using AutoMapper;
+using RSMS.Repositories.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
 
@@ -7,41 +8,44 @@ namespace RSMS.Services.Implementations
 {
     public class InventoryService : IInventoryService
     {
-        private readonly RSMSDbContext _context;
+        private readonly IInventoryRepository _repository;
+        private readonly IMapper _mapper;
 
-        public InventoryService(RSMSDbContext context)
+        public InventoryService(IInventoryRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<Item?> GetItemByIdAsync(Guid id) =>
-            await _context.Items.Include(i => i.ItemType).FirstOrDefaultAsync(i => i.Id == id);
-
-        public async Task<IEnumerable<Item>> GetAllItemsAsync() =>
-            await _context.Items.Include(i => i.ItemType).ToListAsync();
-
-        public async Task<Item> AddItemAsync(Item item)
+        public async Task<IEnumerable<ItemDTO>> GetAllItemsAsync()
         {
-            _context.Items.Add(item);
-            await _context.SaveChangesAsync();
-            return item;
+            var entities = await _repository.GetAllAsync();
+            return _mapper.Map<IEnumerable<ItemDTO>>(entities);
         }
 
-        public async Task<Item> UpdateItemAsync(Item item)
+        public async Task<ItemDTO?> GetItemByIdAsync(Guid id)
         {
-            _context.Items.Update(item);
-            await _context.SaveChangesAsync();
-            return item;
+            var entity = await _repository.GetByIdAsync(id);
+            return _mapper.Map<ItemDTO>(entity);
+        }
+
+        public async Task<ItemDTO> AddItemAsync(ItemDTO item)
+        {
+            var entity = _mapper.Map<Item>(item);
+            var created = await _repository.AddAsync(entity);
+            return _mapper.Map<ItemDTO>(created);
+        }
+
+        public async Task<ItemDTO> UpdateItemAsync(ItemDTO item)
+        {
+            var entity = _mapper.Map<Item>(item);
+            var updated = await _repository.UpdateAsync(entity);
+            return _mapper.Map<ItemDTO>(updated);
         }
 
         public async Task<bool> DeleteItemAsync(Guid id)
         {
-            var item = await _context.Items.FindAsync(id);
-            if (item == null) return false;
-
-            _context.Items.Remove(item);
-            await _context.SaveChangesAsync();
-            return true;
+            return await _repository.DeleteAsync(id);
         }
     }
 }

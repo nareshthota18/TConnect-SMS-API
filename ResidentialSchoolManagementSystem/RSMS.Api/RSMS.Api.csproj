@@ -7,11 +7,14 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <PackageReference Include="AutoMapper" Version="15.0.1" />
+    <PackageReference Include="Microsoft.AspNetCore.Authentication.JwtBearer" Version="8.0.0" />
     <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="9.0.8" />
     <PackageReference Include="Swashbuckle.AspNetCore" Version="6.6.2" />
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\RSMS.Business\RSMS.Repositories.csproj" />
     <ProjectReference Include="..\RSMS.Common\RSMS.Common.csproj" />
     <ProjectReference Include="..\RSMS.Services\RSMS.Services.csproj" />
   </ItemGroup>

@@ -1,13 +1,13 @@
-﻿using RSMS.Data.Models.LookupEntities;
+﻿using RSMS.Common.Models;
 
 namespace RSMS.Services.Interfaces
 {
     public interface ISupplierService
     {
-        Task<Supplier?> GetByIdAsync(Guid id);
-        Task<IEnumerable<Supplier>> GetAllAsync();
-        Task<Supplier> AddAsync(Supplier supplier);
-        Task<Supplier> UpdateAsync(Supplier supplier);
+        Task<IEnumerable<SupplierDTO>> GetAllAsync();
+        Task<SupplierDTO?> GetByIdAsync(Guid id);
+        Task<SupplierDTO> AddAsync(SupplierDTO supplier);
+        Task<SupplierDTO> UpdateAsync(SupplierDTO supplier);
         Task<bool> DeleteAsync(Guid id);
     }
 }

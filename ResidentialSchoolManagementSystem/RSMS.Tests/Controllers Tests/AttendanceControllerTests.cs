@@ -1,8 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using Moq;
+﻿using Moq;
 using RSMS.Api.Controllers;
-using RSMS.Data.Models;
-using RSMS.Data.Models.CoreEntities;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Tests.Controllers

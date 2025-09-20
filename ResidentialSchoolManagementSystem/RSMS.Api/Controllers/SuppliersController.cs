@@ -1,10 +1,12 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Data.Models.LookupEntities;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class SuppliersController : ControllerBase
     {
@@ -16,33 +18,37 @@ namespace RSMS.Api.Controllers
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Supplier>>> GetAll()
-            => Ok(await _service.GetAllAsync());
+        public async Task<ActionResult<IEnumerable<SupplierDTO>>> GetAll()
+        {
+            var suppliers = await _service.GetAllAsync();
+            return Ok(suppliers);
+        }
 
-        [HttpGet("{id:int}")]
-        public async Task<ActionResult<Supplier>> GetById(Guid id)
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<SupplierDTO>> GetById(Guid id)
         {
             var supplier = await _service.GetByIdAsync(id);
             return supplier == null ? NotFound() : Ok(supplier);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Supplier>> Create(Supplier supplier)
+        public async Task<ActionResult<SupplierDTO>> Create(SupplierDTO supplier)
         {
             var created = await _service.AddAsync(supplier);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:int}")]
-        public async Task<ActionResult<Supplier>> Update(Guid id, Supplier supplier)
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<SupplierDTO>> Update(Guid id, SupplierDTO supplier)
         {
-            if (id != supplier.Id) return BadRequest("ID mismatch");
+            if (id != supplier.Id)
+                return BadRequest("ID mismatch");
 
             var updated = await _service.UpdateAsync(supplier);
             return Ok(updated);
         }
 
-        [HttpDelete("{id:int}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteAsync(id);

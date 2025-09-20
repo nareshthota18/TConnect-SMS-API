@@ -1,51 +1,56 @@
-﻿using Microsoft.AspNetCore.Mvc;
-using RSMS.Data.Models.CoreEntities;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
+using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
 {
     [ApiController]
+    [Authorize]
     [Route("api/[controller]")]
     public class StudentsController : ControllerBase
     {
-        private readonly IStudentService _service;
+        private readonly IStudentService _studentService;
 
-        public StudentsController(IStudentService service)
+        public StudentsController(IStudentService studentService)
         {
-            _service = service;
+            _studentService = studentService;
         }
 
         [HttpGet]
-        public async Task<ActionResult<IEnumerable<Student>>> GetAll()
-            => Ok(await _service.GetAllStudentsAsync());
-
-        [HttpGet("{id:long}")]
-        public async Task<ActionResult<Student>> GetById(Guid id)
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> GetAll()
         {
-            var student = await _service.GetStudentByIdAsync(id);
+            var students = await _studentService.GetAllStudentsAsync();
+            return Ok(students);
+        }
+
+        [HttpGet("{id:Guid}")]
+        public async Task<ActionResult<StudentDTO>> GetById(Guid id)
+        {
+            var student = await _studentService.GetStudentByIdAsync(id);
             return student == null ? NotFound() : Ok(student);
         }
 
         [HttpPost]
-        public async Task<ActionResult<Student>> Create(Student student)
+        public async Task<ActionResult<StudentDTO>> Create(StudentDTO student)
         {
-            var created = await _service.AddStudentAsync(student);
+            var created = await _studentService.AddStudentAsync(student);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:long}")]
-        public async Task<ActionResult<Student>> Update(Guid id, Student student)
+        [HttpPut("{id:Guid}")]
+        public async Task<ActionResult<StudentDTO>> Update(Guid id, StudentDTO student)
         {
             if (id != student.Id) return BadRequest("ID mismatch");
 
-            var updated = await _service.UpdateStudentAsync(student);
+            var updated = await _studentService.UpdateStudentAsync(student);
             return Ok(updated);
         }
 
-        [HttpDelete("{id:long}")]
+        [HttpDelete("{id:Guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
-            var result = await _service.DeleteStudentAsync(id);
+            var result = await _studentService.DeleteStudentAsync(id);
             return result ? NoContent() : NotFound();
         }
     }

@@ -1,5 +1,6 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Data;
+﻿using AutoMapper;
+using RSMS.Repositories.Contracts;
+using RSMS.Common.Models;
 using RSMS.Data.Models.LookupEntities;
 using RSMS.Services.Interfaces;
 
@@ -7,41 +8,44 @@ namespace RSMS.Services.Implementations
 {
     public class SupplierService : ISupplierService
     {
-        private readonly RSMSDbContext _context;
+        private readonly ISupplierRepository _repository;
+        private readonly IMapper _mapper;
 
-        public SupplierService(RSMSDbContext context)
+        public SupplierService(ISupplierRepository repository, IMapper mapper)
         {
-            _context = context;
+            _repository = repository;
+            _mapper = mapper;
         }
 
-        public async Task<Supplier?> GetByIdAsync(Guid id) =>
-            await _context.Suppliers.FirstOrDefaultAsync(s => s.Id == id);
-
-        public async Task<IEnumerable<Supplier>> GetAllAsync() =>
-            await _context.Suppliers.ToListAsync();
-
-        public async Task<Supplier> AddAsync(Supplier supplier)
+        public async Task<IEnumerable<SupplierDTO>> GetAllAsync()
         {
-            _context.Suppliers.Add(supplier);
-            await _context.SaveChangesAsync();
-            return supplier;
+            var suppliers = await _repository.GetAllAsync();
+            return _mapper.Map<IEnumerable<SupplierDTO>>(suppliers);
         }
 
-        public async Task<Supplier> UpdateAsync(Supplier supplier)
+        public async Task<SupplierDTO?> GetByIdAsync(Guid id)
         {
-            _context.Suppliers.Update(supplier);
-            await _context.SaveChangesAsync();
-            return supplier;
+            var supplier = await _repository.GetByIdAsync(id);
+            return supplier == null ? null : _mapper.Map<SupplierDTO>(supplier);
+        }
+
+        public async Task<SupplierDTO> AddAsync(SupplierDTO dto)
+        {
+            var supplier = _mapper.Map<Supplier>(dto);
+            var created = await _repository.AddAsync(supplier);
+            return _mapper.Map<SupplierDTO>(created);
+        }
+
+        public async Task<SupplierDTO> UpdateAsync(SupplierDTO dto)
+        {
+            var supplier = _mapper.Map<Supplier>(dto);
+            var updated = await _repository.UpdateAsync(supplier);
+            return _mapper.Map<SupplierDTO>(updated);
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var supplier = await _context.Suppliers.FindAsync(id);
-            if (supplier == null) return false;
-
-            _context.Suppliers.Remove(supplier);
-            await _context.SaveChangesAsync();
-            return true;
+            return await _repository.DeleteAsync(id);
         }
     }
 }

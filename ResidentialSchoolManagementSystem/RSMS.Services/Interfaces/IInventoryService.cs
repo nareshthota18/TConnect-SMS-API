@@ -1,13 +1,13 @@
-﻿using RSMS.Data.Models.InventoryEntities;
+﻿using RSMS.Common.Models;
 
 namespace RSMS.Services.Interfaces
 {
     public interface IInventoryService
     {
-        Task<Item?> GetItemByIdAsync(Guid id);
-        Task<IEnumerable<Item>> GetAllItemsAsync();
-        Task<Item> AddItemAsync(Item item);
-        Task<Item> UpdateItemAsync(Item item);
+        Task<IEnumerable<ItemDTO>> GetAllItemsAsync();
+        Task<ItemDTO?> GetItemByIdAsync(Guid id);
+        Task<ItemDTO> AddItemAsync(ItemDTO item);
+        Task<ItemDTO> UpdateItemAsync(ItemDTO item);
         Task<bool> DeleteItemAsync(Guid id);
     }
 }

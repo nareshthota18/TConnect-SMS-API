@@ -1,13 +1,13 @@
-﻿using RSMS.Data.Models.InventoryEntities;
+﻿using RSMS.Common.Models;
 
 namespace RSMS.Services.Interfaces
 {
     public interface IAssetService
     {
-        Task<AssetIssue?> GetByIdAsync(Guid id);
-        Task<IEnumerable<AssetIssue>> GetAllAsync();
-        Task<AssetIssue> AddAsync(AssetIssue issue);
-        Task<AssetIssue> UpdateAsync(AssetIssue issue);
+        Task<IEnumerable<AssetIssueDTO>> GetAllAsync();
+        Task<AssetIssueDTO?> GetByIdAsync(Guid id);
+        Task<AssetIssueDTO> AddAsync(AssetIssueDTO asset);
+        Task<AssetIssueDTO> UpdateAsync(AssetIssueDTO asset);
         Task<bool> DeleteAsync(Guid id);
     }
 }

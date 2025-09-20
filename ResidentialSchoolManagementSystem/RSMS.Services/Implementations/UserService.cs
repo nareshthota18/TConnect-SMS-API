@@ -1,51 +1,61 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Data;
+﻿using AutoMapper;
+using RSMS.Common;
+using RSMS.Common.Models;
 using RSMS.Data.Models.SecurityEntities;
+using RSMS.Repositories.Contracts;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Services.Implementations
 {
     public class UserService : IUserService
     {
-        private readonly RSMSDbContext _context;
+        private readonly IUserRepository _userRepository;
+        private readonly IMapper _mapper;
 
-        public UserService(RSMSDbContext context)
+        public UserService(IUserRepository userRepository, IMapper mapper)
         {
-            _context = context;
+            _userRepository = userRepository;
+            _mapper = mapper;
         }
 
-        public async Task<User?> GetByIdAsync(Guid id) =>
-            await _context.Users
-                .Include(u => u.Staff)
-                .FirstOrDefaultAsync(u => u.Id == id);
-
-        public async Task<IEnumerable<User>> GetAllAsync() =>
-            await _context.Users
-                .Include(u => u.Staff)
-                .ToListAsync();
-
-        public async Task<User> AddAsync(User user)
+        public async Task<IEnumerable<UserDTO>> GetAllAsync()
         {
-            _context.Users.Add(user);
-            await _context.SaveChangesAsync();
-            return user;
+            var users = await _userRepository.GetAllAsync();
+            return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
-        public async Task<User> UpdateAsync(User user)
+        public async Task<UserDTO?> GetByIdAsync(Guid id)
         {
-            _context.Users.Update(user);
-            await _context.SaveChangesAsync();
-            return user;
+            var user = await _userRepository.GetByIdAsync(id);
+            return user == null ? null : _mapper.Map<UserDTO>(user);
+        }
+
+        public async Task<UserDTO> AddAsync(UserDTO dto)
+        {
+            var user = _mapper.Map<User>(dto);
+            // Generate password hash and salt for a default password. we can generate random password and send it to user email.
+            (byte[] hashBytes, byte[] saltBytes)= GeneratePasswordHash.GetPasswordHash("Test@2025");
+            user.PasswordHash = hashBytes;
+            user.PasswordSalt = saltBytes;
+            var created = await _userRepository.AddAsync(user);
+            return _mapper.Map<UserDTO>(created);
+        }
+
+        public async Task<UserDTO> UpdateAsync(UserDTO dto)
+        {
+            var user = _mapper.Map<User>(dto);
+            var updated = await _userRepository.UpdateAsync(user);
+            return _mapper.Map<UserDTO>(updated);
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var user = await _context.Users.FindAsync(id);
-            if (user == null) return false;
+            return await _userRepository.DeleteAsync(id);
+        }
 
-            _context.Users.Remove(user);
-            await _context.SaveChangesAsync();
-            return true;
+        public async Task<bool> ValidUser(string userName, string password)
+        {
+           return await _userRepository.ValidUser(userName, password);
         }
     }
 }

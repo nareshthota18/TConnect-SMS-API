@@ -1,53 +1,31 @@
-﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Data;
-using RSMS.Data.Models.CoreEntities;
+﻿using RSMS.Repositories.Contracts;
+using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Services.Implementations
 {
     public class StaffService : IStaffService
     {
-        private readonly RSMSDbContext _context;
+        private readonly IStaffRepository _repository;
 
-        public StaffService(RSMSDbContext context)
+        public StaffService(IStaffRepository repository)
         {
-            _context = context;
+            _repository = repository;
         }
 
-        public async Task<Staff?> GetByIdAsync(Guid id) =>
-            await _context.Staff
-                .Include(s => s.Department)
-                .Include(s => s.Designation)
-                .FirstOrDefaultAsync(s => s.Id == id);
+        public async Task<IEnumerable<StaffDTO>> GetAllAsync() =>
+            await _repository.GetAllAsync();
 
-        public async Task<IEnumerable<Staff>> GetAllAsync() =>
-            await _context.Staff
-                .Include(s => s.Department)
-                .Include(s => s.Designation)
-                .ToListAsync();
+        public async Task<StaffDTO?> GetByIdAsync(Guid id) =>
+            await _repository.GetByIdAsync(id);
 
-        public async Task<Staff> AddAsync(Staff staff)
-        {
-            _context.Staff.Add(staff);
-            await _context.SaveChangesAsync();
-            return staff;
-        }
+        public async Task<StaffDTO> AddAsync(StaffDTO staff) =>
+            await _repository.AddAsync(staff);
 
-        public async Task<Staff> UpdateAsync(Staff staff)
-        {
-            _context.Staff.Update(staff);
-            await _context.SaveChangesAsync();
-            return staff;
-        }
+        public async Task<StaffDTO> UpdateAsync(StaffDTO staff) =>
+            await _repository.UpdateAsync(staff);
 
-        public async Task<bool> DeleteAsync(Guid id)
-        {
-            var staff = await _context.Staff.FindAsync(id);
-            if (staff == null) return false;
-
-            _context.Staff.Remove(staff);
-            await _context.SaveChangesAsync();
-            return true;
-        }
+        public async Task<bool> DeleteAsync(Guid id) =>
+            await _repository.DeleteAsync(id);
     }
 }

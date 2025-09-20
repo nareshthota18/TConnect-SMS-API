@@ -1,13 +1,14 @@
-﻿using RSMS.Data.Models.SecurityEntities;
+﻿using RSMS.Common.Models;
 
 namespace RSMS.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<User?> GetByIdAsync(Guid id);
-        Task<IEnumerable<User>> GetAllAsync();
-        Task<User> AddAsync(User user);
-        Task<User> UpdateAsync(User user);
+        Task<IEnumerable<UserDTO>> GetAllAsync();
+        Task<UserDTO?> GetByIdAsync(Guid id);
+        Task<UserDTO> AddAsync(UserDTO user);
+        Task<UserDTO> UpdateAsync(UserDTO user);
         Task<bool> DeleteAsync(Guid id);
+        Task<bool> ValidUser(string userName, string password);
     }
 }
