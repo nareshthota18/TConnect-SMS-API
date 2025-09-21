@@ -18,7 +18,7 @@ namespace RSMS.Api.Controllers
             _userService = userService;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             var users = await _userService.GetAllAsync();
