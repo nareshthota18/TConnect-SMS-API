@@ -144,7 +144,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // 🔐 Add middleware
-app.UseHttpsRedirection();
+//app.UseHttpsRedirection(); //Commeting for Deployment purpose need to be undo for proper deployment
 app.UseAuthentication();
 app.UseAuthorization();
 
