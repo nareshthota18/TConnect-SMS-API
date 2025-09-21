@@ -3,6 +3,7 @@ using RSMS.Repositories.Contracts;
 using RSMS.Data;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Common.Models;
+using RSMS.Common;
 
 namespace RSMS.Repositories.Implementation
 {
@@ -53,7 +54,13 @@ namespace RSMS.Repositories.Implementation
         {
             //  This is plain-text matching. Replace with hashing in real use.
             //return await _context.Users.AnyAsync(u => u.Username == userName && u.PasswordHash == password);
-            return false;
+            bool isValid = false;
+            var exuser = _context.Users.FirstOrDefault(u => u.Username == userName || u.Email == userName);
+            if (exuser != null)
+            {
+                isValid = GeneratePasswordHash.VerifyPassword(password, exuser.PasswordHash, exuser.PasswordSalt);
+            }
+            return isValid;
         }
 
         public async Task<bool> UpdatePassword(ResetPassword user, byte[] PasswordHash, byte[] PasswordSalt)
@@ -70,6 +77,23 @@ namespace RSMS.Repositories.Implementation
             {
                 return false;
             }
+        }
+
+        public async Task<string> GetRoleByUserAsync(string usernameOrEmail)
+        {
+            var roleName = await _context.Users
+        .Where(u => u.Username == usernameOrEmail || u.Email == usernameOrEmail)
+        .Join(_context.UserRoles,
+              user => user.Id,
+              userRole => userRole.UserId,
+              (user, userRole) => new { user, userRole })
+        .Join(_context.Roles,
+              ur => ur.userRole.RoleId,
+              role => role.Id,
+              (ur, role) => role.Name)
+        .FirstOrDefaultAsync();
+
+            return roleName ?? string.Empty;
         }
     }
 }

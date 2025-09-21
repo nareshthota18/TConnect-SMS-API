@@ -12,5 +12,6 @@ namespace RSMS.Repositories.Contracts
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ValidUser(string userName, string password);
         Task<bool> UpdatePassword(ResetPassword user, byte[] PasswordHash, byte[] PasswordSalt);
+        Task<string> GetRoleByUserAsync(string usernameOrEmail);
     }
 }
