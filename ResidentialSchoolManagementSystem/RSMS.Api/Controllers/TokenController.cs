@@ -6,6 +6,7 @@ using RSMS.Common.Models;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
+using Microsoft.AspNetCore.Authorization;
 
 namespace RSMS.Api.Controllers
 {
@@ -22,7 +23,7 @@ namespace RSMS.Api.Controllers
             _clients = clients.Value;
             _service = service;
         }
-
+        [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> GetTokenAsync([FromBody] LoginRequest request)
         {
@@ -66,7 +67,7 @@ namespace RSMS.Api.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expires = token.ValidTo,
-                role = _service.GetRoleByUserAsync(request.Username).Result
+                role = await _service.GetRoleByUserAsync(request.Username)
             });
         }
     }
