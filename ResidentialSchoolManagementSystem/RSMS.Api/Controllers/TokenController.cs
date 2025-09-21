@@ -23,7 +23,7 @@ namespace RSMS.Api.Controllers
             _service = service;
         }
 
-        [HttpPost]
+        [HttpPost("Login")]
         public async Task<IActionResult> GetTokenAsync([FromBody] LoginRequest request)
         {
             // 1. Validate Client need to chnage db level
