@@ -121,6 +121,19 @@ builder.Services.AddAuthorization();
 // Optional: API clients
 builder.Services.Configure<List<ApiClient>>(builder.Configuration.GetSection("Clients"));
 
+// Add CORS
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowFrontend",
+        policy =>
+        {
+            policy.WithOrigins("http://localhost:5173") // React dev server
+                  .AllowAnyHeader()
+                  .AllowAnyMethod()
+                  .AllowCredentials(); // if using cookies or auth
+        });
+});
+
 var app = builder.Build();
 
 // Configure pipeline
