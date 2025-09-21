@@ -52,13 +52,7 @@ builder.Services.AddScoped<ILookupRepository<Category, Guid>, LookupRepository<C
 builder.Services.AddAutoMapper(config => { /* Optional config here */ },
                               AppDomain.CurrentDomain.GetAssemblies());
 
-// Configure controllers
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
-        options.JsonSerializerOptions.WriteIndented = true;
-    });
+
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
@@ -127,14 +121,23 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173") // React dev server
+            policy.WithOrigins("http://localhost:5173", "https://localhost:5173")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
-                  .AllowCredentials(); // if using cookies or auth
+                  .AllowCredentials();
         });
 });
-
+// Configure controllers
+builder.Services.AddControllers()
+    .AddJsonOptions(options =>
+    {
+        options.JsonSerializerOptions.ReferenceHandler = ReferenceHandler.IgnoreCycles;
+        options.JsonSerializerOptions.WriteIndented = true;
+    });
 var app = builder.Build();
+
+// Order is important:
+app.UseCors("AllowFrontend");   // 👈 Apply CORS before Auth
 
 // Configure pipeline
 if (app.Environment.IsDevelopment())
