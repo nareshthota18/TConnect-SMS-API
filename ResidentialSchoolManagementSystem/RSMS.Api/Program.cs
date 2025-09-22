@@ -136,6 +136,7 @@ builder.Services.AddControllers()
     });
 var app = builder.Build();
 
+app.UseRouting();
 // Order is important:
 app.UseCors("AllowFrontend");   // 👈 Apply CORS before Auth
 

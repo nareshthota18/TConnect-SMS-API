@@ -39,6 +39,11 @@ namespace RSMS.Services.Implementations
             user.PasswordHash = hashBytes;
             user.PasswordSalt = saltBytes;
             var created = await _userRepository.AddAsync(user);
+            if (created != null)
+            {
+                await _userRepository.AddAUserRolesync(new UserRole() { UserId = created.Id, RoleId = dto.RoleId });
+            }
+
             return _mapper.Map<UserDTO>(created);
         }
 
@@ -46,6 +51,8 @@ namespace RSMS.Services.Implementations
         {
             var user = _mapper.Map<User>(dto);
             var updated = await _userRepository.UpdateAsync(user);
+            if (dto.RoleId != Guid.Empty)
+                await _userRepository.UpdateUserRolesync(new UserRole() { UserId = dto.Id, RoleId = dto.RoleId });
             return _mapper.Map<UserDTO>(updated);
         }
 

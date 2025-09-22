@@ -7,7 +7,7 @@ using RSMS.Services.Interfaces;
 namespace RSMS.Api.Controllers
 {
     [ApiController]
-    [Authorize]
+    //[Authorize]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
@@ -35,7 +35,7 @@ namespace RSMS.Api.Controllers
         }
 
         [HttpPost("Create")]
-        public async Task<ActionResult<UserDTO>> Create(UserDTO user)
+        public async Task<ActionResult<UserDTO>> Create([FromBody] UserDTO user)
         {
             var created = await _userService.AddAsync(user);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);

@@ -28,9 +28,17 @@ namespace RSMS.Repositories.Implementation
 
         public async Task<User> AddAsync(User user)
         {
+            // Ensure new Guid is generated for the user
+            user.Id = Guid.NewGuid();
             _context.Users.Add(user);
             await _context.SaveChangesAsync();
             return user;
+        }
+
+        public async Task AddAUserRolesync(UserRole role)
+        {
+            _context.UserRoles.Add(role);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<User> UpdateAsync(User user)
@@ -38,6 +46,12 @@ namespace RSMS.Repositories.Implementation
             _context.Users.Update(user);
             await _context.SaveChangesAsync();
             return user;
+        }
+
+        public async Task UpdateUserRolesync(UserRole role)
+        {
+            _context.UserRoles.Update(role);
+            await _context.SaveChangesAsync();
         }
 
         public async Task<bool> DeleteAsync(Guid id)
