@@ -9,5 +9,6 @@ namespace RSMS.Services.Interfaces
         Task<ItemDTO> AddItemAsync(ItemDTO item);
         Task<ItemDTO> UpdateItemAsync(ItemDTO item);
         Task<bool> DeleteItemAsync(Guid id);
+        Task<IEnumerable<ItemTypeDTO>> GetItemTypesAsync();
     }
 }

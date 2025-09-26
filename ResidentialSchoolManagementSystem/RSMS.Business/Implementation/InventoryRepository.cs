@@ -2,6 +2,7 @@
 using RSMS.Repositories.Contracts;
 using RSMS.Data;
 using RSMS.Data.Models.InventoryEntities;
+using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Services.Implementations
 {
@@ -46,6 +47,10 @@ namespace RSMS.Services.Implementations
             _context.Items.Remove(item);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<IEnumerable<ItemType>> GetItemTypesAsync()
+        {
+            return await _context.ItemTypes.Include(i => i.Items).ToListAsync();
         }
     }
 }

@@ -47,5 +47,10 @@ namespace RSMS.Services.Implementations
         {
             return await _repository.DeleteAsync(id);
         }
+        public async Task<IEnumerable<ItemTypeDTO>> GetItemTypesAsync()
+        {
+            var assets = await _repository.GetItemTypesAsync();
+            return _mapper.Map<IEnumerable<ItemTypeDTO>>(assets);
+        }
     }
 }

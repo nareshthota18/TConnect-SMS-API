@@ -1,4 +1,5 @@
 ﻿using RSMS.Data.Models.InventoryEntities;
+using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Repositories.Contracts
 {
@@ -9,5 +10,6 @@ namespace RSMS.Repositories.Contracts
         Task<Item> AddAsync(Item item);
         Task<Item> UpdateAsync(Item item);
         Task<bool> DeleteAsync(Guid id);
+        Task<IEnumerable<ItemType>> GetItemTypesAsync();
     }
 }

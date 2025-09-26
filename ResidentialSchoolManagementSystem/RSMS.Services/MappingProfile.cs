@@ -33,7 +33,7 @@ namespace RSMS.Services
             CreateMap<Item, ItemDTO>().ReverseMap();
             CreateMap<Role, RoleDTO>().ReverseMap();
             CreateMap<Supplier, SupplierDTO>().ReverseMap();
-
+            CreateMap<ItemType, ItemTypeDTO>().ReverseMap();
         }
     }
 }
