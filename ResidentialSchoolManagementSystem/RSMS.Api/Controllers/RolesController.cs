@@ -17,25 +17,25 @@ namespace RSMS.Api.Controllers
             _service = service;
         }
 
-        [HttpGet]
+        [HttpGet("GetAll")]
         public async Task<ActionResult<IEnumerable<RoleDTO>>> GetAll()
             => Ok(await _service.GetAllAsync());
 
-        [HttpGet("{id:guid}")]
+        [HttpGet("GetById/{id:guid}")]
         public async Task<ActionResult<RoleDTO>> GetById(Guid id)
         {
             var role = await _service.GetByIdAsync(id);
             return role == null ? NotFound() : Ok(role);
         }
 
-        [HttpPost]
+        [HttpPost("Create")]
         public async Task<ActionResult<RoleDTO>> Create(RoleDTO role)
         {
             var created = await _service.AddAsync(role);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:guid}")]
+        [HttpPut("Update/{id:guid}")]
         public async Task<ActionResult<RoleDTO>> Update(Guid id, RoleDTO role)
         {
             if (id != role.Id) return BadRequest("ID mismatch");
@@ -44,7 +44,7 @@ namespace RSMS.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{id:guid}")]
+        [HttpDelete("Delete/{id:guid}")]
         public async Task<IActionResult> Delete(Guid id)
         {
             var result = await _service.DeleteAsync(id);

@@ -4,7 +4,6 @@ namespace RSMS.Common.Models
 {
     public class UserDTO
     {
-        [JsonIgnore]
         public Guid Id { get; set; }
         public string Username { get; set; } = string.Empty;
         public string? Email { get; set; }
