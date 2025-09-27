@@ -7,7 +7,7 @@ using RSMS.Services.Interfaces;
 namespace RSMS.Api.Controllers
 {
     [ApiController]
-    //[Authorize]
+    [Authorize]
     [Route("api/[controller]")]
     public class UsersController : ControllerBase
     {
