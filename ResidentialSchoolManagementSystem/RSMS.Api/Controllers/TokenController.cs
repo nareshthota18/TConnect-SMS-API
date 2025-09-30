@@ -43,6 +43,10 @@ namespace RSMS.Api.Controllers
                     return Unauthorized("Invalid username or password");
             }
 
+            var user = await _service.GetByuserAsync(request.Username);
+            if (user == null)
+                return Unauthorized("Invalid clientId");
+
             // 3. Build Token
             var jwtSettings = _config.GetSection("Jwt");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
@@ -50,9 +54,10 @@ namespace RSMS.Api.Controllers
 
             var claims = new[]
             {
-            new Claim(JwtRegisteredClaimNames.Sub, request.Username),
+            new Claim(JwtRegisteredClaimNames.Sub, user.Username),
             new Claim("client_id", client.ClientId),
-            new Claim("username", request.Username),
+            new Claim("username", user.Username),
+             new Claim("userId", user.Id.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 

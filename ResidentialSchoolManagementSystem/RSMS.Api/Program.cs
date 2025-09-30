@@ -32,6 +32,7 @@ builder.Services.AddScoped<ISupplierRepository, SupplierRepository>();
 builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
+builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
 
 // Register Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -43,6 +44,7 @@ builder.Services.AddScoped<ISupplierService, SupplierService>();
 builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IInventoryService, InventoryService>();
 builder.Services.AddScoped<IReportsService, ReportsService>();
+builder.Services.AddScoped<ISchoolService, SchoolService>();
 
 // Lookup Repository
 builder.Services.AddScoped<ILookupRepository<Category, Guid>, LookupRepository<Category, Guid>>();

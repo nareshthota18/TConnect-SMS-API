@@ -15,5 +15,6 @@ namespace RSMS.Repositories.Contracts
         Task<string> GetRoleByUserAsync(string usernameOrEmail);
         Task AddAUserRolesync(UserRole role);
         Task UpdateUserRolesync(UserRole role);
+        Task<User> GetByuserAsync(string userName);
     }
 }
