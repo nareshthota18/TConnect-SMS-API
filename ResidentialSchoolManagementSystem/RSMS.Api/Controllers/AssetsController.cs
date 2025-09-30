@@ -2,9 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Threading.Tasks;
 
 namespace RSMS.Api.Controllers
 {
