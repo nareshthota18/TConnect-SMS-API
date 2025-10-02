@@ -109,5 +109,11 @@ namespace RSMS.Repositories.Implementation
 
             return roleName ?? string.Empty;
         }
+
+        public async Task<User> GetByuserAsync(string userName)
+        {
+            var user = await _context.Users.Where(u => u.Username == userName).FirstOrDefaultAsync();
+            return user;
+        }
     }
 }
