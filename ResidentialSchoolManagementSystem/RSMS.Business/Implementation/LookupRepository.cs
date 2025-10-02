@@ -1,4 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
+using RSMS.Common.Models;
 using RSMS.Data;
 using RSMS.Repositories.Contracts;
 using System.Linq.Expressions;
@@ -23,6 +24,14 @@ namespace RSMS.Repositories.Implementation
             var lambda = Expression.Lambda<Func<TEntity, bool>>(equals, parameter);
 
             return await _context.Set<TEntity>().AnyAsync(lambda);
+        }
+
+        public async Task<List<LookupDTO>> GetLookupAsync(Expression<Func<TEntity, LookupDTO>> selector)
+        {
+            return await _context.Set<TEntity>()
+                                 .AsNoTracking()
+                                 .Select(selector)
+                                 .ToListAsync();
         }
     }
 }
