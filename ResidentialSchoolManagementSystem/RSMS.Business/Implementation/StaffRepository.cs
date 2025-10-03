@@ -20,13 +20,19 @@ namespace RSMS.Repositories.Implementation
 
         public async Task<IEnumerable<StaffDTO>> GetAllAsync()
         {
-            var staffs = await _context.Staff.ToListAsync();
+            var staffs = await _context.Staff.
+                        Include(s => s.Designation)
+                        .Include(s => s.Department).ToListAsync();
             return _mapper.Map<IEnumerable<StaffDTO>>(staffs);
         }
 
         public async Task<StaffDTO?> GetByIdAsync(Guid id)
         {
-            var staff = await _context.Staff.FindAsync(id);
+            var staff = await _context.Staff.
+                        Include(s => s.Designation)
+     .Include(s => s.Department)
+                        .FirstOrDefaultAsync(s => s.Id == id);
+
             return _mapper.Map<StaffDTO>(staff);
         }
 
