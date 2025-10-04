@@ -38,5 +38,10 @@ namespace RSMS.Services.Implementations
             var users = await _schoolRepository.GetAllAsync(userId);
             return _mapper.Map<IEnumerable<HostelDTO>>(users);
         }
+
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            return await _schoolRepository.DeleteAsync(id);
+        }
     }
 }
