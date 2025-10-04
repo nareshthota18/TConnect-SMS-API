@@ -47,8 +47,8 @@ namespace RSMS.Api.Controllers
             return Ok(updated);
         }
 
-        [HttpDelete("{id:Guid}")]
-        public async Task<IActionResult> Delete(Guid id)
+        [HttpDelete("Delete/{id:Guid}")]
+        public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _studentService.DeleteStudentAsync(id);
             return result ? NoContent() : NotFound();

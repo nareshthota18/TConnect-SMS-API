@@ -44,6 +44,14 @@ namespace RSMS.Services.Implementations
             var item = await _context.Items.FindAsync(id);
             if (item == null) return false;
 
+
+            var assetIssue = await _context.AssetIssues.FirstOrDefaultAsync(u => u.ItemId == id);
+            if (assetIssue != null)
+            {
+                _context.AssetIssues.Remove(assetIssue);
+                await _context.SaveChangesAsync();
+            }
+
             _context.Items.Remove(item);
             await _context.SaveChangesAsync();
             return true;
