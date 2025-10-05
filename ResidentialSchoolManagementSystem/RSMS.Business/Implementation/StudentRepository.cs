@@ -55,6 +55,13 @@ namespace RSMS.Repositories.Implementation
             var student = await _context.Students.FindAsync(id);
             if (student == null) return false;
 
+            var students = await _context.StudentAttendance.Where(u => u.StudentId == id).ToListAsync();
+            if (students.Any())
+            {
+                _context.StudentAttendance.RemoveRange(students);
+                await _context.SaveChangesAsync();
+            }
+
             _context.Students.Remove(student);
             await _context.SaveChangesAsync();
             return true;
