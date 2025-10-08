@@ -43,7 +43,7 @@ namespace RSMS.Api.Controllers
                     return Unauthorized("Invalid username or password");
             }
 
-            var user = await _service.GetByuserAsync(request.Username);
+            var user = await _service.GetByuserAsync(request.Username, request.SchoolId);
             if (user == null)
                 return Unauthorized("Invalid clientId");
 
@@ -57,7 +57,8 @@ namespace RSMS.Api.Controllers
             new Claim(JwtRegisteredClaimNames.Sub, user.Username),
             new Claim("client_id", client.ClientId),
             new Claim("username", user.Username),
-             new Claim("userId", user.Id.ToString()),
+            new Claim("userId", user.Id.ToString()),
+            new Claim("schoolId", request.SchoolId.ToString()),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
