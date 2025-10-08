@@ -57,6 +57,13 @@ namespace RSMS.Repositories.Implementation
             var staff = await _context.Staff.FindAsync(id);
             if (staff == null) return false;
 
+            var Staff = await _context.StaffAttendance.Where(u => u.StaffId == id).ToListAsync();
+            if (Staff.Any())
+            {
+                _context.StaffAttendance.RemoveRange(Staff);
+                await _context.SaveChangesAsync();
+            }
+
             _context.Staff.Remove(staff);
             await _context.SaveChangesAsync();
             return true;

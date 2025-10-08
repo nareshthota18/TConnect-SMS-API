@@ -31,5 +31,15 @@ namespace RSMS.Repositories.Implementation
             return await _context.RSHostels.Where(x => x.CreatedBy == UserId).ToListAsync();
         }
 
+        public async Task<bool> DeleteAsync(Guid id)
+        {
+            var sc = await _context.RSHostels.FindAsync(id);
+            if (sc == null) return false;
+
+            _context.RSHostels.Remove(sc);
+            await _context.SaveChangesAsync();
+            return true;
+        }
+
     }
 }
