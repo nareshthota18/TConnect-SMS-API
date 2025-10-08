@@ -12,6 +12,9 @@ namespace RSMS.Data.Models.LookupEntities
         public string? Phone { get; set; }
         public string? Address { get; set; }
         public bool IsActive { get; set; } = true;
+        public Guid RSHostelId { get; set; }
+
+        public RSHostel RSHostel { get; set; }
 
         public ICollection<PurchaseInvoice> PurchaseInvoices { get; set; } = new List<PurchaseInvoice>();
     }

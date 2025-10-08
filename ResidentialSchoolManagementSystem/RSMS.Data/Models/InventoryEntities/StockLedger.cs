@@ -1,4 +1,5 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using RSMS.Data.Models.LookupEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.InventoryEntities
 {
@@ -11,7 +12,9 @@ namespace RSMS.Data.Models.InventoryEntities
         public decimal Quantity { get; set; }
         public string? Reference { get; set; }
         public string? Remarks { get; set; }
+        public Guid RSHostelId { get; set; }
 
+        public RSHostel RSHostel { get; set; }
         public Item Item { get; set; } = default!;
     }
 }

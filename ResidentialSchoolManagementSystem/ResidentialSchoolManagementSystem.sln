@@ -14,7 +14,8 @@ EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Scripts", "Scripts", "{02EA681E-C7D8-13C7-8484-4AC65E1B71E8}"
 	ProjectSection(SolutionItems) = preProject
 		SeedData.sql = SeedData.sql
-		Table-Scripts.sql = Table-Scripts.sql
+		2-Table-Script-Alter-Add-SchoolId.sql = 2-Table-Script-Alter-Add-SchoolId.sql
+		1-Table-Scripts.sql = 1-Table-Scripts.sql
 	EndProjectSection
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Documents", "Documents", "{EC9BDCED-EB00-409B-906B-E0C0BD86D145}"

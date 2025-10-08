@@ -15,6 +15,6 @@ namespace RSMS.Data.Models.SecurityEntities
         public byte[]? PasswordHash { get; set; } = Array.Empty<byte>();
         public byte[]? PasswordSalt { get; set; } = Array.Empty<byte>();
         public Staff? Staff { get; set; }
-        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<UserHostel> UserHostels { get; set; } = new List<UserHostel>();
     }
 }

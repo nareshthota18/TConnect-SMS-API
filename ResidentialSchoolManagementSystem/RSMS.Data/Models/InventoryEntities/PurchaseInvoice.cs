@@ -11,6 +11,9 @@ namespace RSMS.Data.Models.InventoryEntities
         public DateTime? InvoiceDate { get; set; }
         public DateTime ReceivedDate { get; set; }
         public string? Notes { get; set; }
+        public Guid RSHostelId { get; set; }
+
+        public RSHostel RSHostel { get; set; }
 
         public Supplier? Supplier { get; set; }
         public ICollection<PurchaseItem> Items { get; set; } = new List<PurchaseItem>();

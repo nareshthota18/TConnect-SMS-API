@@ -176,17 +176,19 @@ CREATE TABLE rsms.Users (
 );
 GO
 
--- 2.3 UserRoles
-CREATE TABLE rsms.UserRoles (
-    UserId    UNIQUEIDENTIFIER NOT NULL,
-    RoleId    UNIQUEIDENTIFIER NOT NULL,
+-- 2.3 UserHostels
+CREATE TABLE rsms.UserHostels (
+    UserId UNIQUEIDENTIFIER NOT NULL,
+    RSHostelId UNIQUEIDENTIFIER NOT NULL,
+    RoleId UNIQUEIDENTIFIER NOT NULL,      -- hostel-specific role
+    IsPrimary BIT NOT NULL DEFAULT(0),
     CreatedAt DATETIME2(0) NOT NULL DEFAULT SYSUTCDATETIME(),
     CreatedBy UNIQUEIDENTIFIER NULL,
-    PRIMARY KEY (UserId, RoleId),
-    FOREIGN KEY (UserId) REFERENCES rsms.Users(Id),
-    FOREIGN KEY (RoleId) REFERENCES rsms.Roles(Id)
+    CONSTRAINT PK_UserHostels PRIMARY KEY (UserId, RSHostelId),
+    CONSTRAINT FK_UserHostels_Users FOREIGN KEY (UserId) REFERENCES rsms.Users(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_UserHostels_RSHostels FOREIGN KEY (RSHostelId) REFERENCES rsms.RSHostels(Id) ON DELETE CASCADE,
+    CONSTRAINT FK_UserHostels_Roles FOREIGN KEY (RoleId) REFERENCES rsms.Roles(Id)
 );
-GO
 
 --------------------------------------------------------------------------------
 -- Students & Attendance

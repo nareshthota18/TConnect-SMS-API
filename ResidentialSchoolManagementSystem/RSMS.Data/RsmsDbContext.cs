@@ -27,7 +27,7 @@ namespace RSMS.Data
         public DbSet<Permission> Permissions { get; set; } = default!;
         public DbSet<RolePermission> RolePermissions { get; set; } = default!;
         public DbSet<User> Users { get; set; } = default!;
-        public DbSet<UserRole> UserRoles { get; set; } = default!;
+        public DbSet<UserHostel> UserHostels { get; set; } = default!;
 
         // Core entities
         public DbSet<Staff> Staff { get; set; } = default!;
@@ -52,7 +52,7 @@ namespace RSMS.Data
                   .HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
             // Composite key for UserRole
-            modelBuilder.Entity<UserRole>()
+            modelBuilder.Entity<UserHostel>()
                 .HasKey(ur => new { ur.UserId, ur.RoleId });
 
             modelBuilder.Entity<Student>()

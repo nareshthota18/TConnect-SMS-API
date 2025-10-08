@@ -13,8 +13,8 @@ namespace RSMS.Repositories.Contracts
         Task<bool> ValidUser(string userName, string password);
         Task<bool> UpdatePassword(ResetPassword user, byte[] PasswordHash, byte[] PasswordSalt);
         Task<string> GetRoleByUserAsync(string usernameOrEmail);
-        Task AddAUserRolesync(UserRole role);
-        Task UpdateUserRolesync(UserRole role);
+        Task AddAUserRolesync(UserHostel role);
+        Task UpdateUserRolesync(UserHostel role);
         Task<User> GetByuserAsync(string userName);
     }
 }

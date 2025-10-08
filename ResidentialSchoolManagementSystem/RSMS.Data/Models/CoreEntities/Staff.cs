@@ -15,7 +15,9 @@ namespace RSMS.Data.Models.CoreEntities
         public Guid? DesignationId { get; set; }
         public bool IsTeaching { get; set; } = true;
         public string Status { get; set; } = "Active";
+        public Guid RSHostelId { get; set; }
 
+        public RSHostel RSHostel { get; set; }
         public Department Department { get; set; }
         public Designation Designation { get; set; }
         public ICollection<User> Users { get; set; } = new List<User>();

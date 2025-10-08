@@ -35,9 +35,9 @@ namespace RSMS.Repositories.Implementation
             return user;
         }
 
-        public async Task AddAUserRolesync(UserRole role)
+        public async Task AddAUserRolesync(UserHostel role)
         {
-            _context.UserRoles.Add(role);
+            _context.UserHostels.Add(role);
             await _context.SaveChangesAsync();
         }
 
@@ -48,9 +48,9 @@ namespace RSMS.Repositories.Implementation
             return user;
         }
 
-        public async Task UpdateUserRolesync(UserRole role)
+        public async Task UpdateUserRolesync(UserHostel role)
         {
-            _context.UserRoles.Update(role);
+            _context.UserHostels.Update(role);
             await _context.SaveChangesAsync();
         }
 
@@ -97,7 +97,7 @@ namespace RSMS.Repositories.Implementation
         {
             var roleName = await _context.Users
         .Where(u => u.Username == usernameOrEmail || u.Email == usernameOrEmail)
-        .Join(_context.UserRoles,
+        .Join(_context.UserHostels,
               user => user.Id,
               userRole => userRole.UserId,
               (user, userRole) => new { user, userRole })
