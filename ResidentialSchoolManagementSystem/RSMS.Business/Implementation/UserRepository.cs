@@ -59,10 +59,10 @@ namespace RSMS.Repositories.Implementation
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;
 
-            var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == id);
+            var userRole = await _context.UserHostels.FirstOrDefaultAsync(u => u.UserId == id);
             if (userRole != null)
             {
-                _context.UserRoles.Remove(userRole);
+                _context.UserHostels.Remove(userRole);
                 await _context.SaveChangesAsync();
             }
 
