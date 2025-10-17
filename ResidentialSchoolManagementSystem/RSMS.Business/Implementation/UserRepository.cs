@@ -117,7 +117,7 @@ namespace RSMS.Repositories.Implementation
             return roleName ?? string.Empty;
         }
 
-        public async Task<User?> GetByuserAsync(string userName, Guid schoolId)
+        public async Task<User?> GetByuserSchoolIdAsync(string userName, Guid schoolId)
         {
             // Get the user first
             var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
@@ -130,5 +130,29 @@ namespace RSMS.Repositories.Implementation
 
             return isInSchool ? user : null;
         }
+
+        public async Task<User?> GetByuserAsync(string userName)
+        {
+            // Get the user first
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
+            if (user == null)
+                return null;
+
+
+            return user;
+        }
+
+        public async Task<List<UserHostel>> GetUserHostelsAsync(Guid userId)
+        {
+            var userHostels = await _context.UserHostels
+                .Include(uh => uh.RSHostel)
+                .Include(uh => uh.Role)
+                .Where(uh => uh.UserId == userId)
+                .OrderByDescending(uh => uh.IsPrimary)
+                .ToListAsync();
+
+            return userHostels;
+        }
+
     }
 }

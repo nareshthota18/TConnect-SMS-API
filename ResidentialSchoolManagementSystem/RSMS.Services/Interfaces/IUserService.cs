@@ -1,4 +1,6 @@
-﻿using RSMS.Common.Models;
+﻿using Azure.Core;
+using RSMS.Common.Models;
+using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Services.Interfaces
 {
@@ -11,5 +13,7 @@ namespace RSMS.Services.Interfaces
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ValidUser(string userName, string password);
         Task<bool> UpdatePassword(ResetPassword user);
+        Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId);
+        Task<User?> GetByuserAsync(string username);
     }
 }
