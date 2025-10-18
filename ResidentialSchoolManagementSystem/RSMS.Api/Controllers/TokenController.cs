@@ -78,7 +78,8 @@ namespace RSMS.Api.Controllers
             return Ok(new
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
-                expires = token.ValidTo
+                expires = token.ValidTo,
+                role = primaryRoleName
             });
         }
     }
