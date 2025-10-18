@@ -25,7 +25,16 @@ namespace RSMS.Services
                 .ForMember(dest => dest.Item, opt => opt.Ignore());
 
 
-            CreateMap<Student, StudentDTO>().ReverseMap();
+            CreateMap<Student, StudentDTO>()
+                .ForMember(dest => dest.CategoryName, opt => opt.MapFrom(src => src.Category != null ? src.Category.Name : null))
+                .ForMember(dest => dest.GradeName, opt => opt.MapFrom(src => src.Grade != null ? src.Grade.Name : null))
+                .ForMember(dest => dest.RSHostelName, opt => opt.MapFrom(src => src.RSHostel != null ? src.RSHostel.Name : null));
+
+            CreateMap<StudentDTO, Student>()
+                .ForMember(dest => dest.Category, opt => opt.Ignore())
+                .ForMember(dest => dest.Grade, opt => opt.Ignore())
+                .ForMember(dest => dest.RSHostel, opt => opt.Ignore());
+
             CreateMap<StudentAttendance, StudentAttendanceDTO>()
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student.FirstName + " " + src.Student.LastName))
                 .ForMember(dest => dest.AdmissionNumber, opt => opt.MapFrom(src => src.Student.AdmissionNumber));

@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.Models;
 using RSMS.Services.Implementations;
 using RSMS.Services.Interfaces;
+using System.Security.Claims;
 
 namespace RSMS.Api.Controllers
 {
@@ -13,29 +14,42 @@ namespace RSMS.Api.Controllers
     public class SchoolController : ControllerBase
     {
         private readonly ISchoolService _schoolService;
-
-        public SchoolController(ISchoolService schoolService)
+        private readonly IUserService _userService;
+        public SchoolController(ISchoolService schoolService, IUserService userService)
         {
             _schoolService = schoolService;
+            _userService = userService;
         }
 
         [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<HostelDTO>>> GetAll()
+        public async Task<IActionResult> GetUserSchools()
         {
-            // access claims from the token
-            var role = User.FindFirst("role")?.Value;
-            if (role == "SuperAdmin")
+            // Get userId from JWT claims
+            var userIdClaim = User.FindFirstValue("userId");
+            if (userIdClaim == null)
+                return Unauthorized();
+
+            var userId = Guid.Parse(userIdClaim);
+
+            // Fetch user's schools from the service
+            var userSchools = await _userService.GetUserHostelsAsync(userId);
+
+            if (userSchools == null || !userSchools.Any())
+                return NotFound(new { message = "User has no assigned schools" });
+
+            // Map to simple response
+            var result = userSchools.Select(s => new
             {
-                var dts = await _schoolService.GetAllAsync();
-                return Ok(dts);
-            }
-            else
-            {
-                var userId = User.FindFirst("userId")?.Value;
-                var dts = await _schoolService.GetAllAsync(Guid.Parse(userId));
-                return Ok(dts);
-            }
+                schoolId = s.RSHostelId,
+                schoolName = s.RSHostel?.Name,
+                roleId = s.RoleId,
+                roleName = s.Role?.Name,
+                isPrimary = s.IsPrimary
+            });
+
+            return Ok(result);
         }
+
 
         [HttpPost("Create")]
         public async Task<ActionResult> Create([FromBody] HostelDTO dt)
@@ -51,5 +65,6 @@ namespace RSMS.Api.Controllers
             var result = await _schoolService.DeleteAsync(id);
             return result ? NoContent() : NotFound();
         }
+
     }
 }

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using RSMS.Common;
 using RSMS.Common.Models;
 using RSMS.Data.Models.SecurityEntities;
@@ -41,7 +42,7 @@ namespace RSMS.Services.Implementations
             var created = await _userRepository.AddAsync(user);
             if (created != null)
             {
-                await _userRepository.AddAUserRolesync(new UserRole() { UserId = created.Id, RoleId = dto.RoleId });
+                await _userRepository.AddAUserRolesync(new UserHostel() { UserId = created.Id, RoleId = dto.RoleId });
             }
 
             return _mapper.Map<UserDTO>(created);
@@ -52,7 +53,7 @@ namespace RSMS.Services.Implementations
             var user = _mapper.Map<User>(dto);
             var updated = await _userRepository.UpdateAsync(user);
             if (dto.RoleId != Guid.Empty)
-                await _userRepository.UpdateUserRolesync(new UserRole() { UserId = dto.Id, RoleId = dto.RoleId });
+                await _userRepository.UpdateUserRolesync(new UserHostel() { UserId = dto.Id, RoleId = dto.RoleId });
             return _mapper.Map<UserDTO>(updated);
         }
 
@@ -70,6 +71,16 @@ namespace RSMS.Services.Implementations
         {
             (byte[] hashBytes, byte[] saltBytes) = GeneratePasswordHash.GetPasswordHash(user.ConfirmPassword);
             return await _userRepository.UpdatePassword(user, hashBytes, saltBytes);
+        }
+
+        public async Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId)
+        {
+            return await _userRepository.GetUserHostelsAsync(userId);
+        }
+
+        public async Task<User> GetByuserAsync(string userName)
+        {
+            return await _userRepository.GetByuserAsync(userName);
         }
     }
 }

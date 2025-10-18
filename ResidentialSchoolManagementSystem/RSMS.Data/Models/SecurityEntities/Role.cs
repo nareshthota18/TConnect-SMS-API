@@ -10,6 +10,6 @@ namespace RSMS.Data.Models.SecurityEntities
         public bool IsActive { get; set; } = true;
 
         public ICollection<RolePermission> RolePermissions { get; set; } = new List<RolePermission>();
-        public ICollection<UserRole> UserRoles { get; set; } = new List<UserRole>();
+        public ICollection<UserHostel> UserRoles { get; set; } = new List<UserHostel>();
     }
 }

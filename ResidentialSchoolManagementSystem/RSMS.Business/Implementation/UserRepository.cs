@@ -35,9 +35,9 @@ namespace RSMS.Repositories.Implementation
             return user;
         }
 
-        public async Task AddAUserRolesync(UserRole role)
+        public async Task AddAUserRolesync(UserHostel role)
         {
-            _context.UserRoles.Add(role);
+            _context.UserHostels.Add(role);
             await _context.SaveChangesAsync();
         }
 
@@ -48,9 +48,9 @@ namespace RSMS.Repositories.Implementation
             return user;
         }
 
-        public async Task UpdateUserRolesync(UserRole role)
+        public async Task UpdateUserRolesync(UserHostel role)
         {
-            _context.UserRoles.Update(role);
+            _context.UserHostels.Update(role);
             await _context.SaveChangesAsync();
         }
 
@@ -59,10 +59,10 @@ namespace RSMS.Repositories.Implementation
             var user = await _context.Users.FindAsync(id);
             if (user == null) return false;
 
-            var userRole = await _context.UserRoles.FirstOrDefaultAsync(u => u.UserId == id);
+            var userRole = await _context.UserHostels.FirstOrDefaultAsync(u => u.UserId == id);
             if (userRole != null)
             {
-                _context.UserRoles.Remove(userRole);
+                _context.UserHostels.Remove(userRole);
                 await _context.SaveChangesAsync();
             }
 
@@ -104,7 +104,7 @@ namespace RSMS.Repositories.Implementation
         {
             var roleName = await _context.Users
         .Where(u => u.Username == usernameOrEmail || u.Email == usernameOrEmail)
-        .Join(_context.UserRoles,
+        .Join(_context.UserHostels,
               user => user.Id,
               userRole => userRole.UserId,
               (user, userRole) => new { user, userRole })
@@ -117,10 +117,42 @@ namespace RSMS.Repositories.Implementation
             return roleName ?? string.Empty;
         }
 
-        public async Task<User> GetByuserAsync(string userName)
+        public async Task<User?> GetByuserSchoolIdAsync(string userName, Guid schoolId)
         {
-            var user = await _context.Users.Where(u => u.Username == userName).FirstOrDefaultAsync();
+            // Get the user first
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
+            if (user == null)
+                return null;
+
+            // Check if the user belongs to the given school/hostel
+            var isInSchool = await _context.UserHostels
+                .AnyAsync(uh => uh.UserId == user.Id && uh.RSHostelId == schoolId); // or SchoolId
+
+            return isInSchool ? user : null;
+        }
+
+        public async Task<User?> GetByuserAsync(string userName)
+        {
+            // Get the user first
+            var user = await _context.Users.FirstOrDefaultAsync(u => u.Username == userName);
+            if (user == null)
+                return null;
+
+
             return user;
         }
+
+        public async Task<List<UserHostel>> GetUserHostelsAsync(Guid userId)
+        {
+            var userHostels = await _context.UserHostels
+                .Include(uh => uh.RSHostel)
+                .Include(uh => uh.Role)
+                .Where(uh => uh.UserId == userId)
+                .OrderByDescending(uh => uh.IsPrimary)
+                .ToListAsync();
+
+            return userHostels;
+        }
+
     }
 }

@@ -1,16 +1,8 @@
 ﻿using AutoMapper;
 using RSMS.Common.Models;
-using RSMS.Common;
-using RSMS.Data.Models.SecurityEntities;
-using RSMS.Repositories.Contracts;
-using RSMS.Repositories.Implementation;
-using RSMS.Services.Interfaces;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using RSMS.Data.Models.LookupEntities;
+using RSMS.Repositories.Contracts;
+using RSMS.Services.Interfaces;
 
 namespace RSMS.Services.Implementations
 {

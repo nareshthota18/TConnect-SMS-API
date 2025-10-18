@@ -1,14 +1,18 @@
-﻿using System.ComponentModel.DataAnnotations.Schema;
+﻿using RSMS.Data.Models.LookupEntities;
+using System.ComponentModel.DataAnnotations.Schema;
 
 namespace RSMS.Data.Models.SecurityEntities
 {
-    [Table("UserRoles", Schema = "rsms")]
-    public class UserRole
+    [Table("UserHostels", Schema = "rsms")]
+    public class UserHostel
     {
         public Guid UserId { get; set; }
+        public Guid RSHostelId { get; set; }
         public Guid RoleId { get; set; }
+        public bool IsPrimary { get; set; } = false;
 
-        public User User { get; set; } = default!;
-        public Role Role { get; set; } = default!;
+        public User User { get; set; }
+        public RSHostel RSHostel { get; set; }
+        public Role Role { get; set; }
     }
 }
