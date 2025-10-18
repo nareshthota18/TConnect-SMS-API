@@ -54,6 +54,12 @@ namespace RSMS.Api.Controllers
             return result ? NoContent() : NotFound();
         }
 
-        
+        [HttpGet("StudentsByGrade/{id:Guid}")]
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> StudentsByGrade(Guid GradeId)
+        {
+            var students = await _studentService.StudentsByGrade(GradeId);
+            return Ok(students);
+        }
+
     }
 }
