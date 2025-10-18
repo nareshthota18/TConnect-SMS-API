@@ -13,14 +13,14 @@ namespace RSMS.Services.Implementations
             _repository = repository;
         }
 
-        public async Task<IEnumerable<StaffDTO>> GetAllAsync() =>
-            await _repository.GetAllAsync();
+        public async Task<IEnumerable<StaffDTO>> GetAllAsync(Guid RSHostelId) =>
+            await _repository.GetAllAsync(RSHostelId);
 
         public async Task<StaffDTO?> GetByIdAsync(Guid id) =>
             await _repository.GetByIdAsync(id);
 
-        public async Task<StaffDTO> AddAsync(StaffDTO staff) =>
-            await _repository.AddAsync(staff);
+        public async Task<StaffDTO> AddAsync(StaffDTO staff, Guid RSHostelId) =>
+            await _repository.AddAsync(staff, RSHostelId);
 
         public async Task<StaffDTO> UpdateAsync(StaffDTO staff) =>
             await _repository.UpdateAsync(staff);

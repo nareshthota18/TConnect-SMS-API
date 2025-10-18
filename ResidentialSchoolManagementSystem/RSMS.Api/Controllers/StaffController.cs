@@ -19,7 +19,11 @@ namespace RSMS.Api.Controllers
 
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAll()
-            => Ok(await _service.GetAllAsync());
+        {
+            var rSHostelId = Guid.Parse(User.FindFirst("RSHostelId")?.Value);
+            return Ok(await _service.GetAllAsync(rSHostelId));
+        }
+             
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<StaffDTO>> GetById(Guid id)
@@ -31,7 +35,8 @@ namespace RSMS.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<StaffDTO>> Create(StaffDTO staff)
         {
-            var created = await _service.AddAsync(staff);
+            var rSHostelId = Guid.Parse(User.FindFirst("RSHostelId")?.Value);
+            var created = await _service.AddAsync(staff, rSHostelId);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 

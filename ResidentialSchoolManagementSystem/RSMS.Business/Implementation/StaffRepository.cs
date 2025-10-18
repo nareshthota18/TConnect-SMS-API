@@ -18,11 +18,11 @@ namespace RSMS.Repositories.Implementation
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<StaffDTO>> GetAllAsync()
+        public async Task<IEnumerable<StaffDTO>> GetAllAsync(Guid RSHostelId)
         {
             var staffs = await _context.Staff.
                         Include(s => s.Designation)
-                        .Include(s => s.Department).ToListAsync();
+                        .Include(s => s.Department).Where(s => s.RSHostelId == RSHostelId).ToListAsync();
             return _mapper.Map<IEnumerable<StaffDTO>>(staffs);
         }
 
@@ -36,9 +36,10 @@ namespace RSMS.Repositories.Implementation
             return _mapper.Map<StaffDTO>(staff);
         }
 
-        public async Task<StaffDTO> AddAsync(StaffDTO staffDto)
+        public async Task<StaffDTO> AddAsync(StaffDTO staffDto, Guid RSHostelId)
         {
             var staff = _mapper.Map<Staff>(staffDto);
+            staff.RSHostelId = RSHostelId;
             _context.Staff.Add(staff);
             await _context.SaveChangesAsync();
             return _mapper.Map<StaffDTO>(staff);
