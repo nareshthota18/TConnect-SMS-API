@@ -47,6 +47,8 @@ namespace RSMS.Api.Controllers
             if (user == null)
                 return Unauthorized("Invalid clientId");
 
+            var roleName = await _service.GetRoleByUserAsync(request.Username);
+
             // 3. Build Token
             var jwtSettings = _config.GetSection("Jwt");
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(jwtSettings["Key"]!));
@@ -58,6 +60,7 @@ namespace RSMS.Api.Controllers
             new Claim("client_id", client.ClientId),
             new Claim("username", user.Username),
              new Claim("userId", user.Id.ToString()),
+                new Claim("role", roleName),
             new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
@@ -72,7 +75,7 @@ namespace RSMS.Api.Controllers
             {
                 token = new JwtSecurityTokenHandler().WriteToken(token),
                 expires = token.ValidTo,
-                role = await _service.GetRoleByUserAsync(request.Username)
+                role = roleName
             });
         }
     }

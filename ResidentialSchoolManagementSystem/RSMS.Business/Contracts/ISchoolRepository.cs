@@ -12,5 +12,6 @@ namespace RSMS.Repositories.Contracts
         Task AddAsync(RSHostel hostel);
         Task<IEnumerable<RSHostel>> GetAllAsync(Guid UserId);
         Task<bool> DeleteAsync(Guid id);
+        Task<IEnumerable<RSHostel>> GetAllAsync();
     }
 }

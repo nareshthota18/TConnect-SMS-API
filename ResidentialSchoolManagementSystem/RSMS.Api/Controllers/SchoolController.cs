@@ -23,9 +23,18 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<HostelDTO>>> GetAll()
         {
             // access claims from the token
-            var userId = User.FindFirst("userId")?.Value;
-            var dts = await _schoolService.GetAllAsync(Guid.Parse(userId));
-            return Ok(dts);
+            var role = User.FindFirst("role")?.Value;
+            if (role == "SuperAdmin")
+            {
+                var dts = await _schoolService.GetAllAsync();
+                return Ok(dts);
+            }
+            else
+            {
+                var userId = User.FindFirst("userId")?.Value;
+                var dts = await _schoolService.GetAllAsync(Guid.Parse(userId));
+                return Ok(dts);
+            }
         }
 
         [HttpPost("Create")]

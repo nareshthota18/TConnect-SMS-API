@@ -30,7 +30,10 @@ namespace RSMS.Repositories.Implementation
         {
             return await _context.RSHostels.Where(x => x.CreatedBy == UserId).ToListAsync();
         }
-
+        public async Task<IEnumerable<RSHostel>> GetAllAsync()
+        {
+            return await _context.RSHostels.ToListAsync();
+        }
         public async Task<bool> DeleteAsync(Guid id)
         {
             var sc = await _context.RSHostels.FindAsync(id);
