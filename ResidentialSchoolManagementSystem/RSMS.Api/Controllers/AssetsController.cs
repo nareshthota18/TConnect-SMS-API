@@ -34,6 +34,8 @@ namespace RSMS.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<AssetIssueDTO>> Create(AssetIssueDTO asset)
         {
+            if (asset.RSHostelId == Guid.Empty)
+                asset.RSHostelId = Guid.Parse(User.FindFirst("RSHostelId")?.Value);
             var created = await _service.AddAsync(asset);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
@@ -43,6 +45,8 @@ namespace RSMS.Api.Controllers
         {
             if (id != asset.Id) return BadRequest("ID mismatch");
 
+            if (asset.RSHostelId == Guid.Empty)
+                asset.RSHostelId = Guid.Parse(User.FindFirst("RSHostelId")?.Value);
             var updated = await _service.UpdateAsync(asset);
             return Ok(updated);
         }

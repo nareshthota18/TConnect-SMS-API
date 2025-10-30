@@ -9,7 +9,7 @@
         public DateTime IssueDate { get; set; }
         public string? Remarks { get; set; }
 
-        
+        public Guid RSHostelId { get; set; }
         public string? StudentName { get; set; }
         public string? ItemName { get; set; }
     }
