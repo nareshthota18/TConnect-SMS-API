@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RSMS.Api.Extentions;
+using RSMS.Api.Filters;
 using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 
@@ -7,6 +9,7 @@ namespace RSMS.Api.Controllers
 {
     [ApiController]
     [Authorize]
+    [HostelAccess]
     [Route("api/[controller]")]
     public class StaffController : ControllerBase
     {
@@ -20,10 +23,10 @@ namespace RSMS.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StaffDTO>>> GetAll()
         {
-            var rSHostelId = Guid.Parse(User.FindFirst("RSHostelId")?.Value);
+            var rSHostelId = HttpContext.GetRSHostelId();
             return Ok(await _service.GetAllAsync(rSHostelId));
         }
-             
+
 
         [HttpGet("{id:guid}")]
         public async Task<ActionResult<StaffDTO>> GetById(Guid id)
@@ -35,16 +38,14 @@ namespace RSMS.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<StaffDTO>> Create(StaffDTO staff)
         {
-            var rSHostelId = Guid.Parse(User.FindFirst("RSHostelId")?.Value);
+            var rSHostelId = HttpContext.GetRSHostelId();
             var created = await _service.AddAsync(staff, rSHostelId);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:guid}")]
-        public async Task<ActionResult<StaffDTO>> Update(Guid id, StaffDTO staff)
+        [HttpPut]
+        public async Task<ActionResult<StaffDTO>> Update(StaffDTO staff)
         {
-            if (id != staff.Id) return BadRequest("ID mismatch");
-
             var updated = await _service.UpdateAsync(staff);
             return Ok(updated);
         }

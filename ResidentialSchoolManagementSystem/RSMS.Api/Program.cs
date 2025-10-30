@@ -61,7 +61,7 @@ builder.Services.AddAutoMapper(config => { /* Optional config here */ },
 
 // Swagger
 builder.Services.AddEndpointsApiExplorer();
-// 📌 Swagger Config with Authorization
+// Swagger Config with Authorization
 builder.Services.AddSwaggerGen(c =>
 {
     c.SwaggerDoc("v1", new() { Title = "RSMS API", Version = "v1" });
@@ -74,9 +74,19 @@ builder.Services.AddSwaggerGen(c =>
         Scheme = "Bearer",
         BearerFormat = "JWT",
         In = Microsoft.OpenApi.Models.ParameterLocation.Header,
-        Description = "Enter: **Bearer your_jwt_token**"
+        Description = "Enter: Bearer {your_jwt_token}"
     });
 
+    // RSHostelId header
+    c.AddSecurityDefinition("RSHostelId", new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+    {
+        In = Microsoft.OpenApi.Models.ParameterLocation.Header,
+        Name = "RSHostelId",
+        Type = Microsoft.OpenApi.Models.SecuritySchemeType.ApiKey,
+        Description = "Enter the RSHostelId (required for non-SuperAdmin users)"
+    });
+
+    // Apply both security definitions globally
     c.AddSecurityRequirement(new Microsoft.OpenApi.Models.OpenApiSecurityRequirement
     {
         {
@@ -86,6 +96,17 @@ builder.Services.AddSwaggerGen(c =>
                 {
                     Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
                     Id = "Bearer"
+                }
+            },
+            new string[] {}
+        },
+        {
+            new Microsoft.OpenApi.Models.OpenApiSecurityScheme
+            {
+                Reference = new Microsoft.OpenApi.Models.OpenApiReference
+                {
+                    Type = Microsoft.OpenApi.Models.ReferenceType.SecurityScheme,
+                    Id = "RSHostelId"
                 }
             },
             new string[] {}
@@ -152,7 +173,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-// 🔐 Add middleware
+// Add middleware
 //app.UseHttpsRedirection(); //Commeting for Deployment purpose need to be undo for proper deployment
 app.UseAuthentication();
 app.UseAuthorization();

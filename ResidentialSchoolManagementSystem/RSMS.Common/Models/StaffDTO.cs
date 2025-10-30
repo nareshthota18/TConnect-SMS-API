@@ -12,7 +12,6 @@
         public bool IsTeaching { get; set; }
         public string Status { get; set; } = "Active";
 
-        
         public string? DepartmentName { get; set; }
         public string? DesignationName { get; set; }
     }
