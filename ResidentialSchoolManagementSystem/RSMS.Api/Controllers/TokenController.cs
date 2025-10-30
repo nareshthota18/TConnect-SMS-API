@@ -23,6 +23,7 @@ namespace RSMS.Api.Controllers
             _clients = clients.Value;
             _service = service;
         }
+
         [AllowAnonymous]
         [HttpPost]
         public async Task<IActionResult> GetTokenAsync([FromBody] LoginRequest request)
@@ -46,8 +47,13 @@ namespace RSMS.Api.Controllers
 
             // Fetch user's hostels to determine primary role
             var userSchools = await _service.GetUserHostelsAsync(user.Id);
-            if (userSchools == null || !userSchools.Any())
+
+            // Allow if user is SuperAdmin, otherwise must have schools
+            bool isSuperAdmin = userSchools.Any(x => x?.Role?.Name == "SuperAdmin");
+
+            if (!isSuperAdmin && (userSchools == null || !userSchools.Any()))
                 return Unauthorized("User has no assigned schools");
+
 
             var primaryUserHostel = userSchools.FirstOrDefault(x => x.IsPrimary) ?? userSchools.First();
             var primaryRoleName = primaryUserHostel.Role?.Name ?? string.Empty;

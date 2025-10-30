@@ -138,7 +138,6 @@ namespace RSMS.Repositories.Implementation
             if (user == null)
                 return null;
 
-
             return user;
         }
 

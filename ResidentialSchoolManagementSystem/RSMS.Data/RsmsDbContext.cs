@@ -43,17 +43,32 @@ namespace RSMS.Data
         public DbSet<AssetIssue> AssetIssues { get; set; } = default!;
 
 
-
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
-            // Composite key for UserRole
             base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<RolePermission>()
                   .HasKey(rp => new { rp.RoleId, rp.PermissionId });
 
-            // Composite key for UserRole
-            modelBuilder.Entity<UserHostel>()
-                .HasKey(ur => new { ur.UserId, ur.RoleId });
+            modelBuilder.Entity<UserHostel>(entity =>
+            {
+                entity.HasKey(uh => uh.Id);
+
+                entity.HasOne(uh => uh.User)
+                      .WithMany(u => u.UserHostels)
+                      .HasForeignKey(uh => uh.UserId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(uh => uh.Role)
+                      .WithMany(r => r.UserRoles)
+                      .HasForeignKey(uh => uh.RoleId)
+                      .OnDelete(DeleteBehavior.Restrict);
+
+                entity.HasOne(uh => uh.RSHostel)
+                      .WithMany()
+                      .HasForeignKey(uh => uh.RSHostelId)
+                      .IsRequired(false)
+                      .OnDelete(DeleteBehavior.Restrict);
+            });
 
             modelBuilder.Entity<Student>()
                 .HasOne(s => s.Category)
@@ -69,7 +84,6 @@ namespace RSMS.Data
                 .HasOne(s => s.RSHostel)
                 .WithMany(r => r.Students)
                 .HasForeignKey(s => s.RSHostelId);
-
 
         }
     }
