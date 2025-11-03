@@ -1,8 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using RSMS.Api.Filters;
 using RSMS.Common.Models;
-using RSMS.Services.Implementations;
 using RSMS.Services.Interfaces;
 using System.Security.Claims;
 
@@ -11,6 +10,7 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
+    [HostelAccess]
     public class SchoolController : ControllerBase
     {
         private readonly ISchoolService _schoolService;

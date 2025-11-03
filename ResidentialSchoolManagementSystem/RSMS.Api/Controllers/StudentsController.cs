@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RSMS.Api.Extentions;
+using RSMS.Api.Filters;
 using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
 
@@ -7,6 +9,7 @@ namespace RSMS.Api.Controllers
 {
     [ApiController]
     [Authorize]
+    [HostelAccess]
     [Route("api/[controller]")]
     public class StudentsController : ControllerBase
     {
@@ -20,7 +23,8 @@ namespace RSMS.Api.Controllers
         [HttpGet]
         public async Task<ActionResult<IEnumerable<StudentDTO>>> GetAll()
         {
-            var students = await _studentService.GetAllStudentsAsync();
+            var rSHostelId = HttpContext.GetRSHostelId();
+            var students = await _studentService.GetAllStudentsAsync(rSHostelId);
             return Ok(students);
         }
 
@@ -34,14 +38,17 @@ namespace RSMS.Api.Controllers
         [HttpPost]
         public async Task<ActionResult<StudentDTO>> Create(StudentDTO student)
         {
+            var rSHostelId = HttpContext.GetRSHostelId();
+            if (rSHostelId != student.RSHostelId) return BadRequest("School mismatch");
             var created = await _studentService.AddStudentAsync(student);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
 
-        [HttpPut("{id:Guid}")]
-        public async Task<ActionResult<StudentDTO>> Update(Guid id, StudentDTO student)
+        [HttpPut]
+        public async Task<ActionResult<StudentDTO>> Update(StudentDTO student)
         {
-            if (id != student.Id) return BadRequest("ID mismatch");
+            var rSHostelId = HttpContext.GetRSHostelId();
+            if (rSHostelId != student.RSHostelId) return BadRequest("School mismatch");           
 
             var updated = await _studentService.UpdateStudentAsync(student);
             return Ok(updated);

@@ -4,11 +4,11 @@ namespace RSMS.Repositories.Contracts
 {
     public interface IStudentRepository
     {
-        Task<IEnumerable<Student>> GetAllAsync();
+        Task<IEnumerable<Student>> GetAllAsync(Guid rSHostelId);
         Task<Student?> GetByIdAsync(Guid id);
         Task<Student> AddAsync(Student student);
         Task<Student> UpdateAsync(Student student);
         Task<bool> DeleteAsync(Guid id);
-        Task<IEnumerable<Student>> StudentsByGrade(Guid GradeId);
+        Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId);
     }
 }

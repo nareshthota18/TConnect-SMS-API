@@ -14,13 +14,13 @@ namespace RSMS.Data.Models.CoreEntities
         public Guid? CategoryId { get; set; }
         public string? ParentName { get; set; }
         public string? ParentContact { get; set; }
-        public Guid? RSHostelId { get; set; }
+        public Guid RSHostelId { get; set; }
         public Guid? GradeId { get; set; }
         public string Status { get; set; } = "Active";
         public string? HealthInfo { get; set; }
 
         public Category? Category { get; set; }
-        public RSHostel? RSHostel { get; set; }
+        public RSHostel RSHostel { get; set; }
         public Grade? Grade { get; set; }
         public ICollection<StudentAttendance> Attendance { get; set; } = new List<StudentAttendance>();
         public ICollection<AssetIssue> AssetIssues { get; set; } = new List<AssetIssue>();

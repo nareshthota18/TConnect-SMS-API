@@ -20,14 +20,14 @@ namespace RSMS.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<StudentDTO>> GetAllStudentsAsync()
+        public async Task<IEnumerable<StudentDTO>> GetAllStudentsAsync(Guid rSHostelId)
         {
-            var students = await _studentRepository.GetAllAsync();
+            var students = await _studentRepository.GetAllAsync(rSHostelId);
             return _mapper.Map<IEnumerable<StudentDTO>>(students);
         }
         public async Task<IEnumerable<StudentDTO>> StudentsByGrade(Guid GradeId)
         {
-            var students = await _studentRepository.StudentsByGrade(GradeId);
+            var students = await _studentRepository.GetStudentsByGrade(GradeId);
             return _mapper.Map<IEnumerable<StudentDTO>>(students);
         }
 

@@ -14,14 +14,16 @@ namespace RSMS.Repositories.Implementation
             _context = context;
         }
 
-        public async Task<IEnumerable<Student>> GetAllAsync()
+        public async Task<IEnumerable<Student>> GetAllAsync(Guid rSHostelId)
         {
             return await _context.Students
                 .Include(s => s.Grade)
                 .Include(s => s.RSHostel)
+                .Where(s => s.RSHostelId == rSHostelId)
                 .ToListAsync();
         }
-        public async Task<IEnumerable<Student>> StudentsByGrade(Guid GradeId)
+
+        public async Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId)
         {
             return await _context.Students
                 .Include(s => s.Grade)
