@@ -6,11 +6,11 @@ using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Services.Implementations
 {
-    public class InventoryRepository : IInventoryRepository
+    public class ItemRepository : IItemRepository
     {
         private readonly RSMSDbContext _context;
 
-        public InventoryRepository(RSMSDbContext context)
+        public ItemRepository(RSMSDbContext context)
         {
             _context = context;
         }

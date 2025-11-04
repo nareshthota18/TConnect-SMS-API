@@ -6,50 +6,50 @@ using RSMS.Services.Interfaces;
 
 namespace RSMS.Services.Implementations
 {
-    public class InventoryService : IInventoryService
+    public class ItemService : IItemService
     {
-        private readonly IInventoryRepository _repository;
+        private readonly IItemRepository _inventoryRepository;
         private readonly IMapper _mapper;
 
-        public InventoryService(IInventoryRepository repository, IMapper mapper)
+        public ItemService(IItemRepository inventoryRepository, IMapper mapper)
         {
-            _repository = repository;
+            _inventoryRepository = inventoryRepository;
             _mapper = mapper;
         }
 
         public async Task<IEnumerable<ItemDTO>> GetAllItemsAsync()
         {
-            var entities = await _repository.GetAllAsync();
+            var entities = await _inventoryRepository.GetAllAsync();
             return _mapper.Map<IEnumerable<ItemDTO>>(entities);
         }
 
         public async Task<ItemDTO?> GetItemByIdAsync(Guid id)
         {
-            var entity = await _repository.GetByIdAsync(id);
+            var entity = await _inventoryRepository.GetByIdAsync(id);
             return _mapper.Map<ItemDTO>(entity);
         }
 
         public async Task<ItemDTO> AddItemAsync(ItemDTO item)
         {
             var entity = _mapper.Map<Item>(item);
-            var created = await _repository.AddAsync(entity);
+            var created = await _inventoryRepository.AddAsync(entity);
             return _mapper.Map<ItemDTO>(created);
         }
 
         public async Task<ItemDTO> UpdateItemAsync(ItemDTO item)
         {
             var entity = _mapper.Map<Item>(item);
-            var updated = await _repository.UpdateAsync(entity);
+            var updated = await _inventoryRepository.UpdateAsync(entity);
             return _mapper.Map<ItemDTO>(updated);
         }
 
         public async Task<bool> DeleteItemAsync(Guid id)
         {
-            return await _repository.DeleteAsync(id);
+            return await _inventoryRepository.DeleteAsync(id);
         }
         public async Task<IEnumerable<ItemTypeDTO>> GetItemTypesAsync()
         {
-            var assets = await _repository.GetItemTypesAsync();
+            var assets = await _inventoryRepository.GetItemTypesAsync();
             return _mapper.Map<IEnumerable<ItemTypeDTO>>(assets);
         }
     }

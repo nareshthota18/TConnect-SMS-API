@@ -2,7 +2,7 @@
 
 namespace RSMS.Services.Interfaces
 {
-    public interface IInventoryService
+    public interface IItemService
     {
         Task<IEnumerable<ItemDTO>> GetAllItemsAsync();
         Task<ItemDTO?> GetItemByIdAsync(Guid id);

@@ -3,7 +3,7 @@ using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Repositories.Contracts
 {
-    public interface IInventoryRepository
+    public interface IItemRepository
     {
         Task<IEnumerable<Item>> GetAllAsync();
         Task<Item?> GetByIdAsync(Guid id);

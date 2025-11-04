@@ -10,7 +10,6 @@ namespace RSMS.Api.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [Authorize]
-    [HostelAccess]
     public class SchoolController : ControllerBase
     {
         private readonly ISchoolService _schoolService;
@@ -52,6 +51,7 @@ namespace RSMS.Api.Controllers
 
 
         [HttpPost("Create")]
+        [HostelAccess]
         public async Task<ActionResult> Create([FromBody] HostelDTO dt)
         {
             dt.Id = Guid.Parse(User.FindFirst("userId").Value);
@@ -60,6 +60,7 @@ namespace RSMS.Api.Controllers
         }
 
         [HttpDelete("Delete/{id:Guid}")]
+        [HostelAccess]
         public async Task<ActionResult> Delete(Guid id)
         {
             var result = await _schoolService.DeleteAsync(id);

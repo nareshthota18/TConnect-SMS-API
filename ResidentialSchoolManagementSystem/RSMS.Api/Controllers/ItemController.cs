@@ -1,5 +1,4 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.Models;
 using RSMS.Services.Interfaces;
@@ -9,11 +8,11 @@ namespace RSMS.Api.Controllers
     [ApiController]
     [Authorize]
     [Route("api/[controller]")]
-    public class InventoryController : ControllerBase
+    public class ItemController : ControllerBase
     {
         private readonly IItemService _service;
 
-        public InventoryController(IItemService service)
+        public ItemController(IItemService service)
         {
             _service = service;
         }
@@ -62,4 +61,3 @@ namespace RSMS.Api.Controllers
         }
     }
 }
-
