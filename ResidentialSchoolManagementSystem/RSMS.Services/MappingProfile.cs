@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data.Models;
 using RSMS.Data.Models.CoreEntities;
 using RSMS.Data.Models.InventoryEntities;
@@ -64,6 +64,8 @@ namespace RSMS.Services
             CreateMap<Supplier, SupplierDTO>().ReverseMap();
             CreateMap<ItemType, ItemTypeDTO>().ReverseMap(); 
             CreateMap<RSHostel, HostelDTO>().ReverseMap();
+
+            CreateMap<Inventory, InventoryDTO>().ReverseMap();
         }
     }
 }

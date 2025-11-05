@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Api.Filters;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
 using System.Security.Claims;
 

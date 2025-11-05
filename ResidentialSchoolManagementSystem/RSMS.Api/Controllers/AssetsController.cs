@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers

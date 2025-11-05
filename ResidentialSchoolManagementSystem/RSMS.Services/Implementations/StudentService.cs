@@ -1,5 +1,5 @@
 ﻿using AutoMapper;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data.Models.CoreEntities;
 using RSMS.Data.Models.LookupEntities;
 using RSMS.Repositories.Contracts;

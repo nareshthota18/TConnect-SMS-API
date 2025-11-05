@@ -1,7 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data;
 using RSMS.Repositories.Contracts;
 using RSMS.Repositories.Implementation;
@@ -33,6 +33,7 @@ builder.Services.AddScoped<IAttendanceRepository, AttendanceRepository>();
 builder.Services.AddScoped<IItemRepository, ItemRepository>();
 builder.Services.AddScoped<IReportsRepository, ReportsRepository>();
 builder.Services.AddScoped<ISchoolRepository, SchoolRepository>();
+builder.Services.AddScoped<IInventoryRepository, InventoryRepository>();
 
 // Register Services
 builder.Services.AddScoped<IUserService, UserService>();
@@ -45,6 +46,7 @@ builder.Services.AddScoped<IAttendanceService, AttendanceService>();
 builder.Services.AddScoped<IItemService, ItemService>();
 builder.Services.AddScoped<IReportsService, ReportsService>();
 builder.Services.AddScoped<ISchoolService, SchoolService>();
+builder.Services.AddScoped<IInventoryService, InventoryService>();
 
 // Lookup Repository
 builder.Services.AddScoped(typeof(ILookupRepository<,>), typeof(LookupRepository<,>));

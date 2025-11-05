@@ -1,4 +1,4 @@
-﻿using RSMS.Common.Models;
+﻿using RSMS.Common.DTO;
 using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Repositories.Contracts

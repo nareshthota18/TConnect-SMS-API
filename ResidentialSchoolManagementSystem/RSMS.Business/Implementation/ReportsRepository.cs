@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Repositories.Contracts;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data;
 using RSMS.Services.Interfaces;
 

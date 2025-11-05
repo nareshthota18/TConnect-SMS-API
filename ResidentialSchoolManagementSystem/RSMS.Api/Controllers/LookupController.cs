@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data.Models.LookupEntities;
 using RSMS.Services.Contracts;
 

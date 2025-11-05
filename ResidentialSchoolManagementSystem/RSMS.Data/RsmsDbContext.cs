@@ -41,6 +41,7 @@ namespace RSMS.Data
         public DbSet<PurchaseItem> PurchaseInvoiceItems { get; set; } = default!;
         public DbSet<StockLedger> StockLedgers { get; set; } = default!;
         public DbSet<AssetIssue> AssetIssues { get; set; } = default!;
+        public DbSet<Inventory> Inventory { get; set; } = default!;
 
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -84,6 +85,10 @@ namespace RSMS.Data
                 .HasOne(s => s.RSHostel)
                 .WithMany(r => r.Students)
                 .HasForeignKey(s => s.RSHostelId);
+            modelBuilder.Entity<Inventory>()
+                .Property(i => i.QuantityInHand)
+                .HasComputedColumnSql("[OpeningBalance] + [QuantityReceived] - [QuantityIssued]");
+
 
         }
     }

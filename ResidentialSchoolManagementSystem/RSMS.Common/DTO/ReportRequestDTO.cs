@@ -1,6 +1,6 @@
 ﻿using RSMS.Common.Enums;
 
-namespace RSMS.Common.Models
+namespace RSMS.Common.DTO
 {
     public class ReportRequestDTO
     {

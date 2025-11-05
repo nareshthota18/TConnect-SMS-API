@@ -1,7 +1,7 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using RSMS.Repositories.Contracts;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data;
 using RSMS.Data.Models.CoreEntities;
 

@@ -1,6 +1,6 @@
 ﻿using System.Text.Json.Serialization;
 
-namespace RSMS.Common.Models
+namespace RSMS.Common.DTO
 {
     public class UserDTO
     {

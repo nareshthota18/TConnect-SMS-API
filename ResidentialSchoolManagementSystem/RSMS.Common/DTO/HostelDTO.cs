@@ -5,7 +5,7 @@ using System.Text;
 using System.Text.Json.Serialization;
 using System.Threading.Tasks;
 
-namespace RSMS.Common.Models
+namespace RSMS.Common.DTO
 {
     public class HostelDTO
     {

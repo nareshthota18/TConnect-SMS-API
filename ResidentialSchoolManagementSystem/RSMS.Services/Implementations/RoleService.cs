@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using RSMS.Repositories.Contracts;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Services.Interfaces;
 

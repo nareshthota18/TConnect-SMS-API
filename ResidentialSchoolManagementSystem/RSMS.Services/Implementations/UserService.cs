@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RSMS.Common;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Repositories.Contracts;
 using RSMS.Services.Interfaces;

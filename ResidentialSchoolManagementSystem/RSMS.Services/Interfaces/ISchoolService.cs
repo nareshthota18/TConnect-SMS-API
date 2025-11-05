@@ -1,4 +1,4 @@
-﻿using RSMS.Common.Models;
+﻿using RSMS.Common.DTO;
 using System;
 using System.Collections.Generic;
 using System.Linq;

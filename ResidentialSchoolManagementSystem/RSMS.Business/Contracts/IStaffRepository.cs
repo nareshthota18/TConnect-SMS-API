@@ -1,4 +1,4 @@
-﻿using RSMS.Common.Models;
+﻿using RSMS.Common.DTO;
 
 namespace RSMS.Repositories.Contracts
 {

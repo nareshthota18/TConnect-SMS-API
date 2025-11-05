@@ -1,65 +1,53 @@
-﻿
-using Microsoft.AspNetCore.Authorization;
+﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
-using RSMS.Common.Models;
+using RSMS.Api.Extentions;
+using RSMS.Api.Filters;
+using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
 {
     [ApiController]
     [Authorize]
+    [HostelAccess]
     [Route("api/[controller]")]
     public class InventoryController : ControllerBase
     {
-        private readonly IItemService _service;
+        private readonly IInventoryService _inventoryService;
 
-        public InventoryController(IItemService service)
+        public InventoryController(IInventoryService inventoryService)
         {
-            _service = service;
+            _inventoryService = inventoryService;
         }
 
-        [HttpGet("GetAll")]
-        public async Task<ActionResult<IEnumerable<ItemDTO>>> GetAll()
+        [HttpGet]
+        public async Task<IActionResult> GetAll()
         {
-            var items = await _service.GetAllItemsAsync();
-            return Ok(items);
+            var rSHostelId = HttpContext.GetRSHostelId();
+            var result = await _inventoryService.GetAllBySchoolAsync(rSHostelId);
+            return Ok(result);
         }
 
-        [HttpGet("GetById/{id:guid}")]
-        public async Task<ActionResult<ItemDTO>> GetById(Guid id)
+        [HttpPost]
+        public async Task<IActionResult> Add([FromBody] InventoryDTO dto)
         {
-            var item = await _service.GetItemByIdAsync(id);
-            return item == null ? NotFound() : Ok(item);
+            var rSHostelId = HttpContext.GetRSHostelId();
+            dto.RSHostelId = rSHostelId; // ensure consistency even if not sent in body
+
+            var result = await _inventoryService.AddAsync(dto);
+            return CreatedAtAction(nameof(GetAll), new { }, result);
         }
 
-        [HttpPost("Create")]
-        public async Task<ActionResult<ItemDTO>> Create(ItemDTO item)
+        [HttpPut]
+        public async Task<IActionResult> Update([FromBody] InventoryDTO dto)
         {
-            var created = await _service.AddItemAsync(item);
-            return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
-        }
+            var rSHostelId = HttpContext.GetRSHostelId();
+            dto.RSHostelId = rSHostelId; // enforce scope check
 
-        [HttpPut("Update/{id:guid}")]
-        public async Task<ActionResult<ItemDTO>> Update(Guid id, ItemDTO item)
-        {
-            if (id != item.Id) return BadRequest("ID mismatch");
-            var updated = await _service.UpdateItemAsync(item);
+            var updated = await _inventoryService.UpdateAsync(dto);
+            if (updated == null) return NotFound();
+
             return Ok(updated);
-        }
-
-        [HttpDelete("Delete/{id:guid}")]
-        public async Task<IActionResult> Delete(Guid id)
-        {
-            var result = await _service.DeleteItemAsync(id);
-            return result ? NoContent() : NotFound();
-        }
-
-        [HttpGet("GetItemTypes")]
-        public async Task<ActionResult<IEnumerable<ItemTypeDTO>>> GetItemTypesAsync()
-        {
-            var types = await _service.GetItemTypesAsync();
-            return Ok(types);
         }
     }
 }
-

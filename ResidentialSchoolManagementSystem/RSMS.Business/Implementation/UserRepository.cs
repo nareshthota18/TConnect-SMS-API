@@ -2,7 +2,7 @@
 using RSMS.Repositories.Contracts;
 using RSMS.Data;
 using RSMS.Data.Models.SecurityEntities;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Common;
 
 namespace RSMS.Repositories.Implementation

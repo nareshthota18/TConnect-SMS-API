@@ -1,5 +1,5 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data;
 using RSMS.Repositories.Contracts;
 using System.Linq.Expressions;

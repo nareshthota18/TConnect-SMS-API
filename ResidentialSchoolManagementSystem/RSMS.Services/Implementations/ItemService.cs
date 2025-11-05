@@ -1,6 +1,6 @@
 ﻿using AutoMapper;
 using RSMS.Repositories.Contracts;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Services.Interfaces;
 

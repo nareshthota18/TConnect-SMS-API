@@ -1,4 +1,4 @@
-﻿using RSMS.Common.Models;
+﻿using RSMS.Common.DTO;
 using System.Linq.Expressions;
 
 namespace RSMS.Services.Contracts

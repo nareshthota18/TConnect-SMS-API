@@ -2,7 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Api.Extentions;
 using RSMS.Api.Filters;
-using RSMS.Common.Models;
+using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers

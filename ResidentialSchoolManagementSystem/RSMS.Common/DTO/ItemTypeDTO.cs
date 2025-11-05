@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace RSMS.Common.Models
+namespace RSMS.Common.DTO
 {
     public class ItemTypeDTO
     {
