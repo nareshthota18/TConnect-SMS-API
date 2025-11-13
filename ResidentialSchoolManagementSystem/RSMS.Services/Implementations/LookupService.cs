@@ -23,5 +23,34 @@ namespace RSMS.Services.Implementation
         {
             return await _lookupRepository.ExistsAsync(id);
         }
+
+        public async Task<TEntity?> GetByIdAsync(TKey id)
+        {
+            return await _lookupRepository.GetByIdAsync(id);
+        }
+
+       
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await _lookupRepository.ExistsByNameAsync(name);
+        }
+
+    
+        public async Task AddAsync(TEntity entity)
+        {
+            await _lookupRepository.AddAsync(entity);
+        }
+
+       
+        public async Task<bool> UpdateAsync(TEntity entity)
+        {
+            return await _lookupRepository.UpdateAsync(entity);
+        }
+
+       
+        public async Task<bool> DeleteAsync(TKey id)
+        {
+            return await _lookupRepository.DeleteAsync(id);
+        }
     }
 }

@@ -13,5 +13,6 @@ namespace RSMS.Services.Interfaces
         Task<IEnumerable<HostelDTO>> GetAllAsync(Guid userId);
         Task<bool> DeleteAsync(Guid id);
         Task<IEnumerable<HostelDTO>> GetAllAsync();
+        Task<bool> ExistsByNameAsync(string name);
     }
 }

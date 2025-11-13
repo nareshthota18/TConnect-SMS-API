@@ -1,13 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Data;
 using RSMS.Data.Models.LookupEntities;
-using RSMS.Data.Models.SecurityEntities;
 using RSMS.Repositories.Contracts;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RSMS.Repositories.Implementation
 {
@@ -42,6 +36,11 @@ namespace RSMS.Repositories.Implementation
             _context.RSHostels.Remove(sc);
             await _context.SaveChangesAsync();
             return true;
+        }
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await _context.RSHostels
+                .AnyAsync(h => h.Name.ToLower() == name.ToLower());
         }
 
     }

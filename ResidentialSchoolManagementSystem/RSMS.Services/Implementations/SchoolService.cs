@@ -40,5 +40,9 @@ namespace RSMS.Services.Implementations
         {
             return await _schoolRepository.DeleteAsync(id);
         }
+        public async Task<bool> ExistsByNameAsync(string name)
+        {
+            return await _schoolRepository.ExistsByNameAsync(name);
+        }
     }
 }

@@ -51,13 +51,17 @@ namespace RSMS.Api.Controllers
 
 
         [HttpPost("Create")]
-        [HostelAccess]
-        public async Task<ActionResult> Create([FromBody] HostelDTO dt)
+        public async Task<ActionResult> Create([FromBody] HostelDTO dto)
         {
-            dt.Id = Guid.Parse(User.FindFirst("userId").Value);
-            await _schoolService.AddAsync(dt);
-            return Ok();
+            if (await _schoolService.ExistsByNameAsync(dto.Name))
+                return Conflict(new { message = $"A school with the name '{dto.Name}' already exists." });
+
+            dto.Id = Guid.NewGuid();
+            await _schoolService.AddAsync(dto);
+
+            return Ok(new { message = "School created successfully.", dto.Id });
         }
+
 
         [HttpDelete("Delete/{id:Guid}")]
         [HostelAccess]
