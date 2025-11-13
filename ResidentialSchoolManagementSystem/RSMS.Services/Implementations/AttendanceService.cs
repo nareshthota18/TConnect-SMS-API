@@ -77,5 +77,14 @@ namespace RSMS.Services.Implementations
 
         public async Task<bool> DeleteStaffAttendanceAsync(Guid id) =>
             await _repo.DeleteStaffAttendanceAsync(id);
+
+        public async Task<List<StaffAttendanceDTO>> CreateStaffAttendanceList(List<StaffAttendanceDTO> att)
+        {
+            var entities = _mapper.Map<List<StaffAttendance>>(att);
+            var updated = await _repo.CreateStaffAttendanceList(entities);
+            return _mapper.Map<List<StaffAttendanceDTO>>(updated);
+        }
+
+
     }
 }

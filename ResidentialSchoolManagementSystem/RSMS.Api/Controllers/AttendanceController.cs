@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RSMS.Api.Controllers
 {
@@ -83,6 +84,13 @@ namespace RSMS.Api.Controllers
         {
             var result = await _attendanceService.DeleteStaffAttendanceAsync(id);
             return result ? NoContent() : NotFound();
+        }
+
+        [HttpPost("staffList")]
+        public async Task<IActionResult> CreateStaffAttendanceList(List<StaffAttendanceDTO> att)
+        {
+            var updated = await _attendanceService.CreateStaffAttendanceList(att);
+            return Ok(updated);
         }
     }
 }

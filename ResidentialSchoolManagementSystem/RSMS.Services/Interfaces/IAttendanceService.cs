@@ -1,4 +1,5 @@
 ﻿using RSMS.Common.DTO;
+using RSMS.Data.Models.CoreEntities;
 
 namespace RSMS.Services.Interfaces
 {
@@ -17,5 +18,6 @@ namespace RSMS.Services.Interfaces
         Task<StaffAttendanceDTO> AddStaffAttendanceAsync(StaffAttendanceDTO att);
         Task<StaffAttendanceDTO> UpdateStaffAttendanceAsync(StaffAttendanceDTO att);
         Task<bool> DeleteStaffAttendanceAsync(Guid id);
+        Task<List<StaffAttendanceDTO>> CreateStaffAttendanceList(List<StaffAttendanceDTO> att);
     }
 }
