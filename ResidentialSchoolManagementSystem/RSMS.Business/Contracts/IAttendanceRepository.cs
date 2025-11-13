@@ -18,5 +18,7 @@ namespace RSMS.Repositories.Contracts
         Task<StaffAttendance> AddStaffAttendanceAsync(StaffAttendance att);
         Task<StaffAttendance> UpdateStaffAttendanceAsync(StaffAttendance att);
         Task<bool> DeleteStaffAttendanceAsync(Guid id);
+        Task<List<StaffAttendance>> CreateStaffAttendanceList(List<StaffAttendance> att);
+        Task<List<StudentAttendance>> CreateStudentAttendanceList(List<StudentAttendance> att);
     }
 }
