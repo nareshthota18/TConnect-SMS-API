@@ -19,5 +19,6 @@ namespace RSMS.Services.Interfaces
         Task<StaffAttendanceDTO> UpdateStaffAttendanceAsync(StaffAttendanceDTO att);
         Task<bool> DeleteStaffAttendanceAsync(Guid id);
         Task<List<StaffAttendanceDTO>> CreateStaffAttendanceList(List<StaffAttendanceDTO> att);
+        Task<List<StudentAttendanceDTO>> CreateStudentAttendanceList(List<StudentAttendanceDTO> att);
     }
 }

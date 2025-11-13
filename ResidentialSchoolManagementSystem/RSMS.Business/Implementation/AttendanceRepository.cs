@@ -85,5 +85,14 @@ namespace RSMS.Repositories.Implementation
             // Return the updated list
             return att;
         }
+
+        public async Task<List<StudentAttendance>> CreateStudentAttendanceList(List<StudentAttendance> att)
+        {
+            _context.StudentAttendance.UpdateRange(att);
+            // Save changes to the database
+            await _context.SaveChangesAsync();
+            // Return the updated list
+            return att;
+        }
     }
 }

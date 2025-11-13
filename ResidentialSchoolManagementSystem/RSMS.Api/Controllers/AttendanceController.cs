@@ -92,5 +92,12 @@ namespace RSMS.Api.Controllers
             var updated = await _attendanceService.CreateStaffAttendanceList(att);
             return Ok(updated);
         }
+        
+        [HttpPost("studentList")]
+        public async Task<IActionResult> CreateStudentAttendanceList(List<StudentAttendanceDTO> att)
+        {
+            var updated = await _attendanceService.CreateStudentAttendanceList(att);
+            return Ok(updated);
+        }
     }
 }
