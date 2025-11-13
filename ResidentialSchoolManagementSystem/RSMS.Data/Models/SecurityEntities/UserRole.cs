@@ -11,7 +11,7 @@ namespace RSMS.Data.Models.SecurityEntities
         public Guid? RSHostelId { get; set; }
         public Guid RoleId { get; set; }
         public bool IsPrimary { get; set; } = false;
-        public DateTime? CreatedAt { get; set; }
+        public DateTime? CreatedAt { get; set; } = DateTime.UtcNow;
         public Guid? CreatedBy { get; set; }
 
 

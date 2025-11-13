@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Authorization;
+﻿using Azure.Core;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
@@ -36,6 +37,11 @@ namespace RSMS.Api.Controllers
         [HttpPost("Create")]
         public async Task<ActionResult<UserDTO>> Create([FromBody] UserDTO user)
         {
+            var existingUser = await _userService.GetByuserAsync(user.Username);
+            if (existingUser != null)
+            {
+                return BadRequest("Username already exists!");
+            }
             var created = await _userService.AddAsync(user);
             return CreatedAtAction(nameof(GetById), new { id = created.Id }, created);
         }
