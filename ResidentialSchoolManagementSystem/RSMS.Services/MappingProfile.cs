@@ -4,6 +4,7 @@ using RSMS.Data.Models;
 using RSMS.Data.Models.CoreEntities;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Data.Models.LookupEntities;
+using RSMS.Data.Models.Others;
 using RSMS.Data.Models.SecurityEntities;
 
 
@@ -62,10 +63,18 @@ namespace RSMS.Services
             CreateMap<Item, ItemDTO>().ReverseMap();
             CreateMap<Role, RoleDTO>().ReverseMap();
             CreateMap<Supplier, SupplierDTO>().ReverseMap();
-            CreateMap<ItemType, ItemTypeDTO>().ReverseMap(); 
+            CreateMap<ItemType, ItemTypeDTO>().ReverseMap();
             CreateMap<RSHostel, HostelDTO>().ReverseMap();
 
             CreateMap<Inventory, InventoryDTO>().ReverseMap();
+
+            CreateMap<SchoolActivity, SchoolActivityDTO>().ReverseMap();
+            CreateMap<SchoolHoliday, SchoolHolidayDTO>()
+            .ForMember(dest => dest.HostelName, opt => opt.MapFrom(src => src.RSHostel != null ? src.RSHostel.Name : null));
+
+            CreateMap<SchoolHolidayDTO, SchoolHoliday>()
+            .ForMember(dest => dest.RSHostel, opt => opt.Ignore());
+
         }
     }
 }

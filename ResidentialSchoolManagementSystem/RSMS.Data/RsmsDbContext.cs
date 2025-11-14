@@ -3,6 +3,7 @@ using RSMS.Data.Models;
 using RSMS.Data.Models.CoreEntities;
 using RSMS.Data.Models.InventoryEntities;
 using RSMS.Data.Models.LookupEntities;
+using RSMS.Data.Models.Others;
 using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Data
@@ -43,6 +44,9 @@ namespace RSMS.Data
         public DbSet<AssetIssue> AssetIssues { get; set; } = default!;
         public DbSet<Inventory> Inventory { get; set; } = default!;
 
+        //Others
+        public DbSet<SchoolActivity> SchoolActivities { get; set; } = default!; 
+        public DbSet<SchoolHoliday> SchoolHolidays { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -88,7 +92,6 @@ namespace RSMS.Data
             modelBuilder.Entity<Inventory>()
                 .Property(i => i.QuantityInHand)
                 .HasComputedColumnSql("[OpeningBalance] + [QuantityReceived] - [QuantityIssued]");
-
 
         }
     }
