@@ -47,8 +47,12 @@ namespace RSMS.Repositories.Implementation
         }
 
         // Staff Attendance
-        public async Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync() =>
-            await _context.StaffAttendance.ToListAsync();
+        public async Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync()
+        {
+            return await _context.StaffAttendance
+                .Include(sa => sa.Staff)
+                .ToListAsync();
+        }
 
         public async Task<StaffAttendance?> GetStaffAttendanceByIdAsync(Guid id) =>
             await _context.StaffAttendance.FindAsync(id);
