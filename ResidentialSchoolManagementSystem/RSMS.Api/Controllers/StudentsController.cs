@@ -62,9 +62,9 @@ namespace RSMS.Api.Controllers
         }
 
         [HttpGet("StudentsByGrade/{id:Guid}")]
-        public async Task<ActionResult<IEnumerable<StudentDTO>>> StudentsByGrade(Guid GradeId)
+        public async Task<ActionResult<IEnumerable<StudentDTO>>> StudentsByGrade(Guid id)
         {
-            var students = await _studentService.StudentsByGrade(GradeId);
+            var students = await _studentService.StudentsByGrade(id);
             return Ok(students);
         }
 
