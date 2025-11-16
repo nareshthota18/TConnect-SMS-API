@@ -143,12 +143,12 @@ namespace RSMS.Repositories.Implementation
 
         public async Task<List<UserHostel>> GetUserHostelsAsync(Guid userId)
         {
-            var userHostels = await _context.UserHostels
-              .Include(uh => uh.RSHostel)
-              .Include(uh => uh.Role)
-              .Where(uh => uh.UserId == userId)
-              .OrderByDescending(uh => uh.IsPrimary)
-              .ToListAsync();
+           var userHostels = await _context.UserHostels
+                               .Include(uh => uh.RSHostel)
+                               .Include(uh => uh.Role)
+                               .Where(uh => uh.UserId == userId && uh.RSHostel.IsActive)
+                               .OrderByDescending(uh => uh.IsPrimary)
+                               .ToListAsync();
 
 
             return userHostels;

@@ -26,14 +26,15 @@ namespace RSMS.Repositories.Implementation
         }
         public async Task<IEnumerable<RSHostel>> GetAllAsync()
         {
-            return await _context.RSHostels.ToListAsync();
+            return await _context.RSHostels.Where(x => x.IsActive).ToListAsync();
         }
         public async Task<bool> DeleteAsync(Guid id)
         {
             var sc = await _context.RSHostels.FindAsync(id);
             if (sc == null) return false;
 
-            _context.RSHostels.Remove(sc);
+            sc.IsActive = false;
+            _context.RSHostels.Update(sc);
             await _context.SaveChangesAsync();
             return true;
         }
