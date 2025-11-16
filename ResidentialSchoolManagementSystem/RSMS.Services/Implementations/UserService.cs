@@ -73,9 +73,9 @@ namespace RSMS.Services.Implementations
             return await _userRepository.UpdatePassword(user, hashBytes, saltBytes);
         }
 
-        public async Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId)
+        public async Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId,bool isSuperAdmin)
         {
-            return await _userRepository.GetUserHostelsAsync(userId);
+            return await _userRepository.GetUserHostelsAsync(userId, isSuperAdmin);
         }
 
         public async Task<User> GetByuserAsync(string userName)

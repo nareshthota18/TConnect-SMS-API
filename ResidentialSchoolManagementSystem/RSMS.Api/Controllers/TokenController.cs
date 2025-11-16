@@ -70,6 +70,7 @@ namespace RSMS.Api.Controllers
                          new Claim("username", user.Username),
                          new Claim("userId", user.Id.ToString()),
                          new Claim("RSHostelId", primaryUserHostel.RSHostelId.ToString()),
+                          new Claim("IsSuperAdmin", isSuperAdmin.ToString()),
                          new Claim(ClaimTypes.Role, primaryRoleName),
                          new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
                         };

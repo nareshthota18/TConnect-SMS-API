@@ -13,7 +13,7 @@ namespace RSMS.Services.Interfaces
         Task<bool> DeleteAsync(Guid id);
         Task<bool> ValidUser(string userName, string password);
         Task<bool> UpdatePassword(ResetPassword user);
-        Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId);
+        Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId, bool isSuperAdmin);
         Task<User?> GetByuserAsync(string username);
     }
 }

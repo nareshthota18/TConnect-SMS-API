@@ -141,14 +141,28 @@ namespace RSMS.Repositories.Implementation
             return user;
         }
 
-        public async Task<List<UserHostel>> GetUserHostelsAsync(Guid userId)
+        public async Task<List<UserHostel>> GetUserHostelsAsync(Guid userId, bool isSuperAdmin)
         {
-            var userHostels = await _context.UserHostels
-                .Include(uh => uh.RSHostel)
-                .Include(uh => uh.Role)
-                .Where(uh => uh.UserId == userId)
-                .OrderByDescending(uh => uh.IsPrimary)
-                .ToListAsync();
+            List<UserHostel> userHostels = new List<UserHostel>();
+            if (isSuperAdmin)
+            {
+
+                userHostels = await _context.UserHostels
+               .Include(uh => uh.RSHostel)
+               .Include(uh => uh.Role)
+               .OrderByDescending(uh => uh.IsPrimary)
+               .ToListAsync();
+            }
+            else
+            {
+                userHostels = await _context.UserHostels
+               .Include(uh => uh.RSHostel)
+               .Include(uh => uh.Role)
+               .Where(uh => uh.UserId == userId)
+               .OrderByDescending(uh => uh.IsPrimary)
+               .ToListAsync();
+            }
+
 
             return userHostels;
         }

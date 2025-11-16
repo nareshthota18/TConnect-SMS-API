@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RSMS.Api.Extentions;
 using RSMS.Api.Filters;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
@@ -31,7 +32,7 @@ namespace RSMS.Api.Controllers
             var userId = Guid.Parse(userIdClaim);
 
             // Fetch user's schools from the service
-            var userSchools = await _userService.GetUserHostelsAsync(userId);
+            var userSchools = await _userService.GetUserHostelsAsync(userId, HttpContext.IsSuperAdmin());
 
             if (userSchools == null || !userSchools.Any())
                 return NotFound(new { message = "User has no assigned schools" });
