@@ -4,9 +4,6 @@
     {
         public static Guid GetRSHostelId(this HttpContext context)
             => (Guid)context.Items["RSHostelId"];
-
-        public static bool IsSuperAdmin(this HttpContext context)
-            => (bool)context.Items["IsSuperAdmin"];
     }
 
 }

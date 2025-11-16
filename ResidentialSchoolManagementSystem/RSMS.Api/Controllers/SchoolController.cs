@@ -31,8 +31,22 @@ namespace RSMS.Api.Controllers
 
             var userId = Guid.Parse(userIdClaim);
 
+            var role = User.FindFirstValue("RoleName");
+
+            bool isSuperAdmin = role == "SuperAdmin";
+            if (isSuperAdmin)
+            {
+               var schol = await _schoolService.GetAllAsync();
+                // Map to simple response
+                var list = schol.Select(s => new
+                {
+                    schoolId = s.Id,
+                    schoolName = s.Name,
+                });
+                return Ok(list);
+            }
             // Fetch user's schools from the service
-            var userSchools = await _userService.GetUserHostelsAsync(userId, HttpContext.IsSuperAdmin());
+            var userSchools = await _userService.GetUserHostelsAsync(userId);
 
             if (userSchools == null || !userSchools.Any())
                 return NotFound(new { message = "User has no assigned schools" });
