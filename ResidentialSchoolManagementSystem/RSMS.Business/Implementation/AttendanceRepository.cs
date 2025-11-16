@@ -83,19 +83,133 @@ namespace RSMS.Repositories.Implementation
 
         public async Task<List<StaffAttendance>> CreateStaffAttendanceList(List<StaffAttendance> att)
         {
-            _context.StaffAttendance.UpdateRange(att);
-            // Save changes to the database
+            if (att == null || !att.Any())
+            {
+                return new List<StaffAttendance>();
+            }
+
+            // 1. Get all unique Staff IDs from the incoming batch.
+            var incomingStaffIds = att.Select(a => a.StaffId).Distinct().ToList();
+
+            // 2. Fetch ALL matching existing records from the database.
+            // This is the CRITICAL FIX for the LINQ translation error: use Contains() on the ID list.
+            // These entities are now TRACKED by the DbContext.
+            var existingRecords = await _context.StaffAttendance
+                .Where(sa => incomingStaffIds.Contains(sa.StaffId))
+                .ToListAsync();
+
+            // 3. Prepare container for entities that need to be added.
+            var entitiesToAdd = new List<StaffAttendance>();
+
+            // 4. Iterate and process: Update Tracked Entities or Mark for Insert.
+            foreach (var incomingEntity in att)
+            {
+                // Find a match based on the composite key (StaffId + Date) in memory.
+                var matchingExisting = existingRecords.FirstOrDefault(er =>
+                    er.StaffId == incomingEntity.StaffId &&
+                    er.AttendanceDate.Date == incomingEntity.AttendanceDate.Date); // Compare Date only
+
+                if (matchingExisting != null)
+                {
+                    // UPDATE: Record exists and is ALREADY tracked.
+
+                    // **CRITICAL FIX for Tracking Error:** Copy values from the incoming entity
+                    // to the entity that is already tracked by the DbContext.
+                    matchingExisting.Status = incomingEntity.Status;
+                    matchingExisting.Remarks = incomingEntity.Remarks;
+                    // NOTE: Copy all properties that need to be updated here!
+
+                    // No need to call Attach/Modified/UpdateRange; the tracking handles the update.
+                }
+                else
+                {
+                    // INSERT: Record does not exist.
+                    entitiesToAdd.Add(incomingEntity);
+
+                    // Ensure Guid is empty for creation.
+                    if (incomingEntity.Id != Guid.Empty)
+                    {
+                        incomingEntity.Id = Guid.Empty;
+                    }
+                }
+            }
+
+            // 5. Apply Inserts.
+            if (entitiesToAdd.Any())
+            {
+                _context.StaffAttendance.AddRange(entitiesToAdd);
+            }
+
+            // 6. Save all changes (inserts and the tracked updates from step 4).
             await _context.SaveChangesAsync();
-            // Return the updated list
+
             return att;
         }
 
         public async Task<List<StudentAttendance>> CreateStudentAttendanceList(List<StudentAttendance> att)
         {
-            _context.StudentAttendance.UpdateRange(att);
-            // Save changes to the database
+            if (att == null || !att.Any())
+            {
+                return new List<StudentAttendance>();
+            }
+
+            var incomingStudentIds = att.Select(a => a.StudentId).Distinct().ToList();
+
+            // 1. Fetch ALL matching existing records and keep them TRACKED.
+            var existingRecords = await _context.StudentAttendance
+                .Where(sa => incomingStudentIds.Contains(sa.StudentId))
+                .ToListAsync(); // <-- These entities are now TRACKED by the context
+
+            // 2. Prepare containers for entities that definitely need to be added.
+            var entitiesToAdd = new List<StudentAttendance>();
+
+            // 3. Iterate and process: Update Tracked Entities or Mark for Insert.
+            foreach (var incomingEntity in att)
+            {
+                // Find a match based on the composite key (StudentId, Date, Session)
+                var matchingExisting = existingRecords.FirstOrDefault(er =>
+                    er.StudentId == incomingEntity.StudentId &&
+                    er.AttendanceDate.Date == incomingEntity.AttendanceDate.Date &&
+                    er.Session == incomingEntity.Session);
+
+                if (matchingExisting != null)
+                {
+                    // UPDATE: Record exists and is ALREADY tracked.
+
+                    // **CRITICAL FIX:** Copy the new values from the incoming entity
+                    // to the entity that is already tracked by the DbContext.
+                    matchingExisting.Session = incomingEntity.Session;
+                    matchingExisting.Remarks = incomingEntity.Remarks;
+                    // ... copy all other properties you need to update ...
+
+                    // We do NOT call Attach/Update/Modified here, because the tracking entity 
+                    // is automatically marked as Modified when its properties change.
+                }
+                else
+                {
+                    // INSERT: Record does not exist.
+                    entitiesToAdd.Add(incomingEntity);
+
+                    // Ensure Guid is empty for creation.
+                    if (incomingEntity.Id != Guid.Empty)
+                    {
+                        incomingEntity.Id = Guid.Empty;
+                    }
+                }
+            }
+
+            // 4. Apply Inserts.
+            if (entitiesToAdd.Any())
+            {
+                _context.StudentAttendance.AddRange(entitiesToAdd);
+            }
+
+            // NOTE: The updates are handled by the change tracking in Step 3, 
+            // so we don't need a separate loop for entitiesToUpdate.
+
+            // 5. Save all changes (inserts and tracked updates).
             await _context.SaveChangesAsync();
-            // Return the updated list
+
             return att;
         }
     }
