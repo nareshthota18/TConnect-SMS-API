@@ -33,6 +33,13 @@ namespace RSMS.Api.Controllers
 
         #region GET
 
+        [HttpGet("attendancetypes")]
+        public async Task<ActionResult<List<LookupDTO>>> GetAttendanceTypes()
+        {
+            var result = await _attendanceTypeService.GetLookupAsync(a => new LookupDTO { Key = a.Id, Value = a.Name });
+            return Ok(result);
+        }
+
         [HttpGet("categories")]
         public async Task<ActionResult<List<LookupDTO>>> GetCategories()
         {
@@ -60,14 +67,6 @@ namespace RSMS.Api.Controllers
             var result = await _gradeService.GetLookupAsync(g => new LookupDTO { Key = g.Id, Value = g.Name });
             return Ok(result);
         }
-
-        [HttpGet("attendancetypes")]
-        public async Task<ActionResult<List<LookupDTO>>> GetAttendanceTypes()
-        {
-            var result = await _attendanceTypeService.GetLookupAsync(a => new LookupDTO { Key = a.Id, Value = a.Name });
-            return Ok(result);
-        }
-
         #endregion
 
         #region POST
