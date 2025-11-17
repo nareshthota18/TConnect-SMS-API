@@ -37,7 +37,7 @@ namespace RSMS.Services.Implementations
             entity.Description = dto.Description;
             entity.Category = dto.Category;
             entity.ActivityDate = dto.ActivityDate;
-            entity.RSHostelId = dto.HostelId;
+            entity.RSHostelId = dto.RSHostelId;
 
             entity.UpdatedBy = userId;
             entity.UpdatedAt = DateTime.UtcNow;

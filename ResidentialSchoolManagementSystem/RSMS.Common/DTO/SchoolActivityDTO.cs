@@ -3,7 +3,7 @@
     public class SchoolActivityDTO
     {
         public Guid Id { get; set; }
-        public Guid HostelId { get; set; }
+        public Guid RSHostelId { get; set; }
 
         public string Title { get; set; }
         public string? Description { get; set; }
