@@ -27,6 +27,22 @@ namespace RSMS.Services.Implementations
 
         public async Task<Item> AddAsync(Item item)
         {
+            var existingType = _context.ItemTypes.Where(x => x.Id == item.ItemTypeId).FirstOrDefault();
+            if (existingType == null)
+            {
+                //item.ItemType = new ItemType()
+                //{
+                //    Id = Guid.NewGuid(),
+                //    Name = item.Name
+                //};
+                //item.ItemTypeId = item.ItemType.Id;
+            }
+            else
+            {
+                item.ItemType = existingType; // Attach the loaded entity
+                _context.Entry(item.ItemType).State = EntityState.Unchanged;
+            }
+            item.Id = Guid.NewGuid();
             _context.Items.Add(item);
             await _context.SaveChangesAsync();
             return item;
