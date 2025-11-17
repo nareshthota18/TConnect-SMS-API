@@ -40,10 +40,10 @@ namespace RSMS.Api.Controllers
             return ok ? NoContent() : NotFound();
         }
 
-        [HttpGet("hostel/{hostelId:Guid}")]
-        public async Task<IActionResult> GetByHostel(Guid hostelId)
+        [HttpGet("hostel/{rsHostelId:Guid}")]
+        public async Task<IActionResult> GetByHostel(Guid rsHostelId)
         {
-            var data = await _service.GetByHostelAsync(hostelId);
+            var data = await _service.GetByHostelAsync(rsHostelId);
             return Ok(data);
         }
 

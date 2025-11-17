@@ -43,10 +43,10 @@ namespace RSMS.Repositories.Implementation
                                  .FirstOrDefaultAsync(x => x.Id == id);
         }
 
-        public async Task<IEnumerable<SchoolHoliday>> GetBySchoolAsync(Guid hostelId)
+        public async Task<IEnumerable<SchoolHoliday>> GetBySchoolAsync(Guid RSHostelId)
         {
             return await _context.SchoolHolidays
-                .Where(x => x.HostelId == hostelId)
+                .Where(x => x.RSHostelId == RSHostelId)
                 .OrderBy(x => x.StartDate)
                 .ToListAsync();
         }

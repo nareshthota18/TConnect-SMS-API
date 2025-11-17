@@ -21,10 +21,10 @@ namespace RSMS.Api.Controllers
         private Guid CurrentUserId =>
             Guid.Parse(User.FindFirstValue("userId"));
 
-        [HttpGet("{hostelId:Guid}")]
-        public async Task<IActionResult> GetBySchool(Guid hostelId)
+        [HttpGet("{rsHostelId:Guid}")]
+        public async Task<IActionResult> GetBySchool(Guid rsHostelId)
         {
-            var data = await _holidayService.GetBySchoolAsync(hostelId);
+            var data = await _holidayService.GetBySchoolAsync(rsHostelId);
             return Ok(data);
         }
 

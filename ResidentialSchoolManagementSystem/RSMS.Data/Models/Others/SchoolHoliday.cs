@@ -6,7 +6,7 @@ namespace RSMS.Data.Models.Others
     [Table("SchoolHolidays", Schema = "rsms")]
     public class SchoolHoliday : BaseEntity
     {
-        public Guid HostelId { get; set; }
+        public Guid RSHostelId { get; set; }
         public RSHostel RSHostel { get; set; }
 
         public string Name { get; set; }
