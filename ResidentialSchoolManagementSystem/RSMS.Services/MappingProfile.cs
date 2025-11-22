@@ -38,7 +38,9 @@ namespace RSMS.Services
 
             CreateMap<StudentAttendance, StudentAttendanceDTO>()
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student.FirstName + " " + src.Student.LastName))
-                .ForMember(dest => dest.AdmissionNumber, opt => opt.MapFrom(src => src.Student.AdmissionNumber));
+                .ForMember(dest => dest.AdmissionNumber, opt => opt.MapFrom(src => src.Student.AdmissionNumber)) 
+                .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Student.CategoryId))
+                .ForMember(dest => dest.GradeId, opt => opt.MapFrom(src => src.Student.GradeId));
 
             CreateMap<StudentAttendanceDTO, StudentAttendance>()
                 .ForMember(dest => dest.Student, opt => opt.Ignore());
