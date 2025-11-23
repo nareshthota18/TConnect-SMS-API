@@ -16,8 +16,12 @@ namespace RSMS.Repositories.Implementation
         }
 
         // Student Attendance
-        public async Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync() =>
-            await _context.StudentAttendance.ToListAsync();
+        public async Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync()
+        {
+            return await _context.StudentAttendance
+                .Include(a => a.Student) // <--- This is the key change
+                .ToListAsync();
+        }
 
         public async Task<StudentAttendance?> GetStudentAttendanceByIdAsync(Guid id) =>
             await _context.StudentAttendance.FindAsync(id);

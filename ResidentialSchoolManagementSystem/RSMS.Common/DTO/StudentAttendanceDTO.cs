@@ -12,5 +12,7 @@
         
         public string? StudentName { get; set; }
         public string? AdmissionNumber { get; set; }
+        public Guid? CategoryId { get; set; }
+        public Guid? GradeId { get; set; }
     }
 }
