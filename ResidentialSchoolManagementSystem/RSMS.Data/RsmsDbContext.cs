@@ -48,6 +48,7 @@ namespace RSMS.Data
         public DbSet<SchoolActivity> SchoolActivities { get; set; } = default!; 
         public DbSet<SchoolHoliday> SchoolHolidays { get; set; } = default!;
         public DbSet<AttendanceType> AttendanceTypes { get; set; } = default!;
+        public DbSet<ConsumptionConfig> ConsumptionConfig { get; set; } = default!;
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

@@ -77,6 +77,8 @@ namespace RSMS.Services
             CreateMap<SchoolHolidayDTO, SchoolHoliday>()
             .ForMember(dest => dest.RSHostel, opt => opt.Ignore());
 
+            CreateMap<ConsumptionConfig, ConsumptionConfigDTO>().ReverseMap();
+
         }
     }
 }
