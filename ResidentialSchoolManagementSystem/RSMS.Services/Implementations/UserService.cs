@@ -42,7 +42,7 @@ namespace RSMS.Services.Implementations
             var created = await _userRepository.AddAsync(user);
             if (created != null)
             {
-                await _userRepository.AddAUserRolesync(new UserHostel() { UserId = created.Id, RoleId = dto.RoleId });
+                await _userRepository.AddAUserRolesync(new UserHostel() { UserId = created.Id, RoleId = dto.RoleId, RSHostelId = dto.RSHostelId, IsPrimary = true });
             }
 
             return _mapper.Map<UserDTO>(created);
