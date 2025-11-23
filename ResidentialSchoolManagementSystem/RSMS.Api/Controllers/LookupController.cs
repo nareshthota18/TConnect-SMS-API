@@ -16,19 +16,22 @@ namespace RSMS.Api.Controllers
         private readonly ILookupService<Designation, Guid> _designationService;
         private readonly ILookupService<Grade, Guid> _gradeService;
         private readonly ILookupService<AttendanceType, Guid> _attendanceTypeService;
+        private readonly ILookupService<ItemType, Guid> _itemTypeService;
 
         public LookupController(
             ILookupService<Category, Guid> categoryService,
             ILookupService<Department, Guid> departmentService,
             ILookupService<Designation, Guid> designationService,
             ILookupService<Grade, Guid> gradeService,
-            ILookupService<AttendanceType, Guid> attendanceTypeService)
+            ILookupService<AttendanceType, Guid> attendanceTypeService,
+            ILookupService<ItemType, Guid> itemTypeService)
         {
             _categoryService = categoryService;
             _departmentService = departmentService;
             _designationService = designationService;
             _gradeService = gradeService;
             _attendanceTypeService = attendanceTypeService;
+            _itemTypeService = itemTypeService;
         }
 
         #region GET
@@ -67,6 +70,12 @@ namespace RSMS.Api.Controllers
             var result = await _gradeService.GetLookupAsync(g => new LookupDTO { Key = g.Id, Value = g.Name });
             return Ok(result);
         }
+        [HttpGet("itemtypes")]
+        public async Task<ActionResult<List<LookupDTO>>> GetItemTypes()
+        {
+            var result = await _itemTypeService.GetLookupAsync(i => new LookupDTO { Key = i.Id, Value = i.Name });
+            return Ok(result);
+        }
         #endregion
 
         #region POST
@@ -90,6 +99,10 @@ namespace RSMS.Api.Controllers
         [HttpPost("attendancetypes")]
         public async Task<IActionResult> CreateAttendanceType([FromBody] LookupDTO dto)
             => await CreateLookupAsync(dto, _attendanceTypeService, "Attendance type");
+
+        [HttpPost("itemtypes")]
+        public async Task<IActionResult> CreateItemType([FromBody] LookupDTO dto)
+            => await CreateLookupAsync(dto, _itemTypeService, "Item type");
 
         #endregion
 
@@ -115,6 +128,10 @@ namespace RSMS.Api.Controllers
         public async Task<IActionResult> UpdateAttendanceType(Guid id, [FromBody] LookupDTO dto)
             => await UpdateLookupAsync(id, dto, _attendanceTypeService, "Attendance type");
 
+
+        [HttpPut("itemtypes/{id:Guid}")]
+        public async Task<IActionResult> UpdateItemType(Guid id, [FromBody] LookupDTO dto)
+            => await UpdateLookupAsync(id, dto, _itemTypeService, "Item type");
         #endregion
 
         #region Helpers
