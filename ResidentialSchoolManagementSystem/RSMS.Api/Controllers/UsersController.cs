@@ -4,6 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using RSMS.Api.Extentions;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
+using System.Security.Claims;
 
 namespace RSMS.Api.Controllers
 {
@@ -23,7 +24,10 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             // access claims from the token
-            var rSHostelId = HttpContext.GetRSHostelId();
+            var role = User.FindFirstValue("RoleName");
+            Guid rSHostelId = Guid.Empty;
+            if (role == "SuperAdmin")
+                rSHostelId = HttpContext.GetRSHostelId();
             var users = await _userService.GetAllAsync(rSHostelId);
             return Ok(users);
         }

@@ -19,9 +19,16 @@ namespace RSMS.Repositories.Implementation
         public async Task<IEnumerable<User>> GetAllAsync(Guid rSHostelId)
         {
             // Find all Users where ANY of their related UserHostels matches the provided RSHostelId.
-            return await _context.Users
-                .Where(user => user.UserHostels.Any(uh => uh.RSHostelId == rSHostelId))
-                .ToListAsync();
+            if (rSHostelId == Guid.Empty)
+            {
+                return await _context.Users.ToListAsync();
+            }
+            else
+            {
+                return await _context.Users
+               .Where(user => user.UserHostels.Any(uh => uh.RSHostelId == rSHostelId))
+               .ToListAsync();
+            }
         }
 
         public async Task<User?> GetByIdAsync(Guid id)
@@ -146,12 +153,12 @@ namespace RSMS.Repositories.Implementation
 
         public async Task<List<UserHostel>> GetUserHostelsAsync(Guid userId)
         {
-           var userHostels = await _context.UserHostels
-                               .Include(uh => uh.RSHostel)
-                               .Include(uh => uh.Role)
-                               .Where(uh => uh.UserId == userId && uh.RSHostel.IsActive)
-                               .OrderByDescending(uh => uh.IsPrimary)
-                               .ToListAsync();
+            var userHostels = await _context.UserHostels
+                                .Include(uh => uh.RSHostel)
+                                .Include(uh => uh.Role)
+                                .Where(uh => uh.UserId == userId && uh.RSHostel.IsActive)
+                                .OrderByDescending(uh => uh.IsPrimary)
+                                .ToListAsync();
 
 
             return userHostels;

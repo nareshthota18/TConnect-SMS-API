@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RSMS.Api.Extentions;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
+using System.Security.Claims;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RSMS.Api.Controllers
@@ -23,7 +24,10 @@ namespace RSMS.Api.Controllers
         [HttpGet("students")]
         public async Task<ActionResult<IEnumerable<StudentAttendanceDTO>>> GetAllStudentAttendance()
         {
-            var rSHostelId = HttpContext.GetRSHostelId();
+            var role = User.FindFirstValue("RoleName");
+            Guid rSHostelId = Guid.Empty;
+            if (role == "SuperAdmin")
+                rSHostelId = HttpContext.GetRSHostelId();
             return Ok(await _attendanceService.GetAllStudentAttendanceAsync(rSHostelId));
         }
 
@@ -60,7 +64,10 @@ namespace RSMS.Api.Controllers
         [HttpGet("staff")]
         public async Task<ActionResult<IEnumerable<StaffAttendanceDTO>>> GetAllStaffAttendance()
         {
-            var rSHostelId = HttpContext.GetRSHostelId();
+            var role = User.FindFirstValue("RoleName");
+            Guid rSHostelId = Guid.Empty;
+            if (role == "SuperAdmin")
+                rSHostelId = HttpContext.GetRSHostelId();
             return Ok(await _attendanceService.GetAllStaffAttendanceAsync(rSHostelId));
         }
 
