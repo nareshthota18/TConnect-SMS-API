@@ -16,9 +16,12 @@ namespace RSMS.Repositories.Implementation
             _context = context;
         }
 
-        public async Task<IEnumerable<User>> GetAllAsync()
+        public async Task<IEnumerable<User>> GetAllAsync(Guid rSHostelId)
         {
-            return await _context.Users.ToListAsync();
+            // Find all Users where ANY of their related UserHostels matches the provided RSHostelId.
+            return await _context.Users
+                .Where(user => user.UserHostels.Any(uh => uh.RSHostelId == rSHostelId))
+                .ToListAsync();
         }
 
         public async Task<User?> GetByIdAsync(Guid id)

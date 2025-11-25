@@ -1,6 +1,7 @@
 ﻿using Azure.Core;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RSMS.Api.Extentions;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
 
@@ -22,8 +23,8 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             // access claims from the token
-            var username = User.FindFirst("username")?.Value;
-            var users = await _userService.GetAllAsync();
+            var rSHostelId = HttpContext.GetRSHostelId();
+            var users = await _userService.GetAllAsync(rSHostelId);
             return Ok(users);
         }
 

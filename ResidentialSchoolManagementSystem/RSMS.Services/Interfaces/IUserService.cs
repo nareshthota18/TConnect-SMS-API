@@ -6,7 +6,7 @@ namespace RSMS.Services.Interfaces
 {
     public interface IUserService
     {
-        Task<IEnumerable<UserDTO>> GetAllAsync();
+        Task<IEnumerable<UserDTO>> GetAllAsync(Guid rSHostelId);
         Task<UserDTO?> GetByIdAsync(Guid id);
         Task<UserDTO> AddAsync(UserDTO user);
         Task<UserDTO> UpdateAsync(UserDTO user);

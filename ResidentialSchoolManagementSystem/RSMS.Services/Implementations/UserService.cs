@@ -20,9 +20,9 @@ namespace RSMS.Services.Implementations
             _mapper = mapper;
         }
 
-        public async Task<IEnumerable<UserDTO>> GetAllAsync()
+        public async Task<IEnumerable<UserDTO>> GetAllAsync(Guid rSHostelId)
         {
-            var users = await _userRepository.GetAllAsync();
+            var users = await _userRepository.GetAllAsync(rSHostelId);
             return _mapper.Map<IEnumerable<UserDTO>>(users);
         }
 
