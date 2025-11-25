@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
+using RSMS.Api.Extentions;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
 using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
@@ -21,7 +22,10 @@ namespace RSMS.Api.Controllers
         // ---------------- Student Attendance ----------------
         [HttpGet("students")]
         public async Task<ActionResult<IEnumerable<StudentAttendanceDTO>>> GetAllStudentAttendance()
-            => Ok(await _attendanceService.GetAllStudentAttendanceAsync());
+        {
+            var rSHostelId = HttpContext.GetRSHostelId();
+            return Ok(await _attendanceService.GetAllStudentAttendanceAsync(rSHostelId));
+        }
 
         [HttpGet("students/{id:guid}")]
         public async Task<ActionResult<StudentAttendanceDTO>> GetStudentAttendance(Guid id)
@@ -55,7 +59,10 @@ namespace RSMS.Api.Controllers
         // ---------------- Staff Attendance ----------------
         [HttpGet("staff")]
         public async Task<ActionResult<IEnumerable<StaffAttendanceDTO>>> GetAllStaffAttendance()
-            => Ok(await _attendanceService.GetAllStaffAttendanceAsync());
+        {
+            var rSHostelId = HttpContext.GetRSHostelId();
+            return Ok(await _attendanceService.GetAllStaffAttendanceAsync(rSHostelId));
+        }
 
         [HttpGet("staff/{id:guid}")]
         public async Task<ActionResult<StaffAttendanceDTO>> GetStaffAttendance(Guid id)
@@ -92,7 +99,7 @@ namespace RSMS.Api.Controllers
             var updated = await _attendanceService.CreateStaffAttendanceList(att);
             return Ok(updated);
         }
-        
+
         [HttpPost("studentList")]
         public async Task<IActionResult> CreateStudentAttendanceList(List<StudentAttendanceDTO> att)
         {

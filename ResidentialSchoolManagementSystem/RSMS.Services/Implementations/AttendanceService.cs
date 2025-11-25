@@ -19,9 +19,9 @@ namespace RSMS.Services.Implementations
         }
 
         // Student Attendance
-        public async Task<IEnumerable<StudentAttendanceDTO>> GetAllStudentAttendanceAsync()
+        public async Task<IEnumerable<StudentAttendanceDTO>> GetAllStudentAttendanceAsync(Guid RSHostelId)
         {
-            var list = await _repo.GetAllStudentAttendanceAsync();
+            var list = await _repo.GetAllStudentAttendanceAsync(RSHostelId);
             return _mapper.Map<IEnumerable<StudentAttendanceDTO>>(list);
         }
 
@@ -49,9 +49,9 @@ namespace RSMS.Services.Implementations
             await _repo.DeleteStudentAttendanceAsync(id);
 
         // Staff Attendance
-        public async Task<IEnumerable<StaffAttendanceDTO>> GetAllStaffAttendanceAsync()
+        public async Task<IEnumerable<StaffAttendanceDTO>> GetAllStaffAttendanceAsync(Guid RSHostelId)
         {
-            var list = await _repo.GetAllStaffAttendanceAsync();
+            var list = await _repo.GetAllStaffAttendanceAsync(RSHostelId);
             return _mapper.Map<IEnumerable<StaffAttendanceDTO>>(list);
         }
 

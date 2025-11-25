@@ -16,10 +16,13 @@ namespace RSMS.Repositories.Implementation
         }
 
         // Student Attendance
-        public async Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync()
+        public async Task<IEnumerable<StudentAttendance>> GetAllStudentAttendanceAsync(Guid RSHostelId)
         {
             return await _context.StudentAttendance
-                .Include(a => a.Student) // <--- This is the key change
+                // 1. Filter first: Limit the records being considered based on the Student's RSHostelId.
+                .Where(sa => sa.Student.RSHostelId == RSHostelId)
+                // 2. Include next: Eager load the Student data for the filtered results.
+                .Include(sa => sa.Student)
                 .ToListAsync();
         }
 
@@ -51,10 +54,13 @@ namespace RSMS.Repositories.Implementation
         }
 
         // Staff Attendance
-        public async Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync()
+        public async Task<IEnumerable<StaffAttendance>> GetAllStaffAttendanceAsync(Guid RSHostelId)
         {
             return await _context.StaffAttendance
+                // 1. Eager load the related Staff entity.
                 .Include(sa => sa.Staff)
+                // 2. Filter the resulting set based on the included Staff's RSHostelId.
+                .Where(sa => sa.Staff.RSHostelId == RSHostelId)
                 .ToListAsync();
         }
 
