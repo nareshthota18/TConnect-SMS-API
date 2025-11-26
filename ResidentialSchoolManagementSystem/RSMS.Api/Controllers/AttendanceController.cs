@@ -24,9 +24,8 @@ namespace RSMS.Api.Controllers
         [HttpGet("students")]
         public async Task<ActionResult<IEnumerable<StudentAttendanceDTO>>> GetAllStudentAttendance()
         {
-            var role = User.FindFirstValue("RoleName");
             Guid rSHostelId = Guid.Empty;
-            if (role == "SuperAdmin")
+            if (!HttpContext.isSuperAdmin())
                 rSHostelId = HttpContext.GetRSHostelId();
             return Ok(await _attendanceService.GetAllStudentAttendanceAsync(rSHostelId));
         }
@@ -64,9 +63,8 @@ namespace RSMS.Api.Controllers
         [HttpGet("staff")]
         public async Task<ActionResult<IEnumerable<StaffAttendanceDTO>>> GetAllStaffAttendance()
         {
-            var role = User.FindFirstValue("RoleName");
             Guid rSHostelId = Guid.Empty;
-            if (role == "SuperAdmin")
+            if (!HttpContext.isSuperAdmin())
                 rSHostelId = HttpContext.GetRSHostelId();
             return Ok(await _attendanceService.GetAllStaffAttendanceAsync(rSHostelId));
         }

@@ -24,9 +24,9 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<IEnumerable<UserDTO>>> GetAll()
         {
             // access claims from the token
-            var role = User.FindFirstValue("RoleName");
+
             Guid rSHostelId = Guid.Empty;
-            if (role == "SuperAdmin")
+            if (!HttpContext.isSuperAdmin())
                 rSHostelId = HttpContext.GetRSHostelId();
             var users = await _userService.GetAllAsync(rSHostelId);
             return Ok(users);

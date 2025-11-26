@@ -30,11 +30,7 @@ namespace RSMS.Api.Controllers
                 return Unauthorized();
 
             var userId = Guid.Parse(userIdClaim);
-
-            var role = User.FindFirstValue("RoleName");
-
-            bool isSuperAdmin = role == "SuperAdmin";
-            if (isSuperAdmin)
+            if (HttpContext.isSuperAdmin())
             {
                var schol = await _schoolService.GetAllAsync();
                 // Map to simple response
