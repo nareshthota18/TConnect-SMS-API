@@ -1,11 +1,6 @@
 ﻿using RSMS.Data.Models.InventoryEntities;
 using RSMS.Data.Models.LookupEntities;
-using System;
-using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RSMS.Data.Models.Others
 {

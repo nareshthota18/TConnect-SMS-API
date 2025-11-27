@@ -3,8 +3,6 @@ using Microsoft.AspNetCore.Mvc;
 using RSMS.Api.Extentions;
 using RSMS.Common.DTO;
 using RSMS.Services.Interfaces;
-using System.Security.Claims;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
 
 namespace RSMS.Api.Controllers
 {
