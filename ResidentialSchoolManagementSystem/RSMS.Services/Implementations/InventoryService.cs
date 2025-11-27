@@ -22,6 +22,11 @@ namespace RSMS.Services.Implementations
             var inventories = await _inventoryRepository.GetAllBySchoolAsync(schoolId);
             return _mapper.Map<IEnumerable<InventoryDTO>>(inventories);
         }
+        public async Task<IEnumerable<InventoryDTO>> GetAGroceryAsync(Guid schoolId)
+        {
+            var inventories = await _inventoryRepository.GetAGroceryAsync(schoolId);
+            return _mapper.Map<IEnumerable<InventoryDTO>>(inventories);
+        }
 
         public async Task<InventoryDTO?> GetByIdAsync(Guid id)
         {

@@ -9,5 +9,6 @@ namespace RSMS.Services.Interfaces
         Task<InventoryDTO> AddAsync(InventoryDTO dto);
         Task<InventoryDTO> UpdateAsync(InventoryDTO dto);
         Task<bool> DeleteAsync(Guid id);
+        Task<IEnumerable<InventoryDTO>> GetAGroceryAsync(Guid schoolId);
     }
 }

@@ -23,6 +23,16 @@ namespace RSMS.Repositories.Implementation
                 .ToListAsync();
         }
 
+        public async Task<IEnumerable<Inventory>> GetAGroceryAsync(Guid schoolId)
+        {
+            //just filter data only Grocery type
+            return await _context.Inventory
+                .Include(i => i.Item)
+                .ThenInclude(i => i.ItemType)
+                .Where(i => i.RSHostelId == schoolId && i.ItemId == Guid.Parse("CC30BE0E-2F04-4FBF-96DC-26A3F380B377"))
+                .ToListAsync();
+        }
+
         public async Task<Inventory?> GetByIdAsync(Guid id)
         {
             return await _context.Inventory

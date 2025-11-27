@@ -9,6 +9,7 @@ namespace RSMS.Repositories.Contracts
         Task<Inventory> AddAsync(Inventory entity);
         Task<Inventory> UpdateAsync(Inventory entity);
         Task<bool> DeleteAsync(Guid id);
+        Task<IEnumerable<Inventory>> GetAGroceryAsync(Guid schoolId);
     }
 
 }
