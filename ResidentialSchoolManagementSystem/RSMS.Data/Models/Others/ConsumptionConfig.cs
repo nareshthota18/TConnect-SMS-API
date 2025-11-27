@@ -1,4 +1,5 @@
-﻿using RSMS.Data.Models.LookupEntities;
+﻿using RSMS.Data.Models.InventoryEntities;
+using RSMS.Data.Models.LookupEntities;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations.Schema;
@@ -20,5 +21,7 @@ namespace RSMS.Data.Models.Others
         public DateTime EffectiveTo { get; set; } 
         public bool IsActive { get; set; }
         public RSHostel RSHostel { get; set; }
+        public Grade Grade { get; set; }
+        public Item Item { get; set; }
     }
 }

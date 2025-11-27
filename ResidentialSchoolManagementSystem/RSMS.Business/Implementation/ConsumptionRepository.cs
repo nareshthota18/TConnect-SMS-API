@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using RSMS.Data;
+using RSMS.Data.Models.LookupEntities;
 using RSMS.Data.Models.Others;
 using RSMS.Repositories.Contracts;
 using System;
@@ -51,7 +52,12 @@ namespace RSMS.Repositories.Implementation
         public async Task<IEnumerable<ConsumptionConfig>> GetAllAsync(Guid RSHostelId)
         {
             return await _context.ConsumptionConfig
-                .Where(x => x.RSHostelId == RSHostelId)
+                // Eagerly load the related Item entity
+                .Include(cc => cc.Item)
+                // Eagerly load the related Grade entity
+                .Include(cc => cc.Grade)
+                // Filter the results by the RSHostelId
+                .Where(cc => cc.RSHostelId == RSHostelId)
                 .ToListAsync();
         }
     }

@@ -80,6 +80,9 @@ namespace RSMS.Services
             .ForMember(dest => dest.RSHostel, opt => opt.Ignore());
 
             CreateMap<ConsumptionConfig, ConsumptionConfigDTO>().ReverseMap();
+            CreateMap<ConsumptionConfig, ConsumptionConfigDTO>()
+                .ForMember(dest => dest.GradeName, opt => opt.MapFrom(src => src.Grade.Name))
+                 .ForMember(dest => dest.ItemName, opt => opt.MapFrom(src => src.Item.Name));
 
         }
     }
