@@ -25,9 +25,9 @@ namespace RSMS.Services.Implementations
             var students = await _studentRepository.GetAllAsync(rSHostelId);
             return _mapper.Map<IEnumerable<StudentDTO>>(students);
         }
-        public async Task<IEnumerable<StudentDTO>> StudentsByGrade(Guid GradeId)
+        public async Task<IEnumerable<StudentDTO>> StudentsByGrade(Guid GradeId, Guid rSHostelId)
         {
-            var students = await _studentRepository.GetStudentsByGrade(GradeId);
+            var students = await _studentRepository.GetStudentsByGrade(GradeId, rSHostelId);
             return _mapper.Map<IEnumerable<StudentDTO>>(students);
         }
 

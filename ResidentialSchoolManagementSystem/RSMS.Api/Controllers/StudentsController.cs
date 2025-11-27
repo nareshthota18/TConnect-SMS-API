@@ -48,7 +48,7 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<StudentDTO>> Update(StudentDTO student)
         {
             var rSHostelId = HttpContext.GetRSHostelId();
-            if (rSHostelId != student.RSHostelId) return BadRequest("School mismatch");           
+            if (rSHostelId != student.RSHostelId) return BadRequest("School mismatch");
 
             var updated = await _studentService.UpdateStudentAsync(student);
             return Ok(updated);
@@ -64,7 +64,8 @@ namespace RSMS.Api.Controllers
         [HttpGet("StudentsByGrade/{id:Guid}")]
         public async Task<ActionResult<IEnumerable<StudentDTO>>> StudentsByGrade(Guid id)
         {
-            var students = await _studentService.StudentsByGrade(id);
+            var rSHostelId = HttpContext.GetRSHostelId();
+            var students = await _studentService.StudentsByGrade(id, rSHostelId);
             return Ok(students);
         }
 

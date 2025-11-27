@@ -23,11 +23,11 @@ namespace RSMS.Repositories.Implementation
                 .ToListAsync();
         }
 
-        public async Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId)
+        public async Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId, Guid rSHostelId)
         {
             return await _context.Students
                 .Include(s => s.Grade)
-                .Include(s => s.RSHostel).Where(s => s.GradeId == GradeId)
+                .Include(s => s.RSHostel).Where(s => s.GradeId == GradeId && s.RSHostelId == rSHostelId)
                 .ToListAsync();
         }
 

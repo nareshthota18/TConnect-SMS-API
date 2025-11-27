@@ -9,6 +9,6 @@ namespace RSMS.Repositories.Contracts
         Task<Student> AddAsync(Student student);
         Task<Student> UpdateAsync(Student student);
         Task<bool> DeleteAsync(Guid id);
-        Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId);
+        Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId, Guid rSHostelId);
     }
 }
