@@ -27,7 +27,8 @@ namespace RSMS.Api.Controllers
             var result = await _inventoryService.GetAllBySchoolAsync(rSHostelId);
             return Ok(result);
         }
-        [HttpGet]
+
+        [HttpGet("GetAGroceryAsync")]
         public async Task<IActionResult> GetAGroceryAsync()
         {
             var rSHostelId = HttpContext.GetRSHostelId();

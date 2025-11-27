@@ -68,11 +68,11 @@ namespace RSMS.Services
             CreateMap<ItemType, ItemTypeDTO>().ReverseMap();
             CreateMap<RSHostel, HostelDTO>().ReverseMap();
 
+            CreateMap<Inventory, InventoryDTO>().ReverseMap();
             CreateMap<Inventory, InventoryDTO>()
                 .ForMember(dest => dest.ItemTypeId, opt => opt.MapFrom(src => src.Item.ItemType.Id))
                  .ForMember(dest => dest.ItemTypeName, opt => opt.MapFrom(src => src.Item.ItemType.Name))
-                  .ForMember(dest => dest.ItemName, opt => opt.MapFrom(src => src.Item.Name))
-                .ReverseMap();
+                  .ForMember(dest => dest.ItemName, opt => opt.MapFrom(src => src.Item.Name));
 
             CreateMap<SchoolActivity, SchoolActivityDTO>().ReverseMap();
             CreateMap<SchoolHoliday, SchoolHolidayDTO>()
