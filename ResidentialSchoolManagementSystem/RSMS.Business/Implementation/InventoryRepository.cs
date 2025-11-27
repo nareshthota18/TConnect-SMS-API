@@ -4,7 +4,7 @@ using RSMS.Data.Models.InventoryEntities;
 using RSMS.Repositories.Contracts;
 
 namespace RSMS.Repositories.Implementation
-{   
+{
     public class InventoryRepository : IInventoryRepository
     {
         private readonly RSMSDbContext _context;
@@ -18,6 +18,7 @@ namespace RSMS.Repositories.Implementation
         {
             return await _context.Inventory
                 .Include(i => i.Item)
+                .ThenInclude(i => i.ItemType)
                 .Where(i => i.RSHostelId == schoolId)
                 .ToListAsync();
         }

@@ -38,7 +38,7 @@ namespace RSMS.Services
 
             CreateMap<StudentAttendance, StudentAttendanceDTO>()
                 .ForMember(dest => dest.StudentName, opt => opt.MapFrom(src => src.Student.FirstName + " " + src.Student.LastName))
-                .ForMember(dest => dest.AdmissionNumber, opt => opt.MapFrom(src => src.Student.AdmissionNumber)) 
+                .ForMember(dest => dest.AdmissionNumber, opt => opt.MapFrom(src => src.Student.AdmissionNumber))
                 .ForMember(dest => dest.CategoryId, opt => opt.MapFrom(src => src.Student.CategoryId))
                 .ForMember(dest => dest.GradeId, opt => opt.MapFrom(src => src.Student.GradeId));
 
@@ -68,7 +68,9 @@ namespace RSMS.Services
             CreateMap<ItemType, ItemTypeDTO>().ReverseMap();
             CreateMap<RSHostel, HostelDTO>().ReverseMap();
 
-            CreateMap<Inventory, InventoryDTO>().ReverseMap();
+            CreateMap<Inventory, InventoryDTO>()
+                .ForMember(dest => dest.ItemTypeId, opt => opt.MapFrom(src => src.Item.ItemType.Id))
+                .ReverseMap();
 
             CreateMap<SchoolActivity, SchoolActivityDTO>().ReverseMap();
             CreateMap<SchoolHoliday, SchoolHolidayDTO>()
