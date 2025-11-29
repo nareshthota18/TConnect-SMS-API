@@ -175,7 +175,7 @@ var app = builder.Build();
 
 app.UseRouting();
 // Order is important:
-app.UseCors("AllowFrontend");   // 👈 Apply CORS before Auth
+app.UseCors("_myAllowSpecificOrigins");   // 👈 Apply CORS before Auth
 
 // Configure pipeline
 if (app.Environment.IsDevelopment())
