@@ -157,7 +157,7 @@ builder.Services.AddCors(options =>
     options.AddPolicy("AllowFrontend",
         policy =>
         {
-            policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "https://hms-tau-jet.vercel.app", "http://hms-tau-jet.vercel.app")
+            policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "http://15.206.123.114:5059", "https://15.206.123.114:5059")
                   .AllowAnyHeader()
                   .AllowAnyMethod()
                   .AllowCredentials();
