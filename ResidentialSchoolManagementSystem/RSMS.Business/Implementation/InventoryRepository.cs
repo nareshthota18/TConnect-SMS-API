@@ -49,6 +49,7 @@ namespace RSMS.Repositories.Implementation
             if (exists)
                 throw new InvalidOperationException("Inventory record for this item already exists for the selected school.");
 
+            entity.Id = Guid.NewGuid();
             _context.Inventory.Add(entity);
             await _context.SaveChangesAsync();
             return entity;
