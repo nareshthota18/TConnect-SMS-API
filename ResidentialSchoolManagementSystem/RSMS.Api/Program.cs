@@ -151,10 +151,11 @@ builder.Services.AddAuthorization();
 // Optional: API clients
 builder.Services.Configure<List<ApiClient>>(builder.Configuration.GetSection("Clients"));
 
+var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy("AllowFrontend",
+    options.AddPolicy(name: MyAllowSpecificOrigins,
         policy =>
         {
             policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "https://hms-tau-jet.vercel.app", "http://hms-tau-jet.vercel.app")
