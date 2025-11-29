@@ -22,6 +22,9 @@ namespace RSMS.Repositories.Implementation
 
         public async Task AddAsync(ConsumptionConfig entity)
         {
+            entity.Item = null!;
+            entity.RSHostel = null!;
+            entity.Grade = null!;
             entity.Id = Guid.NewGuid();
             await _context.ConsumptionConfig.AddAsync(entity);
             await _context.SaveChangesAsync();

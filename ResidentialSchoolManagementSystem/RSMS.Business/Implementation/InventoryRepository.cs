@@ -49,6 +49,9 @@ namespace RSMS.Repositories.Implementation
             if (exists)
                 throw new InvalidOperationException("Inventory record for this item already exists for the selected school.");
 
+            // The foreign keys (ItemId, RSHostelId) are enough for the relationship.
+            entity.Item = null!;
+            entity.RSHostel = null!;
             entity.Id = Guid.NewGuid();
             _context.Inventory.Add(entity);
             await _context.SaveChangesAsync();
