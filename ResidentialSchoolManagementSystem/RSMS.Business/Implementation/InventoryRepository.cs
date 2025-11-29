@@ -29,7 +29,7 @@ namespace RSMS.Repositories.Implementation
             return await _context.Inventory
                 .Include(i => i.Item)
                 .ThenInclude(i => i.ItemType)
-                .Where(i => i.RSHostelId == schoolId && i.ItemId == Guid.Parse("CC30BE0E-2F04-4FBF-96DC-26A3F380B377"))
+                .Where(i => i.RSHostelId == schoolId && i.Item.ItemTypeId == Guid.Parse("CC30BE0E-2F04-4FBF-96DC-26A3F380B377"))
                 .ToListAsync();
         }
 
