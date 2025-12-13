@@ -151,11 +151,10 @@ builder.Services.AddAuthorization();
 // Optional: API clients
 builder.Services.Configure<List<ApiClient>>(builder.Configuration.GetSection("Clients"));
 
-var MyAllowSpecificOrigins = "_myAllowSpecificOrigins";
 // Add CORS
 builder.Services.AddCors(options =>
 {
-    options.AddPolicy(name: MyAllowSpecificOrigins,
+    options.AddPolicy("AllowFrontend",
         policy =>
         {
             policy.WithOrigins("http://localhost:5173", "https://localhost:5173", "https://hms-tau-jet.vercel.app", "http://hms-tau-jet.vercel.app")
@@ -175,7 +174,7 @@ var app = builder.Build();
 
 app.UseRouting();
 // Order is important:
-app.UseCors("_myAllowSpecificOrigins");   // 👈 Apply CORS before Auth
+app.UseCors("AllowFrontend");   // 👈 Apply CORS before Auth
 
 // Configure pipeline
 if (app.Environment.IsDevelopment())
@@ -185,7 +184,7 @@ if (app.Environment.IsDevelopment())
 }
 
 // Add middleware
-app.UseHttpsRedirection(); //Commeting for Deployment purpose need to be undo for proper deployment
+//app.UseHttpsRedirection(); //Commeting for Deployment purpose need to be undo for proper deployment
 app.UseAuthentication();
 app.UseAuthorization();
 

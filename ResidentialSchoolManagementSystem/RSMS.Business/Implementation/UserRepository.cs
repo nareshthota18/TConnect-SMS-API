@@ -4,6 +4,8 @@ using RSMS.Data;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Common.DTO;
 using RSMS.Common;
+using RSMS.Data.Models.Others;
+using RSMS.Data.Models.LookupEntities;
 
 namespace RSMS.Repositories.Implementation
 {
@@ -162,6 +164,55 @@ namespace RSMS.Repositories.Implementation
 
 
             return userHostels;
+        }
+
+        public async Task<List<NotificationAudit>> GetUnreadNotificationsAsync(Guid schoolId)
+        {
+            // 1. First DB Query: Get ALL active Notifications
+            // We use AsNoTracking() because we are not updating these entities.
+            var activeNotifications = await _context.Notification
+                .Where(n => n.IsActive)
+                .AsNoTracking()
+                .ToListAsync();
+
+            // 2. Second DB Query: Get ALL relevant Audit records for this school
+            var relevantAudits = await _context.NotificationAudit
+                .Where(a => a.RSHostelId == schoolId)
+                .AsNoTracking()
+                .ToListAsync();
+
+            // Convert the audits to a dictionary for fast lookup (O(1) complexity)
+            var auditDictionary = relevantAudits.ToDictionary(a => a.NotificationId.Value);
+
+            List<NotificationAudit> notificationAudits = new List<NotificationAudit>();
+
+            // 3. In-Memory Processing: Process the data efficiently in C#
+            foreach (var notification in activeNotifications)
+            {
+                // Try to find an existing audit in memory (fast dictionary lookup)
+                if (auditDictionary.TryGetValue(notification.Id, out var existingAudit))
+                {
+                    // Case 1: Existing Audit Found (Not-Null Case)
+                    if (!existingAudit.ReadAt)
+                    {
+                        // Only add if it hasn't been read
+                        existingAudit.Notification = notification;
+                        notificationAudits.Add(existingAudit);
+                    }
+                }
+                else
+                {
+                    // Case 2: No Audit Found (NULL Case)
+                    // Create a new audit record on the fly for the output list
+                    notificationAudits.Add(new NotificationAudit()
+                    {
+                        Notification = notification,
+                        RSHostelId = schoolId,
+                    });
+                }
+            }
+
+            return notificationAudits;
         }
 
     }

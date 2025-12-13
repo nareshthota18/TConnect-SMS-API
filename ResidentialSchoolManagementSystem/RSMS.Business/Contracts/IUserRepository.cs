@@ -1,4 +1,5 @@
 ﻿using RSMS.Common.DTO;
+using RSMS.Data.Models.Others;
 using RSMS.Data.Models.SecurityEntities;
 
 namespace RSMS.Repositories.Contracts
@@ -18,5 +19,6 @@ namespace RSMS.Repositories.Contracts
         Task<User> GetByuserSchoolIdAsync(string userName, Guid schoolId);
         Task<User> GetByuserAsync(string userName);
         Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId);
+        Task<List<NotificationAudit>> GetUnreadNotificationsAsync(Guid schoolId);
     }
 }

@@ -86,6 +86,11 @@ namespace RSMS.Services
                 .ForMember(dest => dest.GradeName, opt => opt.MapFrom(src => src.Grade.Name))
                  .ForMember(dest => dest.ItemName, opt => opt.MapFrom(src => src.Item.Name));
 
+            CreateMap<NotificationAudit, NotificationAuditDTO>().ReverseMap();
+            CreateMap<NotificationAudit, NotificationAuditDTO>()
+               .ForMember(dest => dest.Message, opt => opt.MapFrom(src => src.Notification.Message))
+                .ForMember(dest => dest.Title, opt => opt.MapFrom(src => src.Notification.Title));
+
         }
     }
 }

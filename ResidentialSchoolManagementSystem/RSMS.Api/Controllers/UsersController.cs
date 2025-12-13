@@ -72,6 +72,18 @@ namespace RSMS.Api.Controllers
             var result = await _userService.UpdatePassword(user);
             return result ? Ok() : NotFound();
         }
+
+        [HttpGet("GetNotifications")]
+        public async Task<ActionResult<IEnumerable<NotificationAuditDTO>>> GetUnreadNotificationsAsync()
+        {
+            // access claims from the token
+
+            Guid rSHostelId = Guid.Empty;
+            if (!HttpContext.isSuperAdmin())
+                rSHostelId = HttpContext.GetRSHostelId();
+            var notes = await _userService.GetUnreadNotificationsAsync(rSHostelId);
+            return Ok(notes);
+        }
     }
 
 }
