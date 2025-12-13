@@ -177,7 +177,7 @@ namespace RSMS.Repositories.Implementation
 
             // 2. Second DB Query: Get ALL relevant Audit records for this school
             var relevantAudits = await _context.NotificationAudit
-                .Where(a => a.RSHostelId == schoolId)
+                .Where(a => a.RSHostelId == schoolId).OrderBy(a => a.CreatedAt).Take(10)
                 .AsNoTracking()
                 .ToListAsync();
 
@@ -192,13 +192,9 @@ namespace RSMS.Repositories.Implementation
                 // Try to find an existing audit in memory (fast dictionary lookup)
                 if (auditDictionary.TryGetValue(notification.Id, out var existingAudit))
                 {
-                    // Case 1: Existing Audit Found (Not-Null Case)
-                    if (!existingAudit.ReadAt)
-                    {
-                        // Only add if it hasn't been read
-                        existingAudit.Notification = notification;
-                        notificationAudits.Add(existingAudit);
-                    }
+                    // Only add if it hasn't been read
+                    existingAudit.Notification = notification;
+                    notificationAudits.Add(existingAudit);
                 }
                 else
                 {
