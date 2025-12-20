@@ -20,5 +20,6 @@ namespace RSMS.Repositories.Contracts
         Task<User> GetByuserAsync(string userName);
         Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId);
         Task<List<NotificationAudit>> GetUnreadNotificationsAsync(Guid schoolId);
+        Task<List<NotificationAudit>> ReadNotificationsList(List<NotificationAudit> att);
     }
 }

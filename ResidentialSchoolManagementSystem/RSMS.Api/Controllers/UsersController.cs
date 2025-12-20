@@ -84,6 +84,13 @@ namespace RSMS.Api.Controllers
             var notes = await _userService.GetUnreadNotificationsAsync(rSHostelId);
             return Ok(notes);
         }
+
+        [HttpPut("UpdateNotifications")]
+        public async Task<IActionResult> ReadNotificationsList(List<NotificationAuditDTO> att)
+        {
+            var updated = await _userService.ReadNotificationsList(att);
+            return Ok(updated);
+        }
     }
 
 }

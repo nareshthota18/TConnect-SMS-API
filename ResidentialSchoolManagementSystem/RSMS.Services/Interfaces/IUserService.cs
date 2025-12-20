@@ -17,5 +17,6 @@ namespace RSMS.Services.Interfaces
         Task<List<UserHostel?>> GetUserHostelsAsync(Guid userId);
         Task<User?> GetByuserAsync(string username);
         Task<List<NotificationAuditDTO>> GetUnreadNotificationsAsync(Guid schoolId);
+        Task<List<NotificationAuditDTO>> ReadNotificationsList(List<NotificationAuditDTO> att);
     }
 }

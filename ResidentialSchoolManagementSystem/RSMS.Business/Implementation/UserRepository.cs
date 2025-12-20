@@ -6,6 +6,8 @@ using RSMS.Common.DTO;
 using RSMS.Common;
 using RSMS.Data.Models.Others;
 using RSMS.Data.Models.LookupEntities;
+using System.Data;
+using RSMS.Data.Models;
 
 namespace RSMS.Repositories.Implementation
 {
@@ -198,17 +200,41 @@ namespace RSMS.Repositories.Implementation
                 }
                 else
                 {
+
                     // Case 2: No Audit Found (NULL Case)
                     // Create a new audit record on the fly for the output list
-                    notificationAudits.Add(new NotificationAudit()
+                    var nf = new NotificationAudit()
                     {
-                        Notification = notification,
+                        Id = Guid.NewGuid(),
+                        NotificationId = notification.Id,
                         RSHostelId = schoolId,
-                    });
+                        SeenAt = false,
+                        ReadAt = false,
+                    };
+
+                    _context.NotificationAudit.Add(nf);
+                    await _context.SaveChangesAsync();
+
+                    nf.Notification = notification;
+                    notificationAudits.Add(nf);
+
                 }
             }
 
             return notificationAudits;
+        }
+
+
+        public async Task<List<NotificationAudit>> ReadNotificationsList(List<NotificationAudit> att)
+        {
+            foreach (var item in att)
+            {
+                // Tells EF to only track the specific fields you want to update
+                _context.Entry(item).Property(x => x.ReadAt).IsModified = true;
+                _context.Entry(item).Property(x => x.SeenAt).IsModified = true;
+            }
+            await _context.SaveChangesAsync();
+            return att;
         }
 
     }

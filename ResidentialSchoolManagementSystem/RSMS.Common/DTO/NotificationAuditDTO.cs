@@ -11,7 +11,7 @@ namespace RSMS.Common.DTO
         public bool SeenAt { get; set; } = false;
         public bool ReadAt { get; set; } = false;
         public Guid? Id { get; set; }
-        public string Title { get; set; }
-        public string Message { get; set; }
+        public string? Title { get; set; }
+        public string? Message { get; set; }
     }
 }

@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 using RSMS.Common;
 using RSMS.Common.DTO;
+using RSMS.Data.Models;
 using RSMS.Data.Models.Others;
 using RSMS.Data.Models.SecurityEntities;
 using RSMS.Repositories.Contracts;
@@ -87,6 +88,13 @@ namespace RSMS.Services.Implementations
         {
             var notifi = await _userRepository.GetUnreadNotificationsAsync(schoolId);
             return _mapper.Map<List<NotificationAuditDTO>>(notifi);
+        }
+
+        public async Task<List<NotificationAuditDTO>> ReadNotificationsList(List<NotificationAuditDTO> att)
+        {
+            var entities = _mapper.Map<List<NotificationAudit>>(att);
+            var savedList = await _userRepository.ReadNotificationsList(entities);
+            return _mapper.Map<List<NotificationAuditDTO>>(savedList);
         }
     }
 }
