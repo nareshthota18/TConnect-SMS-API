@@ -22,6 +22,7 @@ namespace RSMS.Data
         public DbSet<Designation> Designations { get; set; } = default!;
         public DbSet<ItemType> ItemTypes { get; set; } = default!;
         public DbSet<Supplier> Suppliers { get; set; } = default!;
+        public DbSet<AssessmentTypes> AssessmentTypes { get; set; } = default!;
 
         // Security tables
         public DbSet<Role> Roles { get; set; } = default!;
@@ -35,6 +36,7 @@ namespace RSMS.Data
         public DbSet<Student> Students { get; set; } = default!;
         public DbSet<StudentAttendance> StudentAttendance { get; set; } = default!;
         public DbSet<StaffAttendance> StaffAttendance { get; set; } = default!;
+        public DbSet<StudentAssessment> StudentAssessment { get; set; } = default!;
 
         // Inventory 
         public DbSet<Item> Items { get; set; } = default!;
