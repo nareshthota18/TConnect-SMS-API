@@ -1,4 +1,5 @@
-﻿using RSMS.Data.Models.CoreEntities;
+﻿using RSMS.Common.DTO;
+using RSMS.Data.Models.CoreEntities;
 
 namespace RSMS.Repositories.Contracts
 {
@@ -10,5 +11,7 @@ namespace RSMS.Repositories.Contracts
         Task<Student> UpdateAsync(Student student);
         Task<bool> DeleteAsync(Guid id);
         Task<IEnumerable<Student>> GetStudentsByGrade(Guid GradeId, Guid rSHostelId);
+        Task<List<StudentAssessment>> CreateStudentAssessmentList(List<StudentAssessment> dto);
+        Task<List<StudentAssessment>> GetStudentAssessments(Guid rSHostelId);
     }
 }

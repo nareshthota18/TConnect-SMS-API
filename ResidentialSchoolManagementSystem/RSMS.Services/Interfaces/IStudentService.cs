@@ -10,5 +10,7 @@ namespace RSMS.Services.Interfaces
         Task<StudentDTO> UpdateStudentAsync(StudentDTO student);
         Task<bool> DeleteStudentAsync(Guid id);
         Task<IEnumerable<StudentDTO>> StudentsByGrade(Guid GradeId, Guid rSHostelId);
+        Task<List<StudentAssessmentDTO>> CreateStudentAssessmentList(List<StudentAssessmentDTO> dto);
+        Task<List<StudentAssessmentDTO>> GetStudentAssessments(Guid rSHostelId);
     }
 }

@@ -43,6 +43,17 @@ namespace RSMS.Services.Implementations
             var created = await _studentRepository.AddAsync(student);
             return _mapper.Map<StudentDTO>(created);
         }
+        public async Task<List<StudentAssessmentDTO>> CreateStudentAssessmentList(List<StudentAssessmentDTO> dto)
+        {
+            var assessments = _mapper.Map<List<StudentAssessment>>(dto);
+            var created = await _studentRepository.CreateStudentAssessmentList(assessments);
+            return _mapper.Map<List<StudentAssessmentDTO>>(created);
+        }
+        public async Task<List<StudentAssessmentDTO>> GetStudentAssessments(Guid rSHostelId)
+        {
+            var res = await _studentRepository.GetStudentAssessments(rSHostelId);
+            return  _mapper.Map<List<StudentAssessmentDTO>>(res);
+        }
 
         public async Task<StudentDTO> UpdateStudentAsync(StudentDTO dto)
         {

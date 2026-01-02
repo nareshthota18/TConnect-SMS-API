@@ -3,6 +3,7 @@ using Microsoft.AspNetCore.Mvc;
 using RSMS.Api.Extentions;
 using RSMS.Api.Filters;
 using RSMS.Common.DTO;
+using RSMS.Services.Implementations;
 using RSMS.Services.Interfaces;
 
 namespace RSMS.Api.Controllers
@@ -66,6 +67,22 @@ namespace RSMS.Api.Controllers
         {
             var rSHostelId = HttpContext.GetRSHostelId();
             var students = await _studentService.StudentsByGrade(id, rSHostelId);
+            return Ok(students);
+        }
+
+        [HttpPost("StudentAssessmentList")]
+        public async Task<IActionResult> CreateStudentAssessmentList(List<StudentAssessmentDTO> att)
+        {
+            var updated = await _studentService.CreateStudentAssessmentList(att);
+            return Ok(updated);
+        }
+
+
+        [HttpGet("GetStudentAssessments")]
+        public async Task<ActionResult<IEnumerable<StudentAssessmentDTO>>> GetStudentAssessments()
+        {
+            var rSHostelId = HttpContext.GetRSHostelId();
+            var students = await _studentService.GetStudentAssessments(rSHostelId);
             return Ok(students);
         }
 

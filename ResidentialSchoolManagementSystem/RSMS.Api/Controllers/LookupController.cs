@@ -17,6 +17,7 @@ namespace RSMS.Api.Controllers
         private readonly ILookupService<Grade, Guid> _gradeService;
         private readonly ILookupService<AttendanceType, Guid> _attendanceTypeService;
         private readonly ILookupService<ItemType, Guid> _itemTypeService;
+        private readonly ILookupService<AssessmentTypes, Guid> _AssessmentTypeService;
 
         public LookupController(
             ILookupService<Category, Guid> categoryService,
@@ -24,7 +25,8 @@ namespace RSMS.Api.Controllers
             ILookupService<Designation, Guid> designationService,
             ILookupService<Grade, Guid> gradeService,
             ILookupService<AttendanceType, Guid> attendanceTypeService,
-            ILookupService<ItemType, Guid> itemTypeService)
+            ILookupService<ItemType, Guid> itemTypeService,
+            ILookupService<AssessmentTypes, Guid> assessmentTypeService)
         {
             _categoryService = categoryService;
             _departmentService = departmentService;
@@ -32,6 +34,7 @@ namespace RSMS.Api.Controllers
             _gradeService = gradeService;
             _attendanceTypeService = attendanceTypeService;
             _itemTypeService = itemTypeService;
+            _AssessmentTypeService = assessmentTypeService;
         }
 
         #region GET
@@ -74,6 +77,13 @@ namespace RSMS.Api.Controllers
         public async Task<ActionResult<List<LookupDTO>>> GetItemTypes()
         {
             var result = await _itemTypeService.GetLookupAsync(i => new LookupDTO { Key = i.Id, Value = i.Name });
+            return Ok(result);
+        }
+
+        [HttpGet("assessmentTypes")]
+        public async Task<ActionResult<List<LookupDTO>>> GetAssessmentTypes()
+        {
+            var result = await _AssessmentTypeService.GetLookupAsync(i => new LookupDTO { Key = i.AssessmentTypeID, Value = i.AssessmentType });
             return Ok(result);
         }
         #endregion
